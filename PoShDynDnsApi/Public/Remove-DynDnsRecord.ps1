@@ -40,8 +40,6 @@ function Remove-DynDnsRecord {
                     Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
                     continue
                 }
-            } else {
-                Write-Verbose 'Whatif : Deleted dns record'
             }
             Write-Output ''
         }
