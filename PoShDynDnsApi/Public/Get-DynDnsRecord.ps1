@@ -4,7 +4,7 @@ function Get-DynDnsRecord {
         [Parameter(Mandatory=$true)]
         [string]$Zone,
         [ValidateSet('SOA','NS','MX','TXT','SRV','CNAME','PTR','A','All')]
-        [string]$RecordType,
+        [string]$RecordType = 'All',
         [string]$Node
     )
 
