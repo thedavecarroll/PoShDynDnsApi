@@ -1,8 +1,8 @@
 function Get-DynDnsRecord {
     [CmdLetBinding()]
     param(
-        [Parameter()]
-        [string]$Zone = (Read-Host -Prompt 'Please provide a zone to check for unpublished changes'),
+        [Parameter(Mandatory=$true)]
+        [string]$Zone,
         [ValidateSet('SOA','NS','MX','TXT','SRV','CNAME','PTR','A','All')]
         [string]$RecordType,
         [string]$Node
@@ -11,6 +11,9 @@ function Get-DynDnsRecord {
     if (-Not (Test-DynDnsSession)) {
         return
     }
+
+    $InvokeRestParams = Get-DynDnsRestParams
+    $InvokeRestParams.Add('Method','Get')
 
     if ($Node) {
         if ($Node -match $Zone ) {
@@ -22,17 +25,18 @@ function Get-DynDnsRecord {
         $Fqdn = $Zone
     }
 
+    # record type is case sensitive
     if ($RecordType -ne 'All') {
         $RecordType = $RecordType.ToUpper()
     } elseif ($RecordType -eq 'All') {
         $RecordType = 'All'
     }
 
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Get')
+    $Uri = "$DynDnsApiClient/REST/$($RecordType)Record/$Zone/$Fqdn/"
+    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
 
     try {
-        $Records = Invoke-RestMethod -Uri "$DynDnsApiClient/REST/$($RecordType)Record/$Zone/$Fqdn/" @InvokeRestParams
+        $Records = Invoke-RestMethod -Uri $Uri @InvokeRestParams
         Write-DynDnsOutput -RestResponse $Records
     }
     catch {
@@ -41,8 +45,10 @@ function Get-DynDnsRecord {
     }
 
     foreach ($Record in $Records.data) {
+        $Uri = "$DynDnsApiClient$Record"
+        Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
         try {
-            $RecordData = Invoke-RestMethod -Uri "$DynDnsApiClient$Record" @InvokeRestParams
+            $RecordData = Invoke-RestMethod -Uri $Uri @InvokeRestParams
             Write-DynDnsOutput -RestResponse $RecordData
         }
         catch {

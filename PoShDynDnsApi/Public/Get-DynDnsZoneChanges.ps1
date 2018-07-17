@@ -1,8 +1,8 @@
 function Get-DynDnsZoneChanges {
     [CmdLetBinding()]
     param(
-        [Parameter()]
-        [string]$Zone = (Read-Host -Prompt 'Please provide a zone to check for unpublished changes')
+        [Parameter(Mandatory=$true)]
+        [string]$Zone
     )
 
     if (-Not (Test-DynDnsSession)) {
@@ -12,8 +12,11 @@ function Get-DynDnsZoneChanges {
     $InvokeRestParams = Get-DynDnsRestParams
     $InvokeRestParams.Add('Method','Get')
 
+    $Uri = "$DynDnsApiClient/REST/ZoneChanges/$Zone"
+    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
+
     try {
-        $ZoneChanges = Invoke-RestMethod -Uri "$DynDnsApiClient/REST/ZoneChanges/$Zone" @InvokeRestParams
+        $ZoneChanges = Invoke-RestMethod -Uri $Uri @InvokeRestParams
         Write-DynDnsOutput -RestResponse $ZoneChanges
     }
     catch {

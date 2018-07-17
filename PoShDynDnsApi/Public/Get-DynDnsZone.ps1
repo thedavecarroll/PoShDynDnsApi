@@ -17,6 +17,8 @@ function Get-DynDnsZone {
         $Uri = "$DynDnsApiClient/REST/Zone/"
     }
 
+    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
+
     try {
         $Zones = Invoke-RestMethod -Uri $Uri @InvokeRestParams
     }
@@ -30,8 +32,10 @@ function Get-DynDnsZone {
     } else {
         Write-DynDnsOutput -RestResponse $Zones
         foreach ($ZoneRecord in $Zones.data) {
+            $Uri = "$DynDnsApiClient$ZoneRecord"
+            Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
             try {
-                $ZoneData = Invoke-RestMethod -Uri "$DynDnsApiClient$ZoneRecord" @InvokeRestParams
+                $ZoneData = Invoke-RestMethod -Uri $Uri @InvokeRestParams
                 Write-DynDnsOutput -RestResponse $ZoneData
             }
             catch {

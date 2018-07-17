@@ -4,8 +4,8 @@ function Add-DynDnsHttpRedirect {
         ConfirmImpact='High'
     )]
     param(
-        [Parameter()]
-        [string]$Zone = (Read-Host -Prompt 'Please provide the name of the new zone'),
+        [Parameter(Mandatory=$true)]
+        [string]$Zone,
 
         [string]$Node,
 
@@ -45,7 +45,8 @@ function Add-DynDnsHttpRedirect {
     } | ConvertTo-Json
 
     Write-Warning -Message 'This will autopublish the HTTP redirect to the zone.'
-    if ($PSCmdlet.ShouldProcess("$Fqdn","Create HTTP redirect to $Url")) {
+
+    if ($PSCmdlet.ShouldProcess("$Uri","Create HTTP redirect to $Url")) {
         try {
             $NewHttpRedirect = Invoke-RestMethod -Uri $Uri -Body $JsonBody @InvokeRestParams
             Write-DynDnsOutput -RestResponse $NewHttpRedirect

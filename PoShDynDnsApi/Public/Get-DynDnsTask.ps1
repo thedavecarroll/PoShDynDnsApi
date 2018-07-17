@@ -18,6 +18,8 @@ function Get-DynDnsTask {
         $Uri = "$DynDnsApiClient/REST/Task/"
     }
 
+    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
+
     try {
         $TaskData = Invoke-RestMethod -Uri $Uri @InvokeRestParams
         Write-DynDnsOutput -RestResponse $TaskData

@@ -17,6 +17,8 @@ function Get-DynDnsUser {
         $Uri = "$DynDnsApiClient/REST/User/"
     }
 
+    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
+
     try {
         $Users = Invoke-RestMethod -Uri $Uri @InvokeRestParams
     }
@@ -30,8 +32,10 @@ function Get-DynDnsUser {
     } else {
         Write-DynDnsOutput -RestResponse $Users
         foreach ($UserRecord in $Users.data) {
+            $Uri = "$DynDnsApiClient$UserRecord"
+            Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
             try {
-                $UserData = Invoke-RestMethod -Uri "$DynDnsApiClient$UserRecord" @InvokeRestParams
+                $UserData = Invoke-RestMethod -Uri $Uri @InvokeRestParams
                 Write-DynDnsOutput -RestResponse $UserData
             }
             catch {

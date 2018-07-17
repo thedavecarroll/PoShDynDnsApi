@@ -4,8 +4,8 @@ function Unlock-DynDnsZone {
         ConfirmImpact='High'
     )]
     param(
-        [Parameter()]
-        [string]$Zone = (Read-Host -Prompt 'Please provide a zone to publish changes')
+        [Parameter(Mandatory=$true)]
+        [string]$Zone
     )
 
     if (-Not (Test-DynDnsSession)) {
@@ -20,7 +20,8 @@ function Unlock-DynDnsZone {
     } | ConvertTo-Json
 
     $Uri = "$DynDnsApiClient/REST/Zone/$Zone"
-    if ($PSCmdlet.ShouldProcess($Zone,"thaw zone")) {
+
+    if ($PSCmdlet.ShouldProcess($Uri,"thaw zone")) {
         try {
             $UnlockZone = Invoke-RestMethod -Uri $Uri -Body $JsonBody @InvokeRestParams
             Write-DynDnsOutput -RestResponse $UnlockZone

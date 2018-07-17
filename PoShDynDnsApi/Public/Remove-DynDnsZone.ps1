@@ -5,8 +5,8 @@ function Remove-DynDnsZone {
         ConfirmImpact='High'
     )]
     param(
-        [Parameter()]
-        [string]$Zone = (Read-Host -Prompt 'Please provide the name of the new zone')
+        [Parameter(Mandatory=$true)]
+        [string]$Zone
     )
 
     if (-Not (Test-DynDnsSession)) {
@@ -18,7 +18,7 @@ function Remove-DynDnsZone {
 
     $Uri = "https://api.dynect.net/REST/Zone/$Zone"
 
-    if ($PSCmdlet.ShouldProcess("$Zone",'Delete DNS zone')) {
+    if ($PSCmdlet.ShouldProcess("$Uri",'Delete DNS zone')) {
         try {
             $DeleteZone = Invoke-RestMethod -Uri $Uri  @InvokeRestParams
             Write-DynDnsOutput -RestResponse $DeleteZone

@@ -1,8 +1,8 @@
 function Get-DynDnsZoneNotes {
     [CmdLetBinding()]
     param(
-        [Parameter()]
-        [string]$Zone = (Read-Host -Prompt 'Please provide a zone to check for unpublished changes'),
+        [Parameter(Mandatory=$true)]
+        [string]$Zone,
         [ValidateRange(1,1000)]
         [int]$Limit = 1000,
         [ValidateRange(0,1000)]
@@ -22,8 +22,11 @@ function Get-DynDnsZoneNotes {
         offset = $Offset
     } | ConvertTo-Json
 
+    $Uri = "$DynDnsApiClient/REST/ZoneNoteReport"
+    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
+
     try {
-        $ZoneNotes = Invoke-RestMethod -Uri "$DynDnsApiClient/REST/ZoneNoteReport" @InvokeRestParams -Body $JsonBody
+        $ZoneNotes = Invoke-RestMethod -Uri $Uri @InvokeRestParams -Body $JsonBody
         Write-DynDnsOutput -RestResponse $ZoneNotes
     }
     catch {

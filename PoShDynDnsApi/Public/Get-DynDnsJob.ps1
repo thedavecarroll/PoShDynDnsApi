@@ -13,6 +13,7 @@ function Get-DynDnsJob {
     $InvokeRestParams.Add('Method','Get')
 
     $Uri = "$DynDnsApiClient/REST/Job/$JobId"
+    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
     try {
         $JobData = Invoke-RestMethod -Uri $Uri @InvokeRestParams
         Write-DynDnsOutput -RestResponse $JobData

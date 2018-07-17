@@ -2,13 +2,16 @@ function Get-DynDnsHttpRedirect {
     [CmdLetBinding()]
     param(
         [Parameter(Mandatory=$true)]
-        [string]$Zone = (Read-Host -Prompt 'Please provide a zone to check for unpublished changes'),
+        [string]$Zone,
         [string]$Node
     )
 
     if (-Not (Test-DynDnsSession)) {
         return
     }
+
+    $InvokeRestParams = Get-DynDnsRestParams
+    $InvokeRestParams.Add('Method','Get')
 
     if ($Node) {
         if ($Node -match $Zone ) {
@@ -21,8 +24,7 @@ function Get-DynDnsHttpRedirect {
         $Uri = "$DynDnsApiClient/REST/HTTPRedirect/$Zone"
     }
 
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Get')
+    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
 
     try {
         $HttpRedirects = Invoke-RestMethod -Uri $Uri @InvokeRestParams
@@ -37,8 +39,10 @@ function Get-DynDnsHttpRedirect {
     } else {
         Write-DynDnsOutput -RestResponse $HttpRedirects
         foreach ($Redirects in $HttpRedirects.data) {
+            $Uri = "$DynDnsApiClient$Redirects"
+            Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
             try {
-                $RedirectData = Invoke-RestMethod -Uri "$DynDnsApiClient$Redirects" @InvokeRestParams
+                $RedirectData = Invoke-RestMethod -Uri $Uri @InvokeRestParams
                 Write-DynDnsOutput -RestResponse $RedirectData
             }
             catch {

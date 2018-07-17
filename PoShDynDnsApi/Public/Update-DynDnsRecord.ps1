@@ -24,7 +24,7 @@ function Update-DynDnsRecord {
     $Fqdn = $DynDnsRecord.Name
     $Zone = $DynDnsRecord.Zone
     $RecordType = $DynDnsRecord.Type
-    $RecordId = $DynDnsRecord.RawData.record_id
+    $RecordId = $DynDnsRecord.RecordId
 
     $JsonBody = $UpdatedDynDnsRecord.RawData  | ConvertTo-Json | ConvertFrom-Json | Select-Object * -ExcludeProperty record_type | ConvertTo-Json
 
@@ -32,8 +32,9 @@ function Update-DynDnsRecord {
     $InvokeRestParams.Add('Method','Put')
 
     $Uri = "$DynDnsApiClient/REST/$($RecordType)Record/$Zone/$Fqdn/$RecordId"
+    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
 
-    if ($PSCmdlet.ShouldProcess("$Uri",'Update DNS record')) {
+    if ($PSCmdlet.ShouldProcess("$Fqdn",'Update DNS record')) {
         try {
             $UpdateRecord = Invoke-RestMethod -Uri $Uri -Body $JsonBody @InvokeRestParams
             Write-DynDnsOutput -RestResponse $UpdateRecord
