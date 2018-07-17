@@ -2,7 +2,7 @@
 $ScriptPath = Split-Path $MyInvocation.MyCommand.Path
 $ModuleName = Split-Path $ScriptPath -Leaf
 $PSModule = $ExecutionContext.SessionState.Module
-$PSModuleRoot = $PSModule.ModuleBase
+
 #endregion discover module name
 write-Verbose $PSModule
 
@@ -37,7 +37,9 @@ Catch {}
 #endregion Format and Type Data
 
 #region load classes
-. "$ScriptPath\Classes\$ModuleName.Class.ps1"
+#if (Test-Path -Path "$ScriptPath\Classes\$ModuleName.Class.ps1") {
+    . "$ScriptPath\Classes\$ModuleName.Class.ps1"
+#}
 
 #region Aliases
 #New-Alias -Name short -Value Get-LongCommand -Force
