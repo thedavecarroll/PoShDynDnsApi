@@ -4,18 +4,29 @@ function Publish-DynDnsZoneChanges {
         ConfirmImpact='High'
     )]
     param(
-        [Parameter()]
-        [string]$Zone = (Read-Host -Prompt 'Please provide a zone to publish changes'),
-        [string]$Notes
+        [Parameter(Mandatory=$true)]
+        [string]$Zone,
+        [string]$Notes,
+        [switch]$Force
     )
 
     if (-Not (Test-DynDnsSession)) {
         return
     }
 
+    $InvokeRestParams = Get-DynDnsRestParams
+    $InvokeRestParams.Add('Method','Put')
+
     $PendingZoneChanges = Get-DynDnsZoneChanges -Zone $Zone
     if ($PendingZoneChanges) {
         Write-Output $PendingZoneChanges
+    } else {
+        Write-Warning -Message 'There are no pending zone changes.'
+        if (-Not $Force) {
+            return
+        } else {
+            Write-Verbose -Message '-Force switch used.'
+        }
     }
 
     if ($Notes) {
@@ -24,17 +35,14 @@ function Publish-DynDnsZoneChanges {
         $BodyNotes = 'REST-Api-PoSh'
     }
 
+    $Uri = "$DynDnsApiClient/REST/Zone/$Zone"
+
     $JsonBody = @{
         publish = $true
         notes = $BodyNotes
     } | ConvertTo-Json
 
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Put')
-
-    $Uri = "$DynDnsApiClient/REST/Zone/$Zone"
-
-    if ($PSCmdlet.ShouldProcess($Zone,"publish zone changes")) {
+    if ($PSCmdlet.ShouldProcess($Uri,"publish zone changes")) {
         try {
             $PublishZoneChanges = Invoke-RestMethod -Uri $Uri -Body $JsonBody @InvokeRestParams
             Write-DynDnsOutput -RestResponse $PublishZoneChanges

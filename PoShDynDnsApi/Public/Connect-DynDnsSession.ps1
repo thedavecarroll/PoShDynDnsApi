@@ -9,7 +9,7 @@ function Connect-DynDnsSession {
         [string]$Customer,
         [Parameter(Mandatory = $true, HelpMessage = 'The Dyn API user password')]
         [Alias('pwd','pass')]
-        [SecureString]$Password = (Read-Host -AsSecureString -Prompt 'Enter your Dyn API user password'),
+        [SecureString]$Password,
         [switch]$Force
     )
 
@@ -20,7 +20,7 @@ function Connect-DynDnsSession {
             }
             catch {
                 Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-                return
+                continue
             }
         } else {
             Write-Warning -Message "There is a valid active session. Use the -Force parameter to logoff and create a new session."

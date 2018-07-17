@@ -4,8 +4,9 @@ function Undo-DynDnsZoneChanges {
         ConfirmImpact='High'
     )]
     param(
-        [Parameter()]
-        [string]$Zone = (Read-Host -Prompt 'Please provide a zone to check for unpublished changes')
+        [Parameter(Mandatory=$true)]
+        [string]$Zone,
+        [switch]$Force
     )
 
     if (-Not (Test-DynDnsSession)) {
@@ -17,7 +18,11 @@ function Undo-DynDnsZoneChanges {
         Write-Output $PendingZoneChanges
     } else {
         Write-Warning -Message 'There are no pending zone changes.'
-        return
+        if (-Not $Force) {
+            return
+        } else {
+            Write-Verbose -Message '-Force switch used.'
+        }
     }
 
     $InvokeRestParams = Get-DynDnsRestParams
