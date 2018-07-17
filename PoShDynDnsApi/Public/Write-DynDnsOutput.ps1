@@ -64,7 +64,7 @@ function Write-DynDnsOutput {
                 'PTR'   { [DynDnsRecord_PTR]::New($DataResponse) }
                 'SOA'   { [DynDnsRecord_SOA]::New($DataResponse) }
                 default {
-                    $DataResponse
+                    [DynDnsRecord]::New($DataResponse)
                 }
             }
         } elseif ($DataResponse.task_id -and $DataResponse.step_count) {
@@ -80,5 +80,10 @@ function Write-DynDnsOutput {
         } elseif ($DataResponse.rdata_type) {
             $DataResponse
         }
-   }
+    }
+
+    if ($RestResponse.msgs.INFO -match 'get_node_list') {
+        $RestResponse
+    }
+
 }
