@@ -6,7 +6,7 @@ function Add-DynDnsZone {
     param(
         [Parameter(Mandatory=$true,ParameterSetName='Zone')]
         [Parameter(Mandatory=$true,ParameterSetName='ZoneFile')]
-        [string]$Zone = (Read-Host -Prompt 'Please provide the name of the new zone'),
+        [string]$Zone,
 
         [Parameter(Mandatory=$true,ParameterSetName='Zone')]
         [string]$ResponsibilePerson,
@@ -47,7 +47,7 @@ function Add-DynDnsZone {
         }
     }
 
-    if ($PSCmdlet.ShouldProcess("$Zone",'Create DNS zone')) {
+    if ($PSCmdlet.ShouldProcess("$Uri",'Create DNS zone')) {
         try {
             $NewZone = Invoke-RestMethod -Uri $Uri -Body $JsonBody @InvokeRestParams
             Write-DynDnsOutput -RestResponse $NewZone

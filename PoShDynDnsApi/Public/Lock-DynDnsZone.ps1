@@ -4,8 +4,8 @@ function Lock-DynDnsZone {
         ConfirmImpact='High'
     )]
     param(
-        [Parameter()]
-        [string]$Zone = (Read-Host -Prompt 'Please provide a zone to publish changes')
+        [Parameter(Mandatory=$true)]
+        [string]$Zone
     )
 
     if (-Not (Test-DynDnsSession)) {
@@ -21,7 +21,7 @@ function Lock-DynDnsZone {
         freeze = $true
     } | ConvertTo-Json
 
-    if ($PSCmdlet.ShouldProcess($Zone,"freeze zone")) {
+    if ($PSCmdlet.ShouldProcess($Uri,"freeze zone")) {
         try {
             $LockZone = Invoke-RestMethod -Uri $Uri -Body $JsonBody @InvokeRestParams
             Write-DynDnsOutput -RestResponse $LockZone

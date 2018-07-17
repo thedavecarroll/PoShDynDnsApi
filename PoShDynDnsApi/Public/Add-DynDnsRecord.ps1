@@ -1,11 +1,14 @@
 function Add-DynDnsRecord {
-    [CmdLetBinding(SupportsShouldProcess=$true)]
+    [CmdLetBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='High'
+    )]
     param(
-        [Parameter()]
-        [string]$Zone = (Read-Host -Prompt 'Please provide a zone in which to create the new dns record'),
+        [Parameter(Mandatory=$true)]
+        [string]$Zone,
         [string]$Node,
         [Parameter(Mandatory=$true)]
-        [hashtable]$DynDnsRecord
+        [DynDnsRecord]$DynDnsRecord
     )
 
     if ($DynDnsRecord.record_type -eq 'SOA') {
@@ -17,6 +20,9 @@ function Add-DynDnsRecord {
         return
     }
 
+    $InvokeRestParams = Get-DynDnsRestParams
+    $InvokeRestParams.Add('Method','Post')
+
     if ($Node) {
         if ($Node -match $Zone ) {
             $Fqdn = $Node
@@ -27,12 +33,9 @@ function Add-DynDnsRecord {
         $Fqdn = $Zone
     }
 
-    $JsonBody = $DynDnsRecord | ConvertTo-Json
+    $Uri = "$DynDnsApiClient/REST/$($DynDnsRecord.Type)Record/$Zone/$Fqdn/"
 
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Post')
-
-    $Uri = "$DynDnsApiClient/REST/$($DynDnsRecord.record_type)Record/$Zone/$Fqdn/"
+    $JsonBody = $DynDnsRecord.RawData | ConvertTo-Json
 
     if ($PSCmdlet.ShouldProcess("$Uri","Adding DNS record")) {
         try {

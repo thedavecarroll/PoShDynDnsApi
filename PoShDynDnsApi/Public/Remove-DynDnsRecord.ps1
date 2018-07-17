@@ -5,7 +5,7 @@ function Remove-DynDnsRecord {
     )]
     param(
         [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-        [PsCustomObject[]]$DynDnsRecord
+        [DynDnsRecord[]]$DynDnsRecord
     )
 
     begin {
@@ -25,13 +25,13 @@ function Remove-DynDnsRecord {
             $Fqdn = $Record.RawData.fqdn
             $Zone = $Record.RawData.zone
             $RecordType = $Record.RawData.record_type
-            $RecordId = $Record.RawData.record_id
-            $Rdata = $Record.RawData
+            $RecordId = $Record.RecordId
 
             $Uri = "$DynDnsApiClient/REST/$($RecordType)Record/$Zone/$Fqdn/$RecordId"
 
             Write-Output $Record
-            if ($PSCmdlet.ShouldProcess("$Rdata",'Delete DNS record')) {
+
+            if ($PSCmdlet.ShouldProcess("$Uri",'Delete DNS record')) {
                 try {
                     $RemoveRecord = Invoke-RestMethod -Uri $Uri @InvokeRestParams
                     Write-DynDnsOutput -RestResponse $RemoveRecord
