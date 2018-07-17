@@ -170,7 +170,7 @@ class DynDnsTask : DynDnsRawData {
     [object]$Created
     [object]$Modified
     [string]$CustomerName
-    [string]$ZoneName
+    [string]$Zone
     [string]$TaskName
     [string]$Status
     [string]$Message
@@ -188,7 +188,7 @@ class DynDnsTask : DynDnsRawData {
         $this.Created = $origin.AddSeconds($DynTask.created_ts).ToLocalTime()
         $this.Modified = $origin.AddSeconds($DynTask.modified_ts).ToLocalTime()
         $this.CustomerName = $DynTask.customer_name
-        $this.ZoneName = $DynTask.zone_name
+        $this.Zone = $DynTask.zone_name
         $this.TaskName = $DynTask.name
         $this.Status = $DynTask.status
         $this.Message = $DynTask.message
@@ -202,14 +202,14 @@ class DynDnsTask : DynDnsRawData {
 }
 
 class DynDnsZone : DynDnsRawData {
-    [string]$ZoneName
+    [string]$Zone
     [int]$SerialNumber
     [string]$SerialStyle
     [string]$Type
 
     DynDnsZone () {  }
     DynDnsZone ([PSCustomObject]$DynDnsZone) {
-        $this.ZoneName = $DynDnsZone.zone
+        $this.Zone = $DynDnsZone.zone
         $this.SerialNumber = $DynDnsZone.serial
         $this.SerialStyle = $DynDnsZone.serial_style
         $this.Type = $DynDnsZone.zone_type
@@ -218,7 +218,7 @@ class DynDnsZone : DynDnsRawData {
 }
 
 class DynDnsZoneNote : DynDnsRawData {
-    [string]$ZoneName
+    [string]$Zone
     [object]$Timestamp
     [string]$Type
     [string]$User
@@ -229,7 +229,7 @@ class DynDnsZoneNote : DynDnsRawData {
     DynDnsZoneNote ([PSCustomObject]$DynDnsZoneNote) {
         [datetime]$origin = '1970-01-01 00:00:00'
 
-        $this.ZoneName = $DynDnsZoneNote.zone
+        $this.Zone = $DynDnsZoneNote.zone
         $this.Timestamp = $origin.AddSeconds($DynDnsZoneNote.timestamp).ToLocalTime()
         $this.Type = $DynDnsZoneNote.type
         $this.User = $DynDnsZoneNote.user_name
