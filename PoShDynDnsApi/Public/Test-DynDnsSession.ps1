@@ -13,11 +13,6 @@ function Test-DynDnsSession {
     }
     catch {
         Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-        if ($DynDnsApiVersion) {
-            Write-Warning -Message ($DynDnsApiVersion + ' : ERROR : No active DynDns session found')
-        } else {
-            Write-Warning -Message 'ERROR : No active DynDns session found'
-        }
         return $false
     }
 

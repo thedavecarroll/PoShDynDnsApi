@@ -43,7 +43,7 @@ function Connect-DynDnsSession {
         $Session = Invoke-RestMethod @InvokeRestParams
         Write-DynDnsOutput -RestResponse $Session
         Set-Variable -Name DynDnsAuthToken -Value $Session.data.token -Scope global
-        Set-Variable -Name DynDnsApiVersion -Value "API-$($Session.data.version)" -Scope global
+        Set-Variable -Name DynDnsApiVersion -Value $Session.data.version -Scope global
         Write-DynDnsOutput -RestResponse $Session
     }
     catch {

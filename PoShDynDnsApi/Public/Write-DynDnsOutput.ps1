@@ -39,16 +39,20 @@ function Write-DynDnsOutput {
     }
 
     if ($DynDnsApiVersion) {
-        $ApiVersion = $DynDnsApiVersion + ' : '
+        $ApiVersion = 'API-' + $DynDnsApiVersion + ' : '
     } else {
         $ApiVersion = $null
     }
+
     foreach ($Message in $RestResponse.msgs) {
-        if ($Message.LVL -eq 'ERROR') {
-            Write-Warning -Message ($ApiVersion + $Message.LVL + ' : ' + $Message.ERR_CD)
-            Write-Warning -Message ($ApiVersion + $Message.LVL + ' : ' + $Message.INFO)
-        } else {
+        if ($Message.LVL -eq 'INFO') {
             Write-Verbose -Message ($ApiVersion + $Message.LVL + ' : ' + $Message.INFO)
+        } else {
+            if ($Message.ERR_CD -ne 'NOT_FOUND') {
+                Write-Warning -Message ($ApiVersion + $Message.LVL + ' : ' + $Message.SOURCE + ' : ' + $Message.ERR_CD + ' : ' + $Message.INFO)
+            } else {
+                Write-Verbose -Message ($ApiVersion + $Message.LVL + ' : ' + $Message.INFO)
+            }
         }
     }
 
