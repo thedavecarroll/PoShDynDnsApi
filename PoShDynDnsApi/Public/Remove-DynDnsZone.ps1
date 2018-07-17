@@ -27,7 +27,6 @@ function Remove-DynDnsZone {
             Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
             return
         }
-    } else {
-        Write-Verbose 'Whatif : Deleted dns zone'
     }
+    Write-Output ''
 }

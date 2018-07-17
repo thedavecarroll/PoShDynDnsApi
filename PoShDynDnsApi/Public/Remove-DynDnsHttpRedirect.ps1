@@ -46,9 +46,8 @@ function Remove-DynDnsHttpRedirect {
                     Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
                     continue
                 }
-            } else {
-                Write-Verbose 'Whatif : Deleted HTTP redirect'
             }
+            Write-Output ''
         }
     }
 
