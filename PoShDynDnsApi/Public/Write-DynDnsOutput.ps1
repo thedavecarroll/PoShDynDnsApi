@@ -83,7 +83,7 @@ function Write-DynDnsOutput {
     }
 
     if ($RestResponse.msgs.INFO -match 'get_node_list') {
-        $RestResponse
+        $RestResponse.data
     }
 
 }
