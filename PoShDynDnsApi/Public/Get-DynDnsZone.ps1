@@ -4,43 +4,25 @@ function Get-DynDnsZone {
         [string]$Zone
     )
 
-    if (-Not (Test-DynDnsSession)) {
-        return
-    }
-
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Get')
-
     if ($Zone) {
-        $Uri = "$DynDnsApiClient/REST/Zone/$Zone"
+        $UriPath = "/REST/Zone/$Zone"
     } else {
-        $Uri = "$DynDnsApiClient/REST/Zone/"
+        $UriPath = "/REST/Zone/"
     }
 
-    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
-
-    try {
-        $Zones = Invoke-RestMethod -Uri $Uri @InvokeRestParams
-    }
-    catch {
-        Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
+    $Zones = Invoke-DynDnsRequest -UriPath $UriPath
+    if ($Zones.Data.status -eq 'failure') {
+        Write-DynDnsOutput -DynDnsResponse $Zones
         return
     }
 
     if ($Zone) {
-        Write-DynDnsOutput -RestResponse $Zones
+        Write-DynDnsOutput -DynDnsResponse $Zones
     } else {
-        Write-DynDnsOutput -RestResponse $Zones
-        foreach ($ZoneRecord in $Zones.data) {
-            $Uri = "$DynDnsApiClient$ZoneRecord"
-            Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
-            try {
-                $ZoneData = Invoke-RestMethod -Uri $Uri @InvokeRestParams
-                Write-DynDnsOutput -RestResponse $ZoneData
-            }
-            catch {
-                Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-            }
+        Write-DynDnsOutput -DynDnsResponse $Zones
+        foreach ($UriPath in $Zones.Data.data) {
+            $ZoneData = Invoke-DynDnsRequest -UriPath $UriPath -SkipSessionCheck
+            Write-DynDnsOutput -DynDnsResponse $ZoneData
         }
     }
 }

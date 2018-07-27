@@ -6,48 +6,30 @@ function Get-DynDnsHttpRedirect {
         [string]$Node
     )
 
-    if (-Not (Test-DynDnsSession)) {
-        return
-    }
-
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Get')
-
     if ($Node) {
         if ($Node -match $Zone ) {
             $Fqdn = $Node
         } else {
             $Fqdn = $Node + '.' + $Zone
         }
-        $Uri = "$DynDnsApiClient/REST/HTTPRedirect/$Zone/$Fqdn"
+        $Uri = "/REST/HTTPRedirect/$Zone/$Fqdn"
     } else {
-        $Uri = "$DynDnsApiClient/REST/HTTPRedirect/$Zone"
+        $Uri = "/REST/HTTPRedirect/$Zone"
     }
 
-    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
-
-    try {
-        $HttpRedirects = Invoke-RestMethod -Uri $Uri @InvokeRestParams
-    }
-    catch {
-        Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
+    $HttpRedirects = Invoke-DynDnsRequest -UriPath $Uri
+    if ($HttpRedirects.Data.status -eq 'failure') {
+        Write-DynDnsOutput -DynDnsResponse $HttpRedirects
         return
     }
 
     if ($Node) {
-        Write-DynDnsOutput -RestResponse $HttpRedirects
+        Write-DynDnsOutput -DynDnsResponse $HttpRedirects
     } else {
-        Write-DynDnsOutput -RestResponse $HttpRedirects
-        foreach ($Redirects in $HttpRedirects.data) {
-            $Uri = "$DynDnsApiClient$Redirects"
-            Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
-            try {
-                $RedirectData = Invoke-RestMethod -Uri $Uri @InvokeRestParams
-                Write-DynDnsOutput -RestResponse $RedirectData
-            }
-            catch {
-                Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-            }
+        Write-DynDnsOutput -DynDnsResponse $HttpRedirects
+        foreach ($UriPath in $HttpRedirects.Data.data) {
+            $RedirectData = Invoke-DynDnsRequest -UriPath $UriPath -SkipSessionCheck
+            Write-DynDnsOutput -DynDnsResponse $RedirectData
         }
     }
 }

@@ -23,16 +23,9 @@ function Add-DynDnsZone {
         [string]$ZoneFile
     )
 
-    if (-Not (Test-DynDnsSession)) {
-        return
-    }
-
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Post')
-
     switch ($PsCmdlet.ParameterSetName) {
         'Zone' {
-            $Uri = "https://api.dynect.net/REST/Zone/$Zone"
+            $Uri = "/REST/Zone/$Zone"
             $JsonBody = @{
                 rname = $ResponsibilePerson.Replace('@','.')
                 serial_style = $SerialStyle
@@ -40,22 +33,16 @@ function Add-DynDnsZone {
             } | ConvertTo-Json
         }
         'ZoneFile' {
-            $Uri = "https://api.dynect.net/REST/ZoneFile/$Zone"
+            $Uri = "/REST/ZoneFile/$Zone"
             $JsonBody = @{
                 file = "$(Get-Content -Path $ZoneFile -Raw)"
             } | ConvertTo-Json
         }
     }
 
-    if ($PSCmdlet.ShouldProcess("$Uri",'Create DNS zone')) {
-        try {
-            $NewZone = Invoke-RestMethod -Uri $Uri -Body $JsonBody @InvokeRestParams
-            Write-DynDnsOutput -RestResponse $NewZone
-        }
-        catch {
-            Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-            return
-        }
+    if ($PSCmdlet.ShouldProcess("$Zone",'Create DNS zone')) {
+        $NewZone = Invoke-DynDnsRequest -UriPath $Uri -Method Post -Body $JsonBody
+        Write-DynDnsOutput -DynDnsResponse $NewZone
     } else {
         Write-Verbose 'Whatif : Created new zone'
     }

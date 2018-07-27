@@ -2,18 +2,11 @@ function Test-DynDnsSession {
     [CmdLetBinding()]
     param()
 
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Uri',"$DynDnsApiClient/REST/Session/")
-    $InvokeRestParams.Add('Method','Get')
-
-    try {
-        $Session = Invoke-RestMethod  @InvokeRestParams
-        Write-DynDnsOutput -RestResponse $Session
-        return $true
+    $Session = Invoke-DynDnsRequest -SessionAction 'Test' -WarningAction SilentlyContinue
+    Write-DynDnsOutput -DynDnsResponse $Session -WarningAction SilentlyContinue
+    if ($Session.Data.status -eq 'success') {
+        $true
+    } else {
+        $false
     }
-    catch {
-        Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-        return $false
-    }
-
 }

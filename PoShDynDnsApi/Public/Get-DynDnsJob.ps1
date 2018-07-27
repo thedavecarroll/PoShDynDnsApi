@@ -5,21 +5,6 @@ function Get-DynDnsJob {
         [string]$JobId
     )
 
-    if (-Not (Test-DynDnsSession)) {
-        return
-    }
-
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Get')
-
-    $Uri = "$DynDnsApiClient/REST/Job/$JobId"
-    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
-    try {
-        $JobData = Invoke-RestMethod -Uri $Uri @InvokeRestParams
-        Write-DynDnsOutput -RestResponse $JobData
-    }
-    catch {
-        Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-        return
-    }
+    $JobData = Invoke-DynDnsRequest -UriPath "/REST/Job/$JobId"
+    Write-DynDnsOutput -DynDnsResponse $JobData
 }

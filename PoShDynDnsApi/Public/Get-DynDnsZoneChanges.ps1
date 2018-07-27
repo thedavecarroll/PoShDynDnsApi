@@ -5,23 +5,6 @@ function Get-DynDnsZoneChanges {
         [string]$Zone
     )
 
-    if (-Not (Test-DynDnsSession)) {
-        return
-    }
-
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Get')
-
-    $Uri = "$DynDnsApiClient/REST/ZoneChanges/$Zone"
-    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
-
-    try {
-        $ZoneChanges = Invoke-RestMethod -Uri $Uri @InvokeRestParams
-        Write-DynDnsOutput -RestResponse $ZoneChanges
-    }
-    catch {
-        Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-        return
-    }
-
+    $ZoneChanges = Invoke-DynDnsRequest -UriPath "/REST/ZoneChanges/$Zone"
+    Write-DynDnsOutput -DynDnsResponse $ZoneChanges
 }

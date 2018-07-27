@@ -2,21 +2,12 @@ function Disconnect-DynDnsSession {
     [CmdLetBinding()]
     param()
 
-    if (-Not (Test-DynDnsSession)) {
-        return
+    $Session = Invoke-DynDnsRequest -SessionAction 'Disconnect'
+    if ($Session.Data.status -eq 'success') {
+        Write-DynDnsOutput -DynDnsResponse $Session
+    } else {
+        Write-DynDnsOutput -DynDnsResponse $Session -WarningAction Continue
     }
-
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Uri',"$DynDnsApiClient/REST/Session/")
-    $InvokeRestParams.Add('Method','Delete')
-
-    try {
-        $Session =  Invoke-RestMethod @InvokeRestParams
-        Write-DynDnsOutput -RestResponse $Session
-        Remove-Variable -Name DynDnsAuthToken -Scope global -ErrorAction SilentlyContinue
-        Remove-Variable -Name DynDnsApiVersion -Scope global -ErrorAction SilentlyContinue
-    }
-    catch {
-        Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-    }
+    Remove-Variable -Name DynDnsAuthToken -Scope global -ErrorAction SilentlyContinue
+    Remove-Variable -Name DynDnsApiVersion -Scope global -ErrorAction SilentlyContinue
 }

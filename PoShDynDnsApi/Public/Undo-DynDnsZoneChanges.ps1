@@ -9,10 +9,6 @@ function Undo-DynDnsZoneChanges {
         [switch]$Force
     )
 
-    if (-Not (Test-DynDnsSession)) {
-        return
-    }
-
     $PendingZoneChanges = Get-DynDnsZoneChanges -Zone $Zone
     if ($PendingZoneChanges) {
         Write-Output $PendingZoneChanges
@@ -25,20 +21,9 @@ function Undo-DynDnsZoneChanges {
         }
     }
 
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Delete')
-
-    $Uri = "$DynDnsApiClient/REST/ZoneChanges/$Zone"
-
-    if ($PSCmdlet.ShouldProcess($Uri,"discard zone changes")) {
-        try {
-            $UndoZoneChanges = Invoke-RestMethod -Uri $Uri @InvokeRestParams
-            Write-DynDnsOutput -RestResponse $UndoZoneChanges
-        }
-        catch {
-            Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-            continue
-        }
+    if ($PSCmdlet.ShouldProcess($Zone,"discard zone changes")) {
+        $UndoZoneChanges = Invoke-DynDnsRequest -UriPath "/REST/ZoneChanges/$Zone" -Method Delete
+        Write-DynDnsOutput -DynDnsResponse $UndoZoneChanges
     } else {
         Write-Verbose 'Whatif : Discarded zone changes'
     }

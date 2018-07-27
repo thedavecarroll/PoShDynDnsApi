@@ -4,28 +4,12 @@ function Get-DynDnsTask {
         [int]$TaskId
     )
 
-    if (-Not (Test-DynDnsSession)) {
-        Write-Warning -Message "No active session to Dyn."
-        return
-    }
-
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Get')
-
     if ($TaskId) {
-        $Uri = "$DynDnsApiClient/REST/Task/$($TaskId.ToString())"
+        $UriPath = "/REST/Task/$($TaskId.ToString())"
     } else {
-        $Uri = "$DynDnsApiClient/REST/Task/"
+        $UriPath = "/REST/Task/"
     }
 
-    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
-
-    try {
-        $TaskData = Invoke-RestMethod -Uri $Uri @InvokeRestParams
-        Write-DynDnsOutput -RestResponse $TaskData
-    }
-    catch {
-        Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-        return
-    }
+    $TaskData = Invoke-DynDnsRequest -UriPath $UriPath
+    Write-DynDnsOutput -DynDnsResponse $TaskData
 }

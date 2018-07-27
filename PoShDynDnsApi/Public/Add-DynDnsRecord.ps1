@@ -16,13 +16,6 @@ function Add-DynDnsRecord {
         return
     }
 
-    if (-Not (Test-DynDnsSession)) {
-        return
-    }
-
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Post')
-
     if ($Node) {
         if ($Node -match $Zone ) {
             $Fqdn = $Node
@@ -37,16 +30,10 @@ function Add-DynDnsRecord {
 
     $JsonBody = $DynDnsRecord.RawData | ConvertTo-Json
 
-    if ($PSCmdlet.ShouldProcess("$Uri","Adding DNS record")) {
-        try {
-            $AddRecord = Invoke-RestMethod -Uri $Uri -Body $JsonBody @InvokeRestParams
-            Write-DynDnsOutput -RestResponse $AddRecord
-        }
-        catch {
-            Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-            continue
-        }
+    if ($PSCmdlet.ShouldProcess("$($DynDnsRecord.Type) - $Fqdn","Adding DNS record")) {
+        $NewHttpRedirect = Invoke-DynDnsRequest -UriPath $Uri -Method Post -Body $JsonBody
+        Write-DynDnsOutput -DynDnsResponse $NewHttpRedirect
     } else {
-        Write-Verbose 'Whatif : Add dns record'
+        Write-Verbose 'Whatif : Added DNS record'
     }
 }

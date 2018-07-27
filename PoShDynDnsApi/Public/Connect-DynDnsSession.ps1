@@ -13,14 +13,12 @@ function Connect-DynDnsSession {
         [switch]$Force
     )
 
-    if (Test-DynDnsSession -WarningAction SilentlyContinue) {
+    if (Test-DynDnsSession) {
         if ($Force) {
-            try {
-                Disconnect-DynDnsSession
-            }
-            catch {
-                Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-                continue
+            $Disconnect = Disconnect-DynDnsSession
+            Write-DynDnsOutput -DynDnsResponse $Session
+            if ($Disconnect.Data.status -eq 'failure') {
+                return
             }
         } else {
             Write-Warning -Message "There is a valid active session. Use the -Force parameter to logoff and create a new session."
@@ -34,20 +32,12 @@ function Connect-DynDnsSession {
         password = ([pscredential]::new('user',$Password).GetNetworkCredential().Password)
     }  | ConvertTo-Json
 
-    $InvokeRestParams = Get-DynDnsRestParams -NoAuthToken
-    $InvokeRestParams.Add('Uri',"$DynDnsApiClient/REST/Session/")
-    $InvokeRestParams.Add('Method','Post')
-    $InvokeRestParams.Add('Body',$JsonBody)
-
-    try {
-        $Session = Invoke-RestMethod @InvokeRestParams
-        Write-DynDnsOutput -RestResponse $Session
-        Set-Variable -Name DynDnsAuthToken -Value $Session.data.token -Scope global
-        Set-Variable -Name DynDnsApiVersion -Value $Session.data.version -Scope global
-        Write-DynDnsOutput -RestResponse $Session
-    }
-    catch {
-        Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-        return
+    $Session = Invoke-DynDnsRequest -SessionAction 'Connect' -Body $JsonBody
+    if ($Session.Data.status -eq 'success') {
+        Set-Variable -Name DynDnsAuthToken -Value $Session.Data.data.token -Scope global
+        Set-Variable -Name DynDnsApiVersion -Value $Session.Data.data.version -Scope global
+        Write-DynDnsOutput -DynDnsResponse $Session
+    } else {
+        Write-DynDnsOutput -DynDnsResponse $Session
     }
 }
