@@ -10,12 +10,6 @@ function Remove-DynDnsRecord {
 
     begin {
 
-        if (-Not (Test-DynDnsSession)) {
-            return
-        }
-
-        $InvokeRestParams = Get-DynDnsRestParams
-        $InvokeRestParams.Add('Method','Delete')
     }
 
     process {
@@ -27,19 +21,13 @@ function Remove-DynDnsRecord {
             $RecordType = $Record.RawData.record_type
             $RecordId = $Record.RecordId
 
-            $Uri = "$DynDnsApiClient/REST/$($RecordType)Record/$Zone/$Fqdn/$RecordId"
-
             Write-Output $Record
 
-            if ($PSCmdlet.ShouldProcess("$Uri",'Delete DNS record')) {
-                try {
-                    $RemoveRecord = Invoke-RestMethod -Uri $Uri @InvokeRestParams
-                    Write-DynDnsOutput -RestResponse $RemoveRecord
-                }
-                catch {
-                    Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-                    continue
-                }
+            if ($PSCmdlet.ShouldProcess("$Fqdn","Delete DNS $RecordType record")) {
+                $RemoveRedirect = Invoke-DynDnsRequest -UriPath "/REST/$($RecordType)Record/$Zone/$Fqdn/$RecordId" -Method Delete
+                Write-DynDnsOutput -DynDnsResponse $RemoveRedirect
+            } else {
+                Write-Verbose 'Whatif : Removed HTTP redirect'
             }
             Write-Output ''
         }

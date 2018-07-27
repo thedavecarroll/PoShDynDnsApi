@@ -13,12 +13,6 @@ function Remove-DynDnsHttpRedirect {
 
     begin {
 
-        if (-Not (Test-DynDnsSession)) {
-            return
-        }
-
-        $InvokeRestParams = Get-DynDnsRestParams
-        $InvokeRestParams.Add('Method','Delete')
     }
 
     process {
@@ -29,8 +23,6 @@ function Remove-DynDnsHttpRedirect {
             $Zone = $Redirect.RawData.zone
             $Url = $Redirect.RawData.url
 
-            $Uri = "$DynDnsApiClient/REST/HTTPRedirect/$Zone/$Fqdn"
-
             Write-Output $Redirect
 
             if ($Publish -eq 'Y') {
@@ -38,14 +30,10 @@ function Remove-DynDnsHttpRedirect {
             }
 
             if ($PSCmdlet.ShouldProcess("$Url",'Delete HTTP redirect')) {
-                try {
-                    $RemoveRedirect = Invoke-RestMethod -Uri $Uri @InvokeRestParams
-                    Write-DynDnsOutput -RestResponse $RemoveRedirect
-                }
-                catch {
-                    Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-                    continue
-                }
+                $RemoveRedirect = Invoke-DynDnsRequest -UriPath "/REST/HTTPRedirect/$Zone/$Fqdn" -Method Delete
+                Write-DynDnsOutput -DynDnsResponse $RemoveRedirect
+            } else {
+                Write-Verbose 'Whatif : Removed HTTP redirect'
             }
             Write-Output ''
         }
