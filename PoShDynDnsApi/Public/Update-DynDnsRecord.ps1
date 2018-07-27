@@ -17,32 +17,41 @@ function Update-DynDnsRecord {
         Write-Verbose -Message "The original record type matches the updated record type."
     }
 
-    if (-Not (Test-DynDnsSession)) {
-        return
-    }
-
     $Fqdn = $DynDnsRecord.Name
     $Zone = $DynDnsRecord.Zone
     $RecordType = $DynDnsRecord.Type
     $RecordId = $DynDnsRecord.RecordId
 
-    $JsonBody = $UpdatedDynDnsRecord.RawData  | ConvertTo-Json | ConvertFrom-Json | Select-Object * -ExcludeProperty record_type | ConvertTo-Json
-
-    $InvokeRestParams = Get-DynDnsRestParams
-    $InvokeRestParams.Add('Method','Put')
-
-    $Uri = "$DynDnsApiClient/REST/$($RecordType)Record/$Zone/$Fqdn/$RecordId"
-    Write-Verbose -Message "$DynDnsApiVersion : INFO  : $Uri"
-
-    if ($PSCmdlet.ShouldProcess("$Fqdn",'Update DNS record')) {
-        try {
-            $UpdateRecord = Invoke-RestMethod -Uri $Uri -Body $JsonBody @InvokeRestParams
-            Write-DynDnsOutput -RestResponse $UpdateRecord
-        }
-        catch {
-            Write-DynDnsOutput -RestResponse (ConvertFrom-DynDnsError -Response $_)
-        }
+    if ($RecordType -eq 'SOA') {
+        $Body = $UpdatedDynDnsRecord.RawData | ConvertTo-Json | ConvertFrom-Json
+        Add-Member -InputObject $Body -MemberType NoteProperty -Name serial_style -Value $DynDnsRecord.RawData.serial_style -Force
+        $JsonBody = $Body | Select-Object * -ExcludeProperty record_type | ConvertTo-Json
     } else {
-        Write-Verbose 'Whatif : Updated dns record'
+        $JsonBody = $UpdatedDynDnsRecord.RawData | ConvertTo-Json | ConvertFrom-Json | Select-Object * -ExcludeProperty record_type | ConvertTo-Json
+    }
+
+    $UpdatedAttributes = Compare-ObjectProperties -ReferenceObject $DynDnsRecord -DifferenceObject $UpdatedDynDnsRecord | ForEach-Object {
+        if ($_.DiffValue.length -gt 0 -and $_.DiffValue -ne 0) { $_ }
+    }
+    $UpdatedAttributes = $UpdatedAttributes | Select-Object @{label='Attribute';expression={$_.PropertyName}},
+        @{label='Original';expression={$_.RefValue}},@{label='Updated';expression={$_.DiffValue}} | Out-String
+
+    Write-Output ''
+    Write-Output ('-' * 80)
+    Write-Output 'Original DNS Record:'
+    Write-Output ''
+    Write-Output ($DynDnsRecord | Out-String).Trim()
+    Write-Output ''
+    Write-Output ('-' * 80)
+    Write-Output 'Update DNS Record Attributes:'
+    Write-Output ''
+    Write-Output $UpdatedAttributes.Trim()
+    Write-Output ''
+
+    if ($PSCmdlet.ShouldProcess("$Fqdn","Update $RecordType DNS record")) {
+        $UpdateDnsRecord = Invoke-DynDnsRequest -UriPath "/REST/$($RecordType)Record/$Zone/$Fqdn/$RecordId" -Method Put -Body $JsonBody
+        Write-DynDnsOutput -DynDnsResponse $UpdateDnsRecord
+    } else {
+        Write-Verbose 'Whatif : Updated DNS record'
     }
 }
