@@ -7,8 +7,8 @@ $PSModule = $ExecutionContext.SessionState.Module
 write-Verbose $PSModule
 
 #region load module variables
-Write-Verbose "Creating modules variables"
-New-Variable -Name DynDnsApiClient -Value 'https://api.dynect.net' -Scope Global -Option ReadOnly -Force
+#Write-Verbose "Creating modules variables"
+#New-Variable -Name DynDnsApiClient -Value 'https://api.dynect.net' -Scope Global -Option ReadOnly -Force
 #endregion load module variables
 
 #region load functions
@@ -47,7 +47,7 @@ Catch {}
 
 #region Handle Module Removal
 $OnRemoveScript = {
-    Remove-Variable -Name DynDnsApiClient -Scope Global -Force
+    #Remove-Variable -Name DynDnsApiClient -Scope Global -Force
 }
 $ExecutionContext.SessionState.Module.OnRemove += $OnRemoveScript
 Register-EngineEvent -SourceIdentifier ([System.Management.Automation.PsEngineEvent]::Exiting) -Action $OnRemoveScript

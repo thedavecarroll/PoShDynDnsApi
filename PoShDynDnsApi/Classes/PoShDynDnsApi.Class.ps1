@@ -263,7 +263,7 @@ class DynDnsHttpRedirect  : DynDnsRawData {
 }
 
 class DynDnsUser : DynDnsRawData {
-    [string]$UserName
+    [string]$User
     [string]$Status
     [string]$CustomerName
     [string]$Nickname
@@ -275,7 +275,7 @@ class DynDnsUser : DynDnsRawData {
 
     DynDnsUser () {}
     DynDnsUser ([PSCustomObject]$DynDnsUser) {
-        $this.UserName = $DynDnsUser.user_name
+        $this.User = $DynDnsUser.user_name
         $this.Status = $DynDnsUser.status
         $this.CustomerName = $DynDnsUser.organization
         $this.Nickname = $DynDnsUser.nickname
@@ -285,5 +285,19 @@ class DynDnsUser : DynDnsRawData {
         $this.Phone = $DynDnsUser.phone
         $this.Groups = $DynDnsUser.group_name
         $this.RawData = $DynDnsUser
+    }
+}
+
+
+class DynDnsRestResponse {
+    [PSCustomObject]$Response
+    [PSCustomObject]$Data
+    [decimal]$ElapsedTime
+
+    DynDnsRestResponse () {  }
+    DynDnsRestResponse ([PSCustomObject]$DynDnsRestResponse) {
+        $this.Response = $DynDnsRestResponse.Response
+        $this.Data = $DynDnsRestResponse.Data
+        $this.ElapsedTime = $DynDnsRestResponse.ElapsedTime
     }
 }
