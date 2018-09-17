@@ -9,11 +9,10 @@ function Remove-DynDnsZone {
         [string]$Zone
     )
 
-    if ($PSCmdlet.ShouldProcess("$Zone",'Delete DNS zone')) {
-        $DeleteZone = Invoke-DynDnsRequest -UriPath "https://api.dynect.net/REST/Zone/$Zone" -Method Delete
+    if ($PSCmdlet.ShouldProcess("$Zone",'Delete DNS zone and all its records')) {
+        $DeleteZone = Invoke-DynDnsRequest -UriPath "/REST/Zone/$Zone" -Method Delete
         Write-DynDnsOutput -DynDnsResponse $DeleteZone
     } else {
-        Write-Verbose 'Whatif : Deleted DNZ zone'
+        Write-Verbose 'Whatif : Deleted DNZ zone and all its records'
     }
-    Write-Output ''
 }
