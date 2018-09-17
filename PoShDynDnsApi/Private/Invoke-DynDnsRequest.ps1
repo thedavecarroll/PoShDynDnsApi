@@ -36,10 +36,6 @@ function Invoke-DynDnsRequest {
         switch ($SessionAction) {
             'Connect'       {
                 $RestParams.Add('Method','Post')
-                if ($DynDnsAuthToken) {
-                    Write-Warning -Message 'Existing authentication token found. Please use Disconnect-DynDnsSession if you want to start a new session. All unpublished changes will be discarded.'
-                    return
-                }
                 if ($Body) {
                     $RestParams.Add('Body',$Body)
                 } else {
@@ -72,7 +68,7 @@ function Invoke-DynDnsRequest {
                     $RestParams.Add('Headers',@{'Auth-Token' = "$DynDnsAuthToken"})
                 } else {
                     Write-Verbose -Message 'No authentication token found.'
-                    return $false
+                    return
                 }
             }
         }
@@ -84,7 +80,7 @@ function Invoke-DynDnsRequest {
             return
         }
         if (-Not $SkipSessionCheck) {
-            if (-Not (Test-DynDnsSession)) {
+            if (-Not (Test-DynDnsSession -Verbose:$false)) {
                 return
             }
         }
@@ -116,20 +112,21 @@ function Invoke-DynDnsRequest {
         $Data = $Content | ConvertFrom-Json
     }
     catch {
+        Write-Warning -Message 'Unable to convert response to JSON.'
         $Data = $null
     }
 
-    if (-Not $DynDnsResponse.Method) {
-        Add-Member -InputObject $DynDnsResponse -MemberType NoteProperty -Name Method -Value $RestParams.Method.ToUpper() -Force
-    }
-    if (-Not $DynDnsResponse.ResponseUri) {
-        Add-Member -InputObject $DynDnsResponse -MemberType NoteProperty -Name ResponseUri -Value $RestParams.Uri -Force
+    $Response = [PSCustomObject]@{
+        Method            = $RestParams.Method.ToUpper()
+        Uri               = $RestParams.Uri
+        StatusCode        = $DynDnsResponse.StatusCode
+        StatusDescription = $DynDnsResponse.StatusDescription
     }
 
     [DynDnsRestResponse]::New(
         [PsCustomObject]@{
-            Response = $DynDnsResponse | Select-Object Method,ResponseUri,StatusCode,StatusDescription
-            Data = $Data
+            Response    = $Response
+            Data        = $Data
             ElapsedTime = $ElapsedTime
         }
     )
