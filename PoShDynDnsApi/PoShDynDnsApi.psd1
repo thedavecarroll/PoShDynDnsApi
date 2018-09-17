@@ -69,16 +69,16 @@ PowerShellVersion = '5.0'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Add-DynDnsHttpRedirect', 'Add-DynDnsRecord', 'Add-DynDnsZone ', 
-               'Connect-DynDnsSession', 'Disconnect-DynDnsSession', 
-               'Get-DynDnsHttpRedirect', 'Get-DynDnsJob', 'Get-DynDnsNodeList', 
-               'Get-DynDnsRecord', 'Get-DynDnsTask', 'Get-DynDnsUser', 
-               'Get-DynDnsZone', 'Get-DynDnsZoneChanges', 'Get-DynDnsZoneNotes', 
-               'Lock-DynDnsZone', 'New-DynDnsRecord', 'Publish-DynDnsZoneChanges', 
-               'Remove-DynDnsHttpRedirect', 'Remove-DynDnsNode', 
-               'Remove-DynDnsRecord', 'Remove-DynDnsZone', 'Send-DynDnsSession', 
-               'Test-DynDnsSession', 'Undo-DynDnsZoneChanges', 'Unlock-DynDnsZone', 
-               'Update-DynDnsRecord', 'Write-DynDnsOutput'
+FunctionsToExport = 'Add-DynDnsHttpRedirect', 'Add-DynDnsRecord', 'Add-DynDnsZone',
+               'Connect-DynDnsSession', 'Disconnect-DynDnsSession',
+               'Get-DynDnsHttpRedirect', 'Get-DynDnsJob', 'Get-DynDnsNodeList',
+               'Get-DynDnsRecord', 'Get-DynDnsTask', 'Get-DynDnsUser',
+               'Get-DynDnsZone', 'Get-DynDnsZoneChanges', 'Get-DynDnsZoneNotes',
+               'Lock-DynDnsZone', 'New-DynDnsRecord', 'Publish-DynDnsZoneChanges',
+               'Remove-DynDnsHttpRedirect', 'Remove-DynDnsNode',
+               'Remove-DynDnsRecord', 'Remove-DynDnsZone', 'Send-DynDnsSession',
+               'Test-DynDnsSession', 'Undo-DynDnsZoneChanges', 'Unlock-DynDnsZone',
+               'Update-DynDnsRecord'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
@@ -96,26 +96,26 @@ AliasesToExport = @()
 # ModuleList = @()
 
 # List of all files packaged with this module
-FileList = 'Classes\PoShDynDnsApi.Class.ps1', 
-               'en-US\about_PoShDynDnsApi.help.md', 
-               'Private\Compare-ObjectProperties.ps1', 
-               'Private\Invoke-DynDnsRequest.ps1', 
-               'Public\Add-DynDnsHttpRedirect.ps1', 'Public\Add-DynDnsRecord.ps1', 
-               'Public\Add-DynDnsZone .ps1', 'Public\Connect-DynDnsSession.ps1', 
-               'Public\Disconnect-DynDnsSession.ps1', 
-               'Public\Get-DynDnsHttpRedirect.ps1', 'Public\Get-DynDnsJob.ps1', 
-               'Public\Get-DynDnsNodeList.ps1', 'Public\Get-DynDnsRecord.ps1', 
-               'Public\Get-DynDnsTask.ps1', 'Public\Get-DynDnsUser.ps1', 
-               'Public\Get-DynDnsZone.ps1', 'Public\Get-DynDnsZoneChanges.ps1', 
-               'Public\Get-DynDnsZoneNotes.ps1', 'Public\Lock-DynDnsZone.ps1', 
-               'Public\New-DynDnsRecord.ps1', 
-               'Public\Publish-DynDnsZoneChanges.ps1', 
-               'Public\Remove-DynDnsHttpRedirect.ps1', 
-               'Public\Remove-DynDnsNode.ps1', 'Public\Remove-DynDnsRecord.ps1', 
-               'Public\Remove-DynDnsZone.ps1', 'Public\Send-DynDnsSession.ps1', 
-               'Public\Test-DynDnsSession.ps1', 
-               'Public\Undo-DynDnsZoneChanges.ps1', 'Public\Unlock-DynDnsZone.ps1', 
-               'Public\Update-DynDnsRecord.ps1', 'Public\Write-DynDnsOutput.ps1', 
+FileList = 'Classes\PoShDynDnsApi.Class.ps1',
+               'en-US\about_PoShDynDnsApi.help.md',
+               'Private\Compare-ObjectProperties.ps1',
+               'Private\Invoke-DynDnsRequest.ps1',
+               'Public\Add-DynDnsHttpRedirect.ps1', 'Public\Add-DynDnsRecord.ps1',
+               'Public\Add-DynDnsZone.ps1', 'Public\Connect-DynDnsSession.ps1',
+               'Public\Disconnect-DynDnsSession.ps1',
+               'Public\Get-DynDnsHttpRedirect.ps1', 'Public\Get-DynDnsJob.ps1',
+               'Public\Get-DynDnsNodeList.ps1', 'Public\Get-DynDnsRecord.ps1',
+               'Public\Get-DynDnsTask.ps1', 'Public\Get-DynDnsUser.ps1',
+               'Public\Get-DynDnsZone.ps1', 'Public\Get-DynDnsZoneChanges.ps1',
+               'Public\Get-DynDnsZoneNotes.ps1', 'Public\Lock-DynDnsZone.ps1',
+               'Public\New-DynDnsRecord.ps1',
+               'Public\Publish-DynDnsZoneChanges.ps1',
+               'Public\Remove-DynDnsHttpRedirect.ps1',
+               'Public\Remove-DynDnsNode.ps1', 'Public\Remove-DynDnsRecord.ps1',
+               'Public\Remove-DynDnsZone.ps1', 'Public\Send-DynDnsSession.ps1',
+               'Public\Test-DynDnsSession.ps1',
+               'Public\Undo-DynDnsZoneChanges.ps1', 'Public\Unlock-DynDnsZone.ps1',
+               'Public\Update-DynDnsRecord.ps1', 'Priviate\Write-DynDnsOutput.ps1',
                'PoShDynDnsApi.psd1', 'PoShDynDnsApi.psm1'
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
@@ -151,7 +151,7 @@ PrivateData = @{
         # ExternalModuleDependencies = ''
 
     } # End of PSData hashtable
-    
+
 } # End of PrivateData hashtable
 
 # HelpInfo URI of this module
