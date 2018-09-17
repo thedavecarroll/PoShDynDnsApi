@@ -1,7 +1,7 @@
 function Connect-DynDnsSession {
     [CmdLetBinding()]
     param(
-        [Parameter(Mandatory = $true, HelpMessage = 'The Dyn API user (not DynID')]
+        [Parameter(Mandatory = $true, HelpMessage = 'The Dyn API user (not DynID)')]
         [Alias('ApiUserName','UserName')]
         [string]$User,
         [Parameter(Mandatory = $true, HelpMessage = "The customer name for the Dyn API user")]
@@ -13,17 +13,23 @@ function Connect-DynDnsSession {
         [switch]$Force
     )
 
-    if (Test-DynDnsSession) {
+    if (Get-Variable -Name DynDnsAuthToken -ErrorAction SilentlyContinue) {
+        Write-Verbose -Message 'Existing authentication token found.'
+    }
+    if (Test-DynDnsSession -WarningAction SilentlyContinue) {
         if ($Force) {
             $Disconnect = Disconnect-DynDnsSession
-            Write-DynDnsOutput -DynDnsResponse $Session
+            Write-DynDnsOutput -DynDnsResponse $Disconnect
             if ($Disconnect.Data.status -eq 'failure') {
                 return
             }
         } else {
-            Write-Warning -Message "There is a valid active session. Use the -Force parameter to logoff and create a new session."
+            Write-Warning -Message 'There is a valid active session. Use the -Force parameter to logoff and create a new session.'
+            Write-Warning -Message 'All unpublished changes will be discarded.'
             return
         }
+    } elseif (Get-Variable -Name DynDnsAuthToken -ErrorAction SilentlyContinue) {
+        Write-Verbose -Message 'There is an expired authentication token which will be overridden upon successful creationn of a new session.'
     }
 
     $JsonBody = @{
