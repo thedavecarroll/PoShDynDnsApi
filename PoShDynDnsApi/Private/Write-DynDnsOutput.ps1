@@ -10,48 +10,51 @@ function Write-DynDnsOutput {
         $ApiVersion = $null
     }
 
-    if ($DynDnsResponse.Data.status -or $DynDnsResponse.Data.job_id) {
-        $Status = $DynDnsResponse.Data.status
-        if ($DynDnsResponse.Data.job_id) { $JobId = $DynDnsResponse.Data.job_id }
-        $Method = $DynDnsResponse.Response.Method
-        $Uri = $DynDnsResponse.Response.ResponseUri
-        $StatusCode = $DynDnsResponse.Response.StatusCode
-        $StatusDescription = $DynDnsResponse.Response.StatusDescription
-        $ElapsedTime = $DynDnsResponse.ElapsedTime
-
-        #$PSCallStack =
-        $MyFunction = Get-PSCallStack | Where-Object {$_.Command -notmatch 'DynDnsRequest|DynDnsOutput|ScriptBlock'}
-        if ($Uri -match 'Session') {
-            $Command = $MyFunction.Command | Where-Object {$_ -match 'DynDnsSession'}
-            $Arugments = $null
-        } else {
-            $MyFunction = $MyFunction | Select-Object -First 1
-            $Command = $MyFunction.Command
-            if ($MyFunction.Arguments) {
-                $Arugments = $MyFunction.Arguments.Split(',') | ForEach-Object {
-                    if ($_ -match '\w+=\S+\w+') { $matches[0] } } | Where-Object {
-                        $_ -notmatch 'Debug|Verbose|InformationAction|WarningAction|ErrorAction|Variable'
-                    } | ConvertFrom-StringData
+    $Status = $JobId = $null
+    if ($DynDnsResponse | Get-Member -Name 'Data') {
+        if ($DynDnsResponse.Data | Get-Member -Name status) {
+            if ($null -ne $DynDnsResponse.Data.status) {
+                $Status = $DynDnsResponse.Data.status
             }
         }
-
-        $InformationOutput = [PsCustomObject][ordered]@{
-            Command = $Command
-            #PSCallStack = $PSCallStack
-            Status = $Status
-            JobId = $JobId
-            Method = $Method
-            Uri = $Uri
-            StatusCode = $StatusCode
-            StatusDescription = $StatusDescription
-            ElapsedTime = $ElapsedTime
+        if ($DynDnsResponse.Data | Get-Member -Name job_id) {
+            if ($null -ne $DynDnsResponse.Data.job_id) {
+                $JobId = $DynDnsResponse.Data.job_id
+            }
         }
-
-        foreach ($Key in $Arugments.Keys) {
-            Add-Member -InputObject $InformationOutput -MemberType NoteProperty -Name $Key -Value $Arugments.$Key -Force
-        }
-        Write-Information -MessageData ($InformationOutput)
     }
+
+    $MyFunction = Get-PSCallStack | Where-Object {$_.Command -notmatch 'DynDnsRequest|DynDnsOutput|ScriptBlock'}
+    if ($Uri -match 'Session') {
+        $Command = $MyFunction.Command | Where-Object {$_ -match 'DynDnsSession'}
+    } else {
+        $MyFunction = $MyFunction | Select-Object -First 1
+        $Command = $MyFunction.Command
+        if ($MyFunction.Arguments) {
+            $Arugments = $MyFunction.Arguments.Split(',') | ForEach-Object {
+                if ($_ -match '\w+=\S+\w+') { $matches[0] } } | Where-Object {
+                    $_ -notmatch 'Debug|Verbose|InformationAction|WarningAction|ErrorAction|Variable'
+                }
+            $Arugments = $Arugments | ForEach-Object { $_.Replace('\','\\') | ConvertFrom-StringData }
+        }
+    }
+
+    $InformationOutput = [PsCustomObject][ordered]@{
+        Command = $Command
+        Status = $Status
+        JobId = $JobId
+        Method = $DynDnsResponse.Response.Method
+        Uri = $DynDnsResponse.Response.Uri
+        StatusCode = $DynDnsResponse.Response.StatusCode
+        StatusDescription = $DynDnsResponse.Response.StatusDescription
+        ElapsedTime = "{0:N3}" -f $DynDnsResponse.ElapsedTime
+    }
+
+    foreach ($Key in $Arugments.Keys) {
+        Add-Member -InputObject $InformationOutput -MemberType NoteProperty -Name $Key -Value $Arugments.$Key -Force
+    }
+
+    Write-Information -MessageData $InformationOutput
 
     foreach ($Message in $DynDnsResponse.Data.msgs) {
         if ($Message.LVL -eq 'INFO') {
@@ -80,7 +83,7 @@ function Write-DynDnsOutput {
                     [DynDnsRecord]::New($DataResponse)
                 }
             }
-        } elseif ($DataResponse.task_id -and $DataResponse.step_count) {
+        } elseif ($DataResponse.Data.task_id -and $DataResponse.Data.step_count) {
             [DynDnsTask]::New($DataResponse)
         } elseif ($DataResponse.note)  {
             [DynDnsZoneNote]::New($DataResponse)
