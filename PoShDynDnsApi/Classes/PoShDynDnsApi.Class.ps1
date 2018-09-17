@@ -21,7 +21,6 @@ class DynDnsRecord : DynDnsRawData {
 }
 
 class DynDnsRecord_A : DynDnsRecord {
-    #IPv4Address
     [ipaddress]$Address
 
     DynDnsRecord_A () {  }
@@ -84,7 +83,6 @@ class DynDnsRecord_MX : DynDnsRecord {
 }
 
 class DynDnsRecord_SRV : DynDnsRecord {
-    #NameTarget
     [string]$Target
     [int]$Port
     [int]$Priority
@@ -121,7 +119,6 @@ class DynDnsRecord_PTR : DynDnsRecord {
 }
 
 class DynDnsRecord_NS : DynDnsRecord {
-    #Server
     [string]$NameHost
     [string]$Authoritative
 
@@ -139,7 +136,6 @@ class DynDnsRecord_NS : DynDnsRecord {
 }
 
 class DynDnsRecord_SOA : DynDnsRecord {
-    #NameAdministrator
     [string]$Administrator
     [int]$SerialNumber
     [string]$PrimaryServer
