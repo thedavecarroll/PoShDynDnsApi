@@ -12,7 +12,7 @@ function Publish-DynDnsZoneChanges {
 
     $PendingZoneChanges = Get-DynDnsZoneChanges -Zone $Zone
     if ($PendingZoneChanges) {
-        Write-Output $PendingZoneChanges
+        Write-Verbose -Message $PendingZoneChanges
     } else {
         Write-Warning -Message 'There are no pending zone changes.'
         if (-Not $Force) {

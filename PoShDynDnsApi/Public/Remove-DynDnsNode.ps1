@@ -69,5 +69,4 @@ function Remove-DynDnsNode {
     } else {
         Write-Verbose 'Whatif : Removed node'
     }
-    Write-Output ''
 }

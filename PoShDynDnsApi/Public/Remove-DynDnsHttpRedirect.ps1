@@ -35,7 +35,6 @@ function Remove-DynDnsHttpRedirect {
             } else {
                 Write-Verbose 'Whatif : Removed HTTP redirect'
             }
-            Write-Output ''
         }
     }
 

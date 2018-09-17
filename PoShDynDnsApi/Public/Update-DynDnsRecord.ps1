@@ -36,22 +36,21 @@ function Update-DynDnsRecord {
     $UpdatedAttributes = $UpdatedAttributes | Select-Object @{label='Attribute';expression={$_.PropertyName}},
         @{label='Original';expression={$_.RefValue}},@{label='Updated';expression={$_.DiffValue}} | Out-String
 
-    Write-Output ''
-    Write-Output ('-' * 80)
-    Write-Output 'Original DNS Record:'
-    Write-Output ''
-    Write-Output ($DynDnsRecord | Out-String).Trim()
-    Write-Output ''
-    Write-Output ('-' * 80)
-    Write-Output 'Update DNS Record Attributes:'
-    Write-Output ''
-    Write-Output $UpdatedAttributes.Trim()
-    Write-Output ''
+    $OriginalRecord = "`n" + '-' * 80 + "`n"
+    $OriginalRecord += "Original DNS Record:`n"
+    $OriginalRecord += ($DynDnsRecord | Out-String).Trim() + "`n`n"
+    Write-Verbose -Message $OriginalRecord
 
-    if ($PSCmdlet.ShouldProcess("$Fqdn","Update $RecordType DNS record")) {
+    $Updates = "`n" + '-' * 80 + "`n"
+    $Updates += "Update DNS Record Attributes::`n"
+    $Updates += $UpdatedAttributes.Trim() + "`n"
+    $Updates += "`n" + '-' * 80 + "`n"
+    Write-Verbose -Message $Updates
+
+    if ($PSCmdlet.ShouldProcess("$Fqdn","Update DNS $RecordType record")) {
         $UpdateDnsRecord = Invoke-DynDnsRequest -UriPath "/REST/$($RecordType)Record/$Zone/$Fqdn/$RecordId" -Method Put -Body $JsonBody
         Write-DynDnsOutput -DynDnsResponse $UpdateDnsRecord
     } else {
-        Write-Verbose 'Whatif : Updated DNS record'
+        Write-Verbose "Whatif : Updated DNS $RecordType record"
     }
 }
