@@ -78,7 +78,7 @@ FunctionsToExport = 'Add-DynDnsHttpRedirect', 'Add-DynDnsRecord', 'Add-DynDnsZon
                'Remove-DynDnsHttpRedirect', 'Remove-DynDnsNode',
                'Remove-DynDnsRecord', 'Remove-DynDnsZone', 'Send-DynDnsSession',
                'Test-DynDnsSession', 'Undo-DynDnsZoneChanges', 'Unlock-DynDnsZone',
-               'Update-DynDnsRecord'
+               'Update-DynDnsRecord','Get-DynDnsSession'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
@@ -115,6 +115,7 @@ FileList = 'Classes\PoShDynDnsApi.Class.ps1',
                'Public\Remove-DynDnsZone.ps1', 'Public\Send-DynDnsSession.ps1',
                'Public\Test-DynDnsSession.ps1',
                'Public\Undo-DynDnsZoneChanges.ps1', 'Public\Unlock-DynDnsZone.ps1',
+               'Public\Get-DynDnsSession.ps1',
                'Public\Update-DynDnsRecord.ps1', 'Priviate\Write-DynDnsOutput.ps1',
                'PoShDynDnsApi.psd1', 'PoShDynDnsApi.psm1'
 
