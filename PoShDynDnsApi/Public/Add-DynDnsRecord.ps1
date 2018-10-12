@@ -12,7 +12,7 @@ function Add-DynDnsRecord {
     )
 
     if ($DynDnsRecord.record_type -eq 'SOA') {
-        Write-Warning -Message 'You cannot add a new SOA record with this command. Please use Update-DynDnsRecord.'
+        Write-Warning -Message 'You cannot add a new SOA record with this command. Please use Update-DynDnsRecord to update the ResponsiblePerson, SerialStyle, or TTL.'
         return
     }
 
@@ -26,12 +26,13 @@ function Add-DynDnsRecord {
         $Fqdn = $Zone
     }
 
-    $Uri = "$DynDnsApiClient/REST/$($DynDnsRecord.Type)Record/$Zone/$Fqdn/"
+    $UriPath = "/REST/$($DynDnsRecord.Type)Record/$Zone/$Fqdn/"
 
+    $DynDnsRecord.RawData.Remove('record_type')
     $JsonBody = $DynDnsRecord.RawData | ConvertTo-Json
 
     if ($PSCmdlet.ShouldProcess("$($DynDnsRecord.Type) - $Fqdn","Adding DNS record")) {
-        $NewHttpRedirect = Invoke-DynDnsRequest -UriPath $Uri -Method Post -Body $JsonBody
+        $NewHttpRedirect = Invoke-DynDnsRequest -UriPath $UriPath -Method Post -Body $JsonBody
         Write-DynDnsOutput -DynDnsResponse $NewHttpRedirect
     } else {
         Write-Verbose 'Whatif : Added DNS record'
