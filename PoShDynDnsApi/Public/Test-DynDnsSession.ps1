@@ -3,7 +3,7 @@ function Test-DynDnsSession {
     param()
 
     $Session = Invoke-DynDnsRequest -SessionAction 'Test' -WarningAction SilentlyContinue
-    Write-DynDnsOutput -DynDnsResponse $Session
+    Write-DynDnsOutput -DynDnsResponse $Session -WarningAction SilentlyContinue
     if ($Session.Data.status -eq 'success') {
         $true
     } else {
