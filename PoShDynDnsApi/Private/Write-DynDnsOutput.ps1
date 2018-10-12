@@ -4,14 +4,14 @@ function Write-DynDnsOutput {
         [PsObject]$DynDnsResponse
     )
 
-    if ($DynDnsApiVersion) {
-        $ApiVersion = 'API-' + $DynDnsApiVersion
+    if ($DynDnsSession.ApiVersion) {
+        $ApiVersion = 'API-' + $DynDnsSession.ApiVersion
     } else {
         $ApiVersion = $null
     }
 
     $Status = $JobId = $null
-    if ($DynDnsResponse | Get-Member -Name 'Data') {
+    if ($DynDnsResponse | Get-Member -Name 'Data' -ErrorAction SilentlyContinue) {
         if ($DynDnsResponse.Data | Get-Member -Name status) {
             if ($null -ne $DynDnsResponse.Data.status) {
                 $Status = $DynDnsResponse.Data.status
@@ -48,13 +48,30 @@ function Write-DynDnsOutput {
         StatusCode = $DynDnsResponse.Response.StatusCode
         StatusDescription = $DynDnsResponse.Response.StatusDescription
         ElapsedTime = "{0:N3}" -f $DynDnsResponse.ElapsedTime
+        CurrentTime = [System.DateTime]::Now
     }
 
     foreach ($Key in $Arugments.Keys) {
-        Add-Member -InputObject $InformationOutput -MemberType NoteProperty -Name $Key -Value $Arugments.$Key -Force
+        if ($Key -notmatch 'User|Customer|Password') {
+            Add-Member -InputObject $InformationOutput -MemberType NoteProperty -Name $Key -Value $Arugments.$Key -Force
+        }
     }
 
+    $DynDnsSession.LastCommandResults = $InformationOutput
     Write-Information -MessageData $InformationOutput
+
+    switch -wildcard ($Command) {
+        'Add-DynDnsZone' {
+            foreach ($Info in $Message.INFO) {
+                Write-Output ($Info -Split (':',2))[1].Trim()
+            }
+        }
+        'Publish-DynDnsZoneChanges' {
+            if ($DynDnsResponse.Data.msgs.INFO -match 'Missing SOA record' ) {
+                Write-Output "The attempt to import $($DynDnsResponse.Response.Uri.Split('/')[-1]) has failed. Please delete the zone and reattempt the import after fixing errors."
+            }
+        }
+    }
 
     foreach ($Message in $DynDnsResponse.Data.msgs) {
         if ($Message.LVL -eq 'INFO') {
