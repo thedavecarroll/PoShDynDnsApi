@@ -11,4 +11,7 @@ function Disconnect-DynDnsSession {
     $DynDnsSession.AuthToken = $null
     $DynDnsSession.User = $null
     $DynDnsSession.Customer = $null
+    $DynDnsSession.StartTime = $null
+    $DynDnsSession.RefreshTime = $null
+
 }
