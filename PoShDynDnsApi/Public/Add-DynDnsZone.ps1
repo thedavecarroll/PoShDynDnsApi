@@ -9,7 +9,7 @@ function Add-DynDnsZone {
         [string]$Zone,
 
         [Parameter(Mandatory=$true,ParameterSetName='Zone')]
-        [string]$ResponsibilePerson,
+        [string]$ResponsiblePerson,
 
         [Parameter(ParameterSetName='Zone')]
         [ValidateSet('increment','epoch','day','minute')]
@@ -27,19 +27,19 @@ function Add-DynDnsZone {
 
     switch ($PsCmdlet.ParameterSetName) {
         'Zone' {
-            if ($ResponsibilePerson -notmatch $EmailRegex) {
-                Write-Warning -Message 'The value provided for ResponsibilePerson does not appear to be a valid email. Please try again.'
+            if ($ResponsiblePerson -notmatch $EmailRegex) {
+                Write-Warning -Message 'The value provided for ResponsiblePerson does not appear to be a valid email. Please try again.'
                 return
             }
-            $Uri = "/REST/Zone/$Zone"
+            $UriPath = "/REST/Zone/$Zone"
             $JsonBody = @{
-                rname = $ResponsibilePerson.Replace('@','.')
+                rname = $ResponsiblePerson.Replace('@','.')
                 serial_style = $SerialStyle
                 ttl = $TTL.ToString()
             } | ConvertTo-Json
         }
         'ZoneFile' {
-            $Uri = "/REST/ZoneFile/$Zone"
+            $UriPath = "/REST/ZoneFile/$Zone"
             $JsonBody = @{
                 file = "$(Get-Content -Path $ZoneFile -Raw)"
             } | ConvertTo-Json
@@ -47,10 +47,11 @@ function Add-DynDnsZone {
     }
 
     if ($PSCmdlet.ShouldProcess("$Zone","Create DNS zone by $($PsCmdlet.ParameterSetName) method")) {
-        $NewZone = Invoke-DynDnsRequest -UriPath $Uri -Method Post -Body $JsonBody
+        $NewZone = Invoke-DynDnsRequest -UriPath $UriPath -Method Post -Body $JsonBody
+        Write-Output ''
         Write-DynDnsOutput -DynDnsResponse $NewZone
         if ($NewZone.Data.Status -eq 'success') {
-            Write-Output 'Be sure to use the function Publish-DynDnsZoneChanges in order publish the domain.'
+            Write-Output 'Note: Be sure to use the function Publish-DynDnsZoneChanges with the -Force switch in order publish the domain.'
         }
     } else {
         Write-Verbose 'Whatif : Created new zone'
