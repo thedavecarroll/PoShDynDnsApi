@@ -5,8 +5,8 @@ function Compare-ObjectProperties {
         [PSObject]$ReferenceObject,
         [PSObject]$DifferenceObject
     )
-    $objprops = $ReferenceObject | Get-Member -MemberType Property,NoteProperty | ForEach-Object { $_.Name }
-    $objprops += $DifferenceObject | Get-Member -MemberType Property,NoteProperty | ForEach-Object { $_.Name }
+    $objprops = $ReferenceObject | Get-Member -MemberType Property,NoteProperty | ForEach-Object Name
+    $objprops += $DifferenceObject | Get-Member -MemberType Property,NoteProperty | ForEach-Object Name
     $objprops = $objprops | Sort-Object | Select-Object -Unique
     $diffs = @()
     foreach ($objprop in $objprops) {
@@ -14,8 +14,8 @@ function Compare-ObjectProperties {
         if ($diff) {
             $diffprops = @{
                 PropertyName=$objprop
-                RefValue=($diff | Where-Object {$_.SideIndicator -eq '<='} | ForEach-Object $($objprop) -WhatIf:$false)
-                DiffValue=($diff | Where-Object {$_.SideIndicator -eq '=>'} | ForEach-Object $($objprop) -WhatIf:$false)
+                RefValue=($diff | Where-Object {$_.SideIndicator -eq '<='} | ForEach-Object $($objprop) )
+                DiffValue=($diff | Where-Object {$_.SideIndicator -eq '=>'} | ForEach-Object $($objprop))
             }
             $diffs += New-Object PSObject -Property $diffprops
         }
