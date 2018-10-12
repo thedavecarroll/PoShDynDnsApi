@@ -30,9 +30,8 @@ function Invoke-DynDnsRequest {
         Verbose = $false
     }
 
-    $DynDnsApiClient = 'https://api.dynect.net'
     if ($PsCmdlet.ParameterSetName -eq 'Session') {
-        $RestParams.Add('Uri',"$DynDnsApiClient/REST/Session/")
+        $RestParams.Add('Uri',"$($DynDnsSession.ClientUrl)/REST/Session/")
         switch ($SessionAction) {
             'Connect'       {
                 $RestParams.Add('Method','Post')
@@ -45,8 +44,8 @@ function Invoke-DynDnsRequest {
             }
             'Disconnect'    {
                 $RestParams.Add('Method','Delete')
-                if ($DynDnsAuthToken) {
-                    $RestParams.Add('Headers',@{'Auth-Token' = "$DynDnsAuthToken"})
+                if ($DynDnsSession.AuthToken) {
+                    $RestParams.Add('Headers',@{'Auth-Token' = "$($DynDnsSession.AuthToken)"})
                 } else {
                     Write-Warning -Message 'No authentication token found. Please use Connect-DynDnsSession to obtain a new token.'
                     return
@@ -54,18 +53,18 @@ function Invoke-DynDnsRequest {
             }
             'Send'          {
                 $RestParams.Add('Method','Put')
-                if ($DynDnsAuthToken) {
-                    $RestParams.Add('Headers',@{'Auth-Token' = "$DynDnsAuthToken"})
+                if ($DynDnsSession.AuthToken) {
+                    $RestParams.Add('Headers',@{'Auth-Token' = "$($DynDnsSession.AuthToken)"})
                 } else {
                     Write-Warning -Message 'No authentication token found. Please use Connect-DynDnsSession to obtain a new token.'
                     return
                 }
             }
             'Test'          {
-                if ($DynDnsAuthToken) {
+                if ($DynDnsSession.AuthToken) {
                     $RestParams.Add('Method','Get')
                     $RestParams.Add('WarningAction','SilentlyContinue')
-                    $RestParams.Add('Headers',@{'Auth-Token' = "$DynDnsAuthToken"})
+                    $RestParams.Add('Headers',@{'Auth-Token' = "$($DynDnsSession.AuthToken)"})
                 } else {
                     Write-Verbose -Message 'No authentication token found.'
                     return
@@ -73,8 +72,8 @@ function Invoke-DynDnsRequest {
             }
         }
     } else {
-        if ($DynDnsAuthToken) {
-            $RestParams.Add('Headers',@{'Auth-Token' = "$DynDnsAuthToken"})
+        if ($DynDnsSession.AuthToken) {
+            $RestParams.Add('Headers',@{'Auth-Token' = "$($DynDnsSession.AuthToken)"})
         } else {
             Write-Warning -Message 'No authentication token found. Please use Connect-DynDnsSession to obtain a new token.'
             return
@@ -84,7 +83,7 @@ function Invoke-DynDnsRequest {
                 return
             }
         }
-        $RestParams.Add('Uri',"$DynDnsApiClient$UriPath")
+        $RestParams.Add('Uri',"$($DynDnsSession.ClientUrl)$UriPath")
         $RestParams.Add('Method',$Method)
         if ($Body -and $Method -match 'Post|Put') {
             $RestParams.Add('Body',$Body)
@@ -122,6 +121,13 @@ function Invoke-DynDnsRequest {
         StatusCode        = $DynDnsResponse.StatusCode
         StatusDescription = $DynDnsResponse.StatusDescription
     }
+
+    if ($Data.status -eq 'success') {
+        $DynDnsSession.LastCommandTime = [System.DateTime]::Now
+    }
+
+    $MyCommand = Get-PSCallStack | Where-Object {$_.Command -notmatch 'DynDnsRequest|DynDnsOutput|ScriptBlock'} | Select-Object -First 1
+    $DynDnsSession.LastCommand = $MyCommand.Command
 
     [DynDnsRestResponse]::New(
         [PsCustomObject]@{
