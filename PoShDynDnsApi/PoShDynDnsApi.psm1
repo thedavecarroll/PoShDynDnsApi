@@ -15,6 +15,7 @@ $DynDnsSession = [ordered]@{
     ApiVersion          = $null
     AuthToken           = $null
     StartTime           = $null
+    ElapsedTime         = $null
     LastCommand         = $null
     LastCommandTime     = $null
     LastCommandResults  = $null

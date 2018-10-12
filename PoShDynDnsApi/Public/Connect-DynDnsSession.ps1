@@ -46,6 +46,7 @@ function Connect-DynDnsSession {
         $DynDnsSession.AuthToken = $Session.Data.data.token
         $DynDnsSession.ApiVersion = $Session.Data.data.version
         $DynDnsSession.StartTime = [System.DateTime]::Now
+        $DynDnsSession.ElapsedTime = [System.Diagnostics.Stopwatch]::StartNew()
         Write-DynDnsOutput -DynDnsResponse $Session
     } else {
         Write-DynDnsOutput -DynDnsResponse $Session
