@@ -15,9 +15,13 @@ function Add-DynDnsHttpRedirect {
         [ValidateSet('301','302')]
         [string]$ResponseCode = '301',
 
-        [ValidateSet('Y','N')]
-        [string]$IncludeUri = 'N'
+        [switch]$IncludeUri
     )
+
+    if ($Url -notmatch '^http://|^https://') {
+        Write-Warning -Message "The URL provided does not begin with 'http://' or 'https://'."
+        return
+    }
 
     if ($Node) {
         if ($Node -match $Zone ) {
@@ -29,9 +33,15 @@ function Add-DynDnsHttpRedirect {
         $Fqdn = $Zone
     }
 
+    if ($IncludeUri) {
+        $KeepUri = 'Y'
+    } else {
+        $KeepUri = 'N'
+    }
+
     $JsonBody = @{
         code = $ResponseCode
-        keep_uri = $IncludeUri
+        keep_uri = $KeepUri
         url = $Url
     } | ConvertTo-Json
 
