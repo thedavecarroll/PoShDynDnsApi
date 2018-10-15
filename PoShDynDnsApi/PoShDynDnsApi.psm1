@@ -1,10 +1,8 @@
 #region discover module name
 $ScriptPath = Split-Path $MyInvocation.MyCommand.Path
-$ModuleName = Split-Path $ScriptPath -Leaf
-$PSModule = $ExecutionContext.SessionState.Module
-
+$ModuleName = $ExecutionContext.SessionState.Module
+Write-Verbose $ModuleName
 #endregion discover module name
-write-Verbose $PSModule
 
 #region load module variables
 Write-Verbose "Creating modules variables"
@@ -23,6 +21,14 @@ $DynDnsSession = [ordered]@{
 }
 New-Variable -Name DynDnsSession -Value $DynDnsSession -Scope Script -Force
 #endregion load module variables
+
+#region Handle Module Removal
+#$OnRemoveScript = {
+#    Remove-Variable -Name DynDnsSession -Scope Script -Force
+#}
+#$ExecutionContext.SessionState.Module.OnRemove += $OnRemoveScript
+#Register-EngineEvent -SourceIdentifier ([System.Management.Automation.PsEngineEvent]::Exiting) -Action $OnRemoveScript
+#endregion Handle Module Removal
 
 #region load functions
 Try {
@@ -53,18 +59,13 @@ Try {
 #if (Test-Path -Path "$ScriptPath\Classes\$ModuleName.Class.ps1") {
     . "$ScriptPath\Classes\$ModuleName.Class.ps1"
 #}
+#endregion
 
 #region Aliases
 #New-Alias -Name short -Value Get-LongCommand -Force
 #endregion Aliases
 
-#region Handle Module Removal
-$OnRemoveScript = {
-    Remove-Variable -Name DynDnsSession -Scope Script -Force
-}
-$ExecutionContext.SessionState.Module.OnRemove += $OnRemoveScript
-Register-EngineEvent -SourceIdentifier ([System.Management.Automation.PsEngineEvent]::Exiting) -Action $OnRemoveScript
-#endregion Handle Module Removal
+
 
 #region export module members
 #$ExportModule = @{
