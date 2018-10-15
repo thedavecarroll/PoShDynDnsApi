@@ -12,11 +12,11 @@ function Get-DynDnsNodeList {
         } else {
             $Fqdn = $Node + '.' + $Zone
         }
-        $Uri = "/REST/NodeList/$Zone/$Fqdn/"
+        $UriPath = "/REST/NodeList/$Zone/$Fqdn/"
     } else {
-        $Uri = "/REST/NodeList/$Zone/"
+        $UriPath = "/REST/NodeList/$Zone/"
     }
 
-    $NodeList = Invoke-DynDnsRequest -UriPath $Uri
+    $NodeList = Invoke-DynDnsRequest -UriPath $UriPath
     Write-DynDnsOutput -DynDnsResponse $NodeList
 }
