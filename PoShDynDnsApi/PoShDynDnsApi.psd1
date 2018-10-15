@@ -116,7 +116,7 @@ FileList = 'Classes\PoShDynDnsApi.Class.ps1',
                'Public\Test-DynDnsSession.ps1',
                'Public\Undo-DynDnsZoneChanges.ps1', 'Public\Unlock-DynDnsZone.ps1',
                'Public\Get-DynDnsSession.ps1',
-               'Public\Update-DynDnsRecord.ps1', 'Priviate\Write-DynDnsOutput.ps1',
+               'Public\Update-DynDnsRecord.ps1', 'Private\Write-DynDnsOutput.ps1',
                'PoShDynDnsApi.psd1', 'PoShDynDnsApi.psm1'
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
