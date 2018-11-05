@@ -1,7 +1,8 @@
 function Write-DynDnsOutput {
     [CmdLetBinding()]
     param(
-        [PsObject]$DynDnsResponse
+        [PsObject]$DynDnsResponse,
+        [switch]$SkipSuccess
     )
 
     if ($DynDnsSession.ApiVersion) {
@@ -61,7 +62,7 @@ function Write-DynDnsOutput {
     [void]$DynDnsHistory.Add($InformationOutput)
     Write-Information -MessageData $InformationOutput
 
-    switch -wildcard ($Command) {
+    switch ($Command) {
         'Add-DynDnsZone' {
             foreach ($Info in $Message.INFO) {
                 Write-Output ($Info -Split (':',2))[1].Trim()
@@ -75,49 +76,69 @@ function Write-DynDnsOutput {
     }
 
     foreach ($Message in $DynDnsResponse.Data.msgs) {
-        if ($Message.LVL -eq 'INFO') {
-            Write-Verbose -Message ($ApiVersion,$Message.LVL,$Message.SOURCE,$Message.INFO -join ' : ')
-        } else {
-            if ($Message.ERR_CD -ne 'NOT_FOUND') {
-                Write-Warning -Message ($ApiVersion,$Message.LVL,$Message.SOURCE,$Message.ERR_CD,$Message.INFO -join ' : ')
-            } else {
-                Write-Verbose -Message ($ApiVersion,$Message.LVL,$Message.SOURCE,$Message.ERR_CD,$Message.INFO -join ' : ')
+        $VerboseMessage = ($ApiVersion,$Message.LVL,$Message.SOURCE,$Message.INFO -join ' : ')
+        $ErrorMessage = ($ApiVersion,$Message.LVL,$Message.SOURCE,$Message.ERR_CD,$Message.INFO -join ' : ')
+        switch ($Message.LVL) {
+            'INFO' {
+                Write-Verbose -Message $VerboseMessage
             }
-        }
-    }
-
-    foreach ($DataResponse in $DynDnsResponse.Data.data) {
-        if ($DataResponse.record_type) {
-            switch ($DataResponse.record_type) {
-                'A'     { [DynDnsRecord_A]::New($DataResponse) }
-                'TXT'   { [DynDnsRecord_TXT]::New($DataResponse) }
-                'CNAME' { [DynDnsRecord_CNAME]::New($DataResponse) }
-                'MX'    { [DynDnsRecord_MX]::New($DataResponse) }
-                'SRV'   { [DynDnsRecord_SRV]::New($DataResponse) }
-                'NS'    { [DynDnsRecord_NS]::New($DataResponse) }
-                'PTR'   { [DynDnsRecord_PTR]::New($DataResponse) }
-                'SOA'   { [DynDnsRecord_SOA]::New($DataResponse) }
-                default {
-                    [DynDnsRecord]::New($DataResponse)
+            'ERROR' {
+                if ($Message.ERR_CD -eq 'NOT_FOUND' -and $Message.INFO -notmatch 'No such zone') {
+                    Write-Verbose -Message $ErrorMessage
+                } else {
+                    Write-Warning -Message $ErrorMessage
                 }
             }
-        } elseif ($DataResponse.Data.task_id -and $DataResponse.Data.step_count) {
-            [DynDnsTask]::New($DataResponse)
-        } elseif ($DataResponse.note)  {
-            [DynDnsZoneNote]::New($DataResponse)
-        } elseif ($DataResponse.zone_type)  {
-            [DynDnsZone]::New($DataResponse)
-        } elseif ($DataResponse.url -and $DataResponse.keep_uri) {
-            [DynDnsHttpRedirect]::New($DataResponse)
-        } elseif ($DataResponse.user_name -and $DataResponse.group_name) {
-            [DynDnsUser]::New($DataResponse)
-        } elseif ($DataResponse.rdata_type) {
-            $DataResponse
+            default {
+                Write-Warning -Message $ErrorMessage
+            }
         }
     }
 
-    if ($DynDnsResponse.Data.msgs.INFO -match 'get_node_list') {
-        $DynDnsResponse.Data.data
+    if ($SkipSuccess) {
+        return
     }
 
+    if ($Status -eq 'success') {
+        foreach ($DataResponse in $DynDnsResponse.Data.data) {
+            switch ($Command.Split('-')[1]) {
+                'DynDnsRecord' {
+                    switch ($DataResponse.record_type) {
+                        'A'     { [DynDnsRecord_A]::New($DataResponse) }
+                        'TXT'   { [DynDnsRecord_TXT]::New($DataResponse) }
+                        'CNAME' { [DynDnsRecord_CNAME]::New($DataResponse) }
+                        'MX'    { [DynDnsRecord_MX]::New($DataResponse) }
+                        'SRV'   { [DynDnsRecord_SRV]::New($DataResponse) }
+                        'NS'    { [DynDnsRecord_NS]::New($DataResponse) }
+                        'PTR'   { [DynDnsRecord_PTR]::New($DataResponse) }
+                        'SOA'   { [DynDnsRecord_SOA]::New($DataResponse) }
+                        default {
+                            [DynDnsRecord]::New($DataResponse)
+                        }
+                    }
+                }
+                'DynDnsZone' {
+                    [DynDnsZone]::New($DataResponse)
+                }
+                'DynDnsTask' {
+                    [DynDnsTask]::New($DataResponse)
+                }
+                'DynDnsZoneNotes' {
+                    [DynDnsZoneNote]::New($DataResponse)
+                }
+                'DynDnsHttpRedirect' {
+                    [DynDnsHttpRedirect]::New($DataResponse)
+                }
+                'DynDnsUser' {
+                    [DynDnsUser]::New($DataResponse)
+                }
+                'DynDnsZoneChanges' {
+                    [DynDnsZoneChanges]::New($DataResponse)
+                }
+                'DynDnsNodeList' {
+                    $DataResponse
+                }
+            }
+        }
+    }
 }
