@@ -11,15 +11,14 @@ function Get-DynDnsZone {
     }
 
     $Zones = Invoke-DynDnsRequest -UriPath $UriPath
+    Write-DynDnsOutput -DynDnsResponse $Zones -SkipSuccess
     if ($Zones.Data.status -eq 'failure') {
-        Write-DynDnsOutput -DynDnsResponse $Zones
         return
     }
 
     if ($Zone) {
         Write-DynDnsOutput -DynDnsResponse $Zones
     } else {
-        Write-DynDnsOutput -DynDnsResponse $Zones
         foreach ($UriPath in $Zones.Data.data) {
             $ZoneData = Invoke-DynDnsRequest -UriPath $UriPath -SkipSessionCheck
             Write-DynDnsOutput -DynDnsResponse $ZoneData

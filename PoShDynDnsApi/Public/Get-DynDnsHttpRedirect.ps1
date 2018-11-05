@@ -18,15 +18,14 @@ function Get-DynDnsHttpRedirect {
     }
 
     $HttpRedirects = Invoke-DynDnsRequest -UriPath $Uri
+    Write-DynDnsOutput -DynDnsResponse $HttpRedirects -SkipSuccess
     if ($HttpRedirects.Data.status -eq 'failure') {
-        Write-DynDnsOutput -DynDnsResponse $HttpRedirects
         return
     }
 
     if ($Node) {
         Write-DynDnsOutput -DynDnsResponse $HttpRedirects
     } else {
-        Write-DynDnsOutput -DynDnsResponse $HttpRedirects
         foreach ($UriPath in $HttpRedirects.Data.data) {
             $RedirectData = Invoke-DynDnsRequest -UriPath $UriPath -SkipSessionCheck
             Write-DynDnsOutput -DynDnsResponse $RedirectData

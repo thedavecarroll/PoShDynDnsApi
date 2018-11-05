@@ -19,12 +19,11 @@ function Get-DynDnsRecord {
     }
 
     $Records = Invoke-DynDnsRequest -UriPath "/REST/$($RecordType)Record/$Zone/$Fqdn/"
+    Write-DynDnsOutput -DynDnsResponse $Records -SkipSuccess
     if ($Records.Data.status -eq 'failure') {
-        Write-DynDnsOutput -DynDnsResponse $Records
         return
     }
 
-    Write-DynDnsOutput -DynDnsResponse $Records
     foreach ($UriPath in $Records.Data.data) {
         $RecordData = Invoke-DynDnsRequest -UriPath $UriPath -SkipSessionCheck
         Write-DynDnsOutput -DynDnsResponse $RecordData
