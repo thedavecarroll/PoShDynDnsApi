@@ -1,30 +1,3 @@
-class DynDnsHistory {
-    [datetime]$Timestamp
-    [string]$Command
-    [string]$Status
-    [string]$JobId
-    [string]$Method
-    [string]$Uri
-    [string]$StatusCode
-    [string]$StatusDescription
-    [string]$ElapsedTime
-    [hashtable]$Arguments
-
-    DynDnsHistory () {}
-    DynDnsHistory ([PsCustomObject]$DynDnsHistory) {
-        $this.Timestamp = [System.DateTime]::Now
-        $this.Command = $DynDnsHistory.Command
-        $this.Status = $DynDnsHistory.Status
-        $this.JobId = $DynDnsHistory.JobId
-        $this.Method = $DynDnsHistory.Method
-        $this.Uri = $DynDnsHistory.Uri
-        $this.StatusCode = $DynDnsHistory.StatusCode
-        $this.StatusDescription = $DynDnsHistory.StatusDescription
-        $this.ElapsedTime = $DynDnsHistory.ElapsedTime
-        $this.Arguments = $DynDnsHistory.Arguments
-    }
-}
-
 class DynDnsRawData {
     hidden [PSCustomObject]$RawData
 }
@@ -188,6 +161,33 @@ class DynDnsRecord_SOA : DynDnsRecord {
     }
 }
 
+class DynDnsHistory {
+    [datetime]$Timestamp
+    [string]$Command
+    [string]$Status
+    [string]$JobId
+    [string]$Method
+    [string]$Uri
+    [string]$StatusCode
+    [string]$StatusDescription
+    [string]$ElapsedTime
+    [hashtable]$Arguments
+
+    DynDnsHistory () {}
+    DynDnsHistory ([PsCustomObject]$DynDnsHistory) {
+        $this.Timestamp = [System.DateTime]::Now
+        $this.Command = $DynDnsHistory.Command
+        $this.Status = $DynDnsHistory.Status
+        $this.JobId = $DynDnsHistory.JobId
+        $this.Method = $DynDnsHistory.Method
+        $this.Uri = $DynDnsHistory.Uri
+        $this.StatusCode = $DynDnsHistory.StatusCode
+        $this.StatusDescription = $DynDnsHistory.StatusDescription
+        $this.ElapsedTime = $DynDnsHistory.ElapsedTime
+        $this.Arguments = $DynDnsHistory.Arguments
+    }
+}
+
 class DynDnsTask : DynDnsRawData {
     [int]$TaskId
     [object]$Created
@@ -259,6 +259,28 @@ class DynDnsZoneNote : DynDnsRawData {
         $this.SerialNumber = $DynDnsZoneNote.serial
         $this.Note = $DynDnsZoneNote.note.trim()
         $this.RawData = $DynDnsZoneNote
+    }
+}
+
+class DynDnsZoneChanges : DynDnsRawData {
+    [string]$Zone
+    [string]$UserId
+    [string]$Type
+    [string]$Name
+    [string]$SerialNumber
+    [int]$TTL
+    [pscustomobject]$RecordData
+
+    DynDnsZoneChanges () {  }
+    DynDnsZoneChanges ([PSCustomObject]$DynDnsZoneChanges) {
+        $this.Zone = $DynDnsZoneChanges.zone
+        $this.UserId = $DynDnsZoneChanges.user_id
+        $this.Type = $DynDnsZoneChanges.rdata_type
+        $this.Name = $DynDnsZoneChanges.fqdn
+        $this.SerialNumber = $DynDnsZoneChanges.serial
+        $this.TTL = $DynDnsZoneChanges.ttl
+        $this.RecordData = $DynDnsZoneChanges.rdata
+        $this.RawData = $DynDnsZoneChanges
     }
 }
 
