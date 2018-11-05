@@ -122,13 +122,6 @@ function Invoke-DynDnsRequest {
         StatusDescription = $DynDnsResponse.StatusDescription
     }
 
-    if ($Data.status -eq 'success') {
-        $DynDnsSession.LastCommandTime = [System.DateTime]::Now
-    }
-
-    $MyCommand = Get-PSCallStack | Where-Object {$_.Command -notmatch 'DynDnsRequest|DynDnsOutput|ScriptBlock'} | Select-Object -First 1
-    $DynDnsSession.LastCommand = $MyCommand.Command
-
     [DynDnsRestResponse]::New(
         [PsCustomObject]@{
             Response    = $Response
