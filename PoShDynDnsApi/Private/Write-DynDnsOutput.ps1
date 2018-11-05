@@ -31,15 +31,22 @@ function Write-DynDnsOutput {
         $MyFunction = $MyFunction | Select-Object -First 1
         $Command = $MyFunction.Command
         if ($MyFunction.Arguments) {
-            $Arugments = $MyFunction.Arguments.Split(',') | ForEach-Object {
+            $Arguments = $MyFunction.Arguments.Split(',') | ForEach-Object {
                 if ($_ -match '\w+=\S+\w+') { $matches[0] } } | Where-Object {
                     $_ -notmatch 'Debug|Verbose|InformationAction|WarningAction|ErrorAction|Variable'
                 }
-            $Arugments = $Arugments | ForEach-Object { $_.Replace('\','\\') | ConvertFrom-StringData }
+            $Arguments = $Arguments | ForEach-Object { $_.Replace('\','\\') | ConvertFrom-StringData }
         }
     }
 
-    $InformationOutput = [PsCustomObject][ordered]@{
+    $FilteredArguments = @{}
+    foreach ($Key in $Arguments.Keys) {
+        if ($Key -notmatch 'User|Customer|Password') {
+            $FilteredArguments.Add($Key,$Arguments.$Key)
+        }
+    }
+
+    $InformationOutput = [DynDnsHistory]::New(@{
         Command = $Command
         Status = $Status
         JobId = $JobId
@@ -48,16 +55,10 @@ function Write-DynDnsOutput {
         StatusCode = $DynDnsResponse.Response.StatusCode
         StatusDescription = $DynDnsResponse.Response.StatusDescription
         ElapsedTime = "{0:N3}" -f $DynDnsResponse.ElapsedTime
-        CurrentTime = [System.DateTime]::Now
-    }
+        Arguments = $FilteredArguments
+    })
 
-    foreach ($Key in $Arugments.Keys) {
-        if ($Key -notmatch 'User|Customer|Password') {
-            Add-Member -InputObject $InformationOutput -MemberType NoteProperty -Name $Key -Value $Arugments.$Key -Force
-        }
-    }
-
-    $DynDnsSession.LastCommandResults = $InformationOutput
+    [void]$DynDnsHistory.Add($InformationOutput)
     Write-Information -MessageData $InformationOutput
 
     switch -wildcard ($Command) {
