@@ -133,9 +133,11 @@ function Write-DynDnsOutput {
                     [DynDnsUser]::New($DataResponse)
                 }
                 'DynDnsZoneChanges' {
-                    [DynDnsZoneChanges]::New($DataResponse)
+                    if ($COmmand -notmatch 'Publish') {
+                        [DynDnsZoneChanges]::New($DataResponse)
+                    }
                 }
-                'DynDnsNodeList' {
+                default {
                     $DataResponse
                 }
             }
