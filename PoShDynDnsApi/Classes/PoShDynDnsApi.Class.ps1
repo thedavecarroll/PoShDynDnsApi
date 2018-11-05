@@ -1,3 +1,30 @@
+class DynDnsHistory {
+    [datetime]$Timestamp
+    [string]$Command
+    [string]$Status
+    [string]$JobId
+    [string]$Method
+    [string]$Uri
+    [string]$StatusCode
+    [string]$StatusDescription
+    [string]$ElapsedTime
+    [hashtable]$Arguments
+
+    DynDnsHistory () {}
+    DynDnsHistory ([PsCustomObject]$DynDnsHistory) {
+        $this.Timestamp = [System.DateTime]::Now
+        $this.Command = $DynDnsHistory.Command
+        $this.Status = $DynDnsHistory.Status
+        $this.JobId = $DynDnsHistory.JobId
+        $this.Method = $DynDnsHistory.Method
+        $this.Uri = $DynDnsHistory.Uri
+        $this.StatusCode = $DynDnsHistory.StatusCode
+        $this.StatusDescription = $DynDnsHistory.StatusDescription
+        $this.ElapsedTime = $DynDnsHistory.ElapsedTime
+        $this.Arguments = $DynDnsHistory.Arguments
+    }
+}
+
 class DynDnsRawData {
     hidden [PSCustomObject]$RawData
 }
@@ -283,7 +310,6 @@ class DynDnsUser : DynDnsRawData {
         $this.RawData = $DynDnsUser
     }
 }
-
 
 class DynDnsRestResponse {
     [PSCustomObject]$Response

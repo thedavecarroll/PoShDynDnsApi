@@ -14,12 +14,11 @@ $DynDnsSession = [ordered]@{
     AuthToken           = $null
     StartTime           = $null
     ElapsedTime         = $null
-    LastCommand         = $null
-    LastCommandTime     = $null
-    LastCommandResults  = $null
     RefreshTime         = $null
 }
-New-Variable -Name DynDnsSession -Value $DynDnsSession -Scope Script -Force
+
+$DynDnsHistory = New-Object System.Collections.ArrayList
+#New-Variable -Name DynDnsSession -Value $DynDnsSession -Scope Script -Force
 #endregion load module variables
 
 #region Handle Module Removal
