@@ -27,7 +27,7 @@ function Remove-DynDnsRecord {
                 $RemoveRedirect = Invoke-DynDnsRequest -UriPath "/REST/$($RecordType)Record/$Zone/$Fqdn/$RecordId" -Method Delete
                 Write-DynDnsOutput -DynDnsResponse $RemoveRedirect
             } else {
-                Write-Verbose 'Whatif : Removed HTTP redirect'
+                Write-Verbose 'Whatif : Removed  DNS record'
             }
         }
     }
