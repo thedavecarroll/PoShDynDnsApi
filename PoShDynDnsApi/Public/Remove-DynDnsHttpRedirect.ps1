@@ -7,11 +7,24 @@ function Remove-DynDnsHttpRedirect {
         [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
         [DynDnsHttpRedirect[]]$DynDnsHttpRedirect,
 
-        [ValidateSet('Y','N')]
-        [string]$Publish = 'N'
+        [switch]$PublishWait
     )
 
     begin {
+
+        $RemoveRedirectParams = @{}
+
+        if ($PublishWait) {
+            $JsonBody = @{
+                publish = "N"
+            } | ConvertTo-Json
+
+            $RemoveRedirectParams.Add('Body',$JsonBody)
+            Write-Output ($RemoveRedirectParams)
+
+        } else {
+            Write-Warning -Message 'This will autopublish the HTTP redirect deletion to the zone.'
+        }
 
     }
 
@@ -25,12 +38,8 @@ function Remove-DynDnsHttpRedirect {
 
             Write-Output $Redirect
 
-            if ($Publish -eq 'Y') {
-                Write-Warning -Message 'This will autopublish the HTTP redirect deletion to the zone.'
-            }
-
             if ($PSCmdlet.ShouldProcess("$Url",'Delete HTTP redirect')) {
-                $RemoveRedirect = Invoke-DynDnsRequest -UriPath "/REST/HTTPRedirect/$Zone/$Fqdn" -Method Delete
+                $RemoveRedirect = Invoke-DynDnsRequest -UriPath "/REST/HTTPRedirect/$Zone/$Fqdn" -Method Delete @RemoveRedirectParams
                 Write-DynDnsOutput -DynDnsResponse $RemoveRedirect
             } else {
                 Write-Verbose 'Whatif : Removed HTTP redirect'
