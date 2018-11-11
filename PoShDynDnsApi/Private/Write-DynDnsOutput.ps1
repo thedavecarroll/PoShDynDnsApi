@@ -83,7 +83,7 @@ function Write-DynDnsOutput {
                 Write-Verbose -Message $VerboseMessage
             }
             'ERROR' {
-                if ($Message.ERR_CD -eq 'NOT_FOUND' -and $Message.INFO -notmatch 'No such zone') {
+                if ($Message.ERR_CD -eq 'NOT_FOUND' -and $Message.INFO -notlike '*No such zone') {
                     Write-Verbose -Message $ErrorMessage
                 } else {
                     Write-Warning -Message $ErrorMessage
@@ -101,44 +101,47 @@ function Write-DynDnsOutput {
 
     if ($Status -eq 'success') {
         foreach ($DataResponse in $DynDnsResponse.Data.data) {
-            switch ($Command.Split('-')[1]) {
-                'DynDnsRecord' {
-                    switch ($DataResponse.record_type) {
-                        'A'     { [DynDnsRecord_A]::New($DataResponse) }
-                        'TXT'   { [DynDnsRecord_TXT]::New($DataResponse) }
-                        'CNAME' { [DynDnsRecord_CNAME]::New($DataResponse) }
-                        'MX'    { [DynDnsRecord_MX]::New($DataResponse) }
-                        'SRV'   { [DynDnsRecord_SRV]::New($DataResponse) }
-                        'NS'    { [DynDnsRecord_NS]::New($DataResponse) }
-                        'PTR'   { [DynDnsRecord_PTR]::New($DataResponse) }
-                        'SOA'   { [DynDnsRecord_SOA]::New($DataResponse) }
-                        default {
-                            [DynDnsRecord]::New($DataResponse)
+            if ($Command -notmatch 'Remove|Undo') {
+                switch ($Command.Split('-')[1]) {
+                    'DynDnsRecord' {
+                        switch ($DataResponse.record_type) {
+                            'A'     { [DynDnsRecord_A]::New($DataResponse) }
+                            'TXT'   { [DynDnsRecord_TXT]::New($DataResponse) }
+                            'CNAME' { [DynDnsRecord_CNAME]::New($DataResponse) }
+                            'MX'    { [DynDnsRecord_MX]::New($DataResponse) }
+                            'SRV'   { [DynDnsRecord_SRV]::New($DataResponse) }
+                            'NS'    { [DynDnsRecord_NS]::New($DataResponse) }
+                            'PTR'   { [DynDnsRecord_PTR]::New($DataResponse) }
+                            'SOA'   { [DynDnsRecord_SOA]::New($DataResponse) }
+                            default {
+                                [DynDnsRecord]::New($DataResponse)
+                            }
                         }
                     }
-                }
-                'DynDnsZone' {
-                    [DynDnsZone]::New($DataResponse)
-                }
-                'DynDnsTask' {
-                    [DynDnsTask]::New($DataResponse)
-                }
-                'DynDnsZoneNotes' {
-                    [DynDnsZoneNote]::New($DataResponse)
-                }
-                'DynDnsHttpRedirect' {
-                    [DynDnsHttpRedirect]::New($DataResponse)
-                }
-                'DynDnsUser' {
-                    [DynDnsUser]::New($DataResponse)
-                }
-                'DynDnsZoneChanges' {
-                    if ($COmmand -notmatch 'Publish') {
+                    'DynDnsZone' {
+                        [DynDnsZone]::New($DataResponse)
+                    }
+                    'DynDnsTask' {
+                        [DynDnsTask]::New($DataResponse)
+                    }
+                    'DynDnsZoneNotes' {
+                        [DynDnsZoneNote]::New($DataResponse)
+                    }
+                    'DynDnsHttpRedirect' {
+                        [DynDnsHttpRedirect]::New($DataResponse)
+                    }
+                    'DynDnsUser' {
+                        [DynDnsUser]::New($DataResponse)
+                    }
+                    'DynDnsZoneChanges' {
                         [DynDnsZoneChanges]::New($DataResponse)
                     }
-                }
-                default {
-                    $DataResponse
+                    'DynDnsSession' {
+                        return
+                    }
+                    default {
+                        $DataResponse
+                    }
                 }
             }
         }
