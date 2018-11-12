@@ -6,11 +6,11 @@
       <command:verb>Add</command:verb>
       <command:noun>DynDnsHttpRedirect</command:noun>
       <maml:description>
-        <maml:para>The command `Add-DynDnsHttpRedirect` creates a new HTTP Redirect service on the zone/node indicated.</maml:para>
+        <maml:para>The command Add-DynDnsHttpRedirect creates a new HTTP Redirect service on the zone/node indicated.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Add-DynDnsHttpRedirect` creates a new HTTP Redirect service on the zone/node indicated. Note: Creating a new HTTP redirect will automatically publish the change to the zone.</maml:para>
+      <maml:para>The command Add-DynDnsHttpRedirect creates a new HTTP Redirect service on the zone/node indicated. Note: Creating a new HTTP redirect will automatically publish the change to the zone.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -42,7 +42,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>Url</maml:name>
           <maml:Description>
-            <maml:para>The target URL where the client is sent. Must begin with either `http://` or `https://`.</maml:para>
+            <maml:para>The target URL where the client is sent. Must begin with either http:// or https://.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -156,7 +156,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>Url</maml:name>
         <maml:Description>
-          <maml:para>The target URL where the client is sent. Must begin with either `http://` or `https://`.</maml:para>
+          <maml:para>The target URL where the client is sent. Must begin with either http:// or https://.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -441,7 +441,7 @@ Name    : www.anovelidea.org
 Type    : A
 TTL     : 3600</dev:code>
         <dev:remarks>
-          <maml:para>Add an A record for the hostname `www.anovelidea.org`.</maml:para>
+          <maml:para>Add an A record for the hostname www.anovelidea.org.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -460,7 +460,7 @@ Name    : anovelidea.org
 Type    : TXT
 TTL     : 3600</dev:code>
         <dev:remarks>
-          <maml:para>Add a TXT record to the root of the zone `anovelidea.org`.</maml:para>
+          <maml:para>Add a TXT record to the root of the zone anovelidea.org.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -526,11 +526,11 @@ WARNING: API-3.7.11 : ERROR : DYN : TARGET_EXISTS : make: Cannot duplicate exist
       <command:verb>Add</command:verb>
       <command:noun>DynDnsZone</command:noun>
       <maml:description>
-        <maml:para>The `Add-DynDnsZone` command creates a primary DNS zone in the customer's Dyn DNS Managed account.</maml:para>
+        <maml:para>The Add-DynDnsZone command creates a primary DNS zone in the customer's Dyn DNS Managed account.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Add-DynDnsZone` creates a primary DNS zone in the customer's Dyn DNS Managed account. Note: After creating the new zone, you must use `Publish-DynDnsZoneChanges -Zone &lt;zone_name&gt; -Force` to publish the zone before adding additional records.</maml:para>
+      <maml:para>The command Add-DynDnsZone creates a primary DNS zone in the customer's Dyn DNS Managed account. Note: After creating the new zone, you must use Publish-DynDnsZoneChanges -Zone &lt;zone_name&gt; -Force to publish the zone before adding additional records.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -866,11 +866,11 @@ Note: Be sure to use the function Publish-DynDnsZoneChanges in order publish the
       <command:verb>Connect</command:verb>
       <command:noun>DynDnsSession</command:noun>
       <maml:description>
-        <maml:para>The `Connect-DynDnsSession` command creates a new session to the Dyn Managed DNS REST API.</maml:para>
+        <maml:para>The Connect-DynDnsSession command creates a new session to the Dyn Managed DNS REST API.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Connect-DynDnsSession` command creates a new session to the Dyn Managed DNS REST API.</maml:para>
+      <maml:para>The Connect-DynDnsSession command creates a new session to the Dyn Managed DNS REST API.</maml:para>
       <maml:para>An authenticated and active Dyn Managed DNS session is required for all interactions with the service. From the Dyn page on Session Log-in &gt; WARNING: Operating on the same resource (e.g. the same hostname or instance of a service) from more than one session at the same time may cause unexpected behavior, such as unintentional service changes or the inability to propagate new zone changes.</maml:para>
     </maml:description>
     <command:syntax>
@@ -1059,11 +1059,11 @@ VERBOSE: API-3.7.11 : INFO : BLL : login: Login successful</dev:code>
       <command:verb>Disconnect</command:verb>
       <command:noun>DynDnsSession</command:noun>
       <maml:description>
-        <maml:para>The `Disconnect-DynDnsSession` command terminates an existing, valid session with the Dyn Managed DNS REST API.</maml:para>
+        <maml:para>The Disconnect-DynDnsSession command terminates an existing, valid session with the Dyn Managed DNS REST API.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Disconnect-DynDnsSession` command terminates an existing, valid session with the Dyn Managed DNS REST API.</maml:para>
+      <maml:para>The Disconnect-DynDnsSession command terminates an existing, valid session with the Dyn Managed DNS REST API.</maml:para>
       <maml:para>The command issues a session logout and removes the authentication token, user, and customer module variables.</maml:para>
     </maml:description>
     <command:syntax>
@@ -1135,11 +1135,11 @@ VERBOSE: API-3.7.11 : INFO : BLL : login: Login successful</dev:code>
       <command:verb>Get</command:verb>
       <command:noun>DynDnsHistory</command:noun>
       <maml:description>
-        <maml:para>The command `Get-DynDnsHistory` shows the history of commands that are send to the Dyn Managed DNS REST API.</maml:para>
+        <maml:para>The command Get-DynDnsHistory shows the history of commands that are send to the Dyn Managed DNS REST API.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Get-DynDnsHistory` shows the history of commands that are send to the Dyn Managed DNS REST API.</maml:para>
+      <maml:para>The command Get-DynDnsHistory shows the history of commands that are send to the Dyn Managed DNS REST API.</maml:para>
       <maml:para>The following properties are included:</maml:para>
       <maml:para>|Property|Description| |-|-| |Timestamp|When the command was executed |Command|The name of the command |Status|The result from the Dyn API |JobId|The job id for this particular call to the Dyn API |Method|The REST method for this call |Uri|The full URL used in the call |StatusCode|The HTTP status code |StatusDescription|A description of the status code |ElapsedTime|The elapsed time for the command to return results from the Dyn API, in seconds. |Arguments|The arguments used by the command. Note, the common parameters are omitted, as well as a few others.</maml:para>
     </maml:description>
@@ -1463,7 +1463,7 @@ Url          : https://www.anovelidea.org
 ResponseCode : 301
 IncludeUri   : True</dev:code>
         <dev:remarks>
-          <maml:para>Retrieve HTTP redirect service for node `redirect.anovelidea.org`.</maml:para>
+          <maml:para>Retrieve HTTP redirect service for node redirect.anovelidea.org.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1488,12 +1488,12 @@ IncludeUri   : True</dev:code>
       <command:verb>Get</command:verb>
       <command:noun>DynDnsJob</command:noun>
       <maml:description>
-        <maml:para>The command `Get-DynDnsJob` retrieves the result from a previous job.</maml:para>
+        <maml:para>The command Get-DynDnsJob retrieves the result from a previous job.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Get-DynDnsJob` retrieves the result from a previous job.</maml:para>
-      <maml:para>The JobId is in the command history which can be retrieved with the command `Get-DynDnsHistory`. It is also included in the Information stream which can be accessed, at time of command execution, via `-InformationAction Continue` and `-InformationVariable CommandInfo`.</maml:para>
+      <maml:para>The command Get-DynDnsJob retrieves the result from a previous job.</maml:para>
+      <maml:para>The JobId is in the command history which can be retrieved with the command Get-DynDnsHistory. It is also included in the Information stream which can be accessed, at time of command execution, via -InformationAction Continue and -InformationVariable CommandInfo.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1567,7 +1567,7 @@ Email        : powershell@anovelidea.org
 Phone        : 8053642175
 Groups       : {Default}</dev:code>
         <dev:remarks>
-          <maml:para>The job with id `836040075` contained the results for a `Get-DynDnsUser` command.</maml:para>
+          <maml:para>The job with id 836040075 contained the results for a Get-DynDnsUser command.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1592,11 +1592,11 @@ Groups       : {Default}</dev:code>
       <command:verb>Get</command:verb>
       <command:noun>DynDnsNodeList</command:noun>
       <maml:description>
-        <maml:para>The `Get-DynDnsNodeList` command retrieves a list of all node names at or below the given zone node.</maml:para>
+        <maml:para>The Get-DynDnsNodeList command retrieves a list of all node names at or below the given zone node.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Get-DynDnsNodeList` command retrieves a list of all node names at or below the given zone node.</maml:para>
+      <maml:para>The Get-DynDnsNodeList command retrieves a list of all node names at or below the given zone node.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1687,7 +1687,7 @@ newtest.anovelidea.org
 redirect.anovelidea.org
 www3.anovelidea.org</dev:code>
         <dev:remarks>
-          <maml:para>List all of the nodes for the zone `anovelidea.org`.</maml:para>
+          <maml:para>List all of the nodes for the zone anovelidea.org.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1716,11 +1716,11 @@ www3.anovelidea.org</dev:code>
       <command:verb>Get</command:verb>
       <command:noun>DynDnsRecord</command:noun>
       <maml:description>
-        <maml:para>The command `Get-DynDnsRecord` retrieves one or all records of the specified type from a specified zone/node.</maml:para>
+        <maml:para>The command Get-DynDnsRecord retrieves one or all records of the specified type from a specified zone/node.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Get-DynDnsRecord` retrieves one or all records of the specified type from a specified zone/node.</maml:para>
+      <maml:para>The command Get-DynDnsRecord retrieves one or all records of the specified type from a specified zone/node.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1865,7 +1865,7 @@ Name    : anovelidea.org
 Type    : A
 TTL     : 3600</dev:code>
         <dev:remarks>
-          <maml:para>List all A records for the node `anovelidea.org`.</maml:para>
+          <maml:para>List all A records for the node anovelidea.org.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -1885,7 +1885,7 @@ Name                   : anovelidea.org
 Type                   : SOA
 TTL                    : 3600</dev:code>
         <dev:remarks>
-          <maml:para>List all NameServer (NS) records in the zone `anovelidea.org`.</maml:para>
+          <maml:para>List all NameServer (NS) records in the zone anovelidea.org.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1946,12 +1946,12 @@ TTL                    : 3600</dev:code>
       <command:verb>Get</command:verb>
       <command:noun>DynDnsSession</command:noun>
       <maml:description>
-        <maml:para>The command `Get-DynDnsSession` retrieves information about the current session.</maml:para>
+        <maml:para>The command Get-DynDnsSession retrieves information about the current session.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Get-DynDnsSession` retrieves information about the current session.</maml:para>
-      <maml:para>The output includes the start time (set when connected using `Connect-DynDnsSession`) and refresh time (set when refreshed when using `Send-DynDnsSession`). The ElapsedTime property has a running `[System.Diagnostics.Stopwatch]` instance.</maml:para>
+      <maml:para>The command Get-DynDnsSession retrieves information about the current session.</maml:para>
+      <maml:para>The output includes the start time (set when connected using Connect-DynDnsSession) and refresh time (set when refreshed when using Send-DynDnsSession). The ElapsedTime property has a running [System.Diagnostics.Stopwatch] instance.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2028,11 +2028,11 @@ RefreshTime : 11/10/2018 11:28:29 PM</dev:code>
       <command:verb>Get</command:verb>
       <command:noun>DynDnsTask</command:noun>
       <maml:description>
-        <maml:para>The command `Get-DynDnsTask` retrieves a list of all current DNS API tasks or a single pending API task based on the task ID.</maml:para>
+        <maml:para>The command Get-DynDnsTask retrieves a list of all current DNS API tasks or a single pending API task based on the task ID.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Get-DynDnsTask` retrieves a list of all current DNS API tasks or a single pending API task based on the task ID.</maml:para>
+      <maml:para>The command Get-DynDnsTask retrieves a list of all current DNS API tasks or a single pending API task based on the task ID.</maml:para>
       <maml:para>Pending DNS API tasks can be cancelled before they are finished.</maml:para>
     </maml:description>
     <command:syntax>
@@ -2174,11 +2174,11 @@ Debug        :</dev:code>
       <command:verb>Get</command:verb>
       <command:noun>DynDnsUser</command:noun>
       <maml:description>
-        <maml:para>The command `Get-DynDnsUser` retrieves information on a specified user or for all users.</maml:para>
+        <maml:para>The command Get-DynDnsUser retrieves information on a specified user or for all users.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Get-DynDnsUser` retrieves information on a specified user or for all users.</maml:para>
+      <maml:para>The command Get-DynDnsUser retrieves information on a specified user or for all users.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2283,11 +2283,11 @@ Groups       : {Default}</dev:code>
       <command:verb>Get</command:verb>
       <command:noun>DynDnsZone</command:noun>
       <maml:description>
-        <maml:para>The command `Get-DynDnsZone` will return all zones associated with the customer, or the specified zone.</maml:para>
+        <maml:para>The command Get-DynDnsZone will return all zones associated with the customer, or the specified zone.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Get-DynDnsZone` will return all zones associated with the customer, or the specified zone.</maml:para>
+      <maml:para>The command Get-DynDnsZone will return all zones associated with the customer, or the specified zone.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2383,11 +2383,11 @@ anovelidea.org   2018110400 day         Primary</dev:code>
       <command:verb>Get</command:verb>
       <command:noun>DynDnsZoneChanges</command:noun>
       <maml:description>
-        <maml:para>The command `Get-DynDnsZoneChanges` will retrieve all unpublished changes for the current session for the specified zone.</maml:para>
+        <maml:para>The command Get-DynDnsZoneChanges will retrieve all unpublished changes for the current session for the specified zone.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Get-DynDnsZoneChanges` will retrieve all unpublished changes for the current session for the specified zone.</maml:para>
+      <maml:para>The command Get-DynDnsZoneChanges will retrieve all unpublished changes for the current session for the specified zone.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2473,7 +2473,7 @@ RecordData   : @{rdata_kx=; rdata_srv=; rdata_policy=; rdata_soa=; rdata_key=; r
                rdata_aaaa=; rdata_nsap=; rdata_dhcid=; rdata_dnskey=; rdata_cds=; rdata_txt=; rdata_ns=; rdata_dname=;
                rdata_csync=; rdata_px=; rdata_a=; rdata_cert=; rdata_rp=; rdata_tlsa=; rdata_mx=; rdata_cdnskey=}</dev:code>
         <dev:remarks>
-          <maml:para>Lists all pending zone changes for the zone `anovelidea.org` for the current session.</maml:para>
+          <maml:para>Lists all pending zone changes for the zone anovelidea.org for the current session.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2502,11 +2502,11 @@ RecordData   : @{rdata_kx=; rdata_srv=; rdata_policy=; rdata_soa=; rdata_key=; r
       <command:verb>Get</command:verb>
       <command:noun>DynDnsZoneNotes</command:noun>
       <maml:description>
-        <maml:para>The `Get-DynDnsZoneNotes` command generates a report containing the Zone Notes for the specified zone.</maml:para>
+        <maml:para>The Get-DynDnsZoneNotes command generates a report containing the Zone Notes for the specified zone.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Get-DynDnsZoneNotes` command generates a report containing the Zone Notes for the specified zone.</maml:para>
+      <maml:para>The Get-DynDnsZoneNotes command generates a report containing the Zone Notes for the specified zone.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2678,11 +2678,11 @@ Note         : anovelidea.org
       <command:verb>Lock</command:verb>
       <command:noun>DynDnsZone</command:noun>
       <maml:description>
-        <maml:para>The `Lock-DynDnsZone` command prevents other users from making changes to the zone.</maml:para>
+        <maml:para>The Lock-DynDnsZone command prevents other users from making changes to the zone.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Lock-DynDnsZone` command prevents other users from making changes to the zone.</maml:para>
+      <maml:para>The Lock-DynDnsZone command prevents other users from making changes to the zone.</maml:para>
       <maml:para>The Dyn term for locking a zone is freeze.</maml:para>
     </maml:description>
     <command:syntax>
@@ -2823,12 +2823,12 @@ VERBOSE: API-3.7.11 : INFO : BLL : freeze: Your zone is now frozen</dev:code>
       <command:verb>New</command:verb>
       <command:noun>DynDnsRecord</command:noun>
       <maml:description>
-        <maml:para>The `New-DynDnsRecord` creates DNS record object of the specified type.</maml:para>
+        <maml:para>The New-DynDnsRecord creates DNS record object of the specified type.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `New-DynDnsRecord` creates DNS record object of the specified type.</maml:para>
-      <maml:para>The object can be used by `Add-DynDnsRecord` and `Update-DynDnsRecord` and other commands.</maml:para>
+      <maml:para>The New-DynDnsRecord creates DNS record object of the specified type.</maml:para>
+      <maml:para>The object can be used by Add-DynDnsRecord and Update-DynDnsRecord and other commands.</maml:para>
       <maml:para>The output depends on the DNS record type and can be any of the following:</maml:para>
       <maml:para>* A</maml:para>
       <maml:para>* TXT</maml:para>
@@ -3273,11 +3273,11 @@ TTL      : 0</dev:code>
       <command:verb>Publish</command:verb>
       <command:noun>DynDnsZoneChanges</command:noun>
       <maml:description>
-        <maml:para>The `Publish-DynDnsZoneChanges` command publishes pending zone changes.</maml:para>
+        <maml:para>The Publish-DynDnsZoneChanges command publishes pending zone changes.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Publish-DynDnsZoneChanges` command publishes pending zone changes, which includes completing the creation of new zones.</maml:para>
+      <maml:para>The Publish-DynDnsZoneChanges command publishes pending zone changes, which includes completing the creation of new zones.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -3298,7 +3298,7 @@ TTL      : 0</dev:code>
           <maml:name>Notes</maml:name>
           <maml:Description>
             <maml:para>Record any notes for the publication of this zone version, such as a reference number or short text describing why the changes occurred.</maml:para>
-            <maml:para>The text REST-Api-PoSh will be prepended before adding to the zone change record. If the `Notes` parameter is omitted, the Notes field will only contain REST-Api-PoSh .</maml:para>
+            <maml:para>The text REST-Api-PoSh will be prepended before adding to the zone change record. If the Notes parameter is omitted, the Notes field will only contain REST-Api-PoSh .</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -3322,7 +3322,7 @@ TTL      : 0</dev:code>
           <maml:name>Force</maml:name>
           <maml:Description>
             <maml:para>By default, the command will not publish the zone if there are no pending zone changes.</maml:para>
-            <maml:para>In the case of adding a new zone, Dyn does not see it as a change to the zone. Using the `-Force` parameter will publish the zone.</maml:para>
+            <maml:para>In the case of adding a new zone, Dyn does not see it as a change to the zone. Using the -Force parameter will publish the zone.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3360,7 +3360,7 @@ TTL      : 0</dev:code>
         <maml:name>Force</maml:name>
         <maml:Description>
           <maml:para>By default, the command will not publish the zone if there are no pending zone changes.</maml:para>
-          <maml:para>In the case of adding a new zone, Dyn does not see it as a change to the zone. Using the `-Force` parameter will publish the zone.</maml:para>
+          <maml:para>In the case of adding a new zone, Dyn does not see it as a change to the zone. Using the -Force parameter will publish the zone.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3373,7 +3373,7 @@ TTL      : 0</dev:code>
         <maml:name>Notes</maml:name>
         <maml:Description>
           <maml:para>Record any notes for the publication of this zone version, such as a reference number or short text describing why the changes occurred.</maml:para>
-          <maml:para>The text REST-Api-PoSh will be prepended before adding to the zone change record. If the `Notes` parameter is omitted, the Notes field will only contain REST-Api-PoSh .</maml:para>
+          <maml:para>The text REST-Api-PoSh will be prepended before adding to the zone change record. If the Notes parameter is omitted, the Notes field will only contain REST-Api-PoSh .</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -3483,11 +3483,11 @@ anovelidea.org   2018091400 day         Primary</dev:code>
       <command:verb>Remove</command:verb>
       <command:noun>DynDnsHttpRedirect</command:noun>
       <maml:description>
-        <maml:para>The command `Remove-DynDnsHttpRedirect` deletes one or more existing HTTP Redirect services from the zone/node indicated.</maml:para>
+        <maml:para>The command Remove-DynDnsHttpRedirect deletes one or more existing HTTP Redirect services from the zone/node indicated.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Remove-DynDnsHttpRedirect` deletes one or more existing HTTP Redirect services from the zone/node indicated.</maml:para>
+      <maml:para>The command Remove-DynDnsHttpRedirect deletes one or more existing HTTP Redirect services from the zone/node indicated.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -3495,7 +3495,7 @@ anovelidea.org   2018091400 day         Primary</dev:code>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
           <maml:name>DynDnsHttpRedirect</maml:name>
           <maml:Description>
-            <maml:para>One or more `DynDnsHttpRedirect` objects obtained from the command `Get-DynDnsHttpRedirect`.</maml:para>
+            <maml:para>One or more DynDnsHttpRedirect objects obtained from the command Get-DynDnsHttpRedirect.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">DynDnsHttpRedirect[]</command:parameterValue>
           <dev:type>
@@ -3555,7 +3555,7 @@ anovelidea.org   2018091400 day         Primary</dev:code>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
         <maml:name>DynDnsHttpRedirect</maml:name>
         <maml:Description>
-          <maml:para>One or more `DynDnsHttpRedirect` objects obtained from the command `Get-DynDnsHttpRedirect`.</maml:para>
+          <maml:para>One or more DynDnsHttpRedirect objects obtained from the command Get-DynDnsHttpRedirect.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">DynDnsHttpRedirect[]</command:parameterValue>
         <dev:type>
@@ -3662,11 +3662,11 @@ Performing the operation "Delete HTTP redirect" on target "http://www.anovelidea
       <command:verb>Remove</command:verb>
       <command:noun>DynDnsNode</command:noun>
       <maml:description>
-        <maml:para>The command `Remove-DynDnsNode` removes the indicated node, any records within the node, and any nodes underneath the node.</maml:para>
+        <maml:para>The command Remove-DynDnsNode removes the indicated node, any records within the node, and any nodes underneath the node.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Remove-DynDnsNode` removes the indicated node, any records within the node, and any nodes underneath the node. NOTE: Use this method ONLY for cleaning up a zone. Regular node or record deletes should use the Delete A Records (API) method. Once all node records are removed, the node is automatically removed.</maml:para>
+      <maml:para>The command Remove-DynDnsNode removes the indicated node, any records within the node, and any nodes underneath the node. NOTE: Use this method ONLY for cleaning up a zone. Regular node or record deletes should use the Delete A Records (API) method. Once all node records are removed, the node is automatically removed.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -3709,7 +3709,7 @@ Performing the operation "Delete HTTP redirect" on target "http://www.anovelidea
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Force</maml:name>
           <maml:Description>
-            <maml:para>The `-Force` switch is required if the node contains any records or other nodes. When provided, it will allow the deletion of the node and all records and nodes it contains.</maml:para>
+            <maml:para>The -Force switch is required if the node contains any records or other nodes. When provided, it will allow the deletion of the node and all records and nodes it contains.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3746,7 +3746,7 @@ Performing the operation "Delete HTTP redirect" on target "http://www.anovelidea
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Force</maml:name>
         <maml:Description>
-          <maml:para>The `-Force` switch is required if the node contains any records or other nodes. When provided, it will allow the deletion of the node and all records and nodes it contains.</maml:para>
+          <maml:para>The -Force switch is required if the node contains any records or other nodes. When provided, it will allow the deletion of the node and all records and nodes it contains.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3854,7 +3854,7 @@ Are you sure you want to perform this action?
 Performing the operation "Delete node, child nodes, and all records" on target "newnode.anovelidea.org".
 [Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "Y"): y</dev:code>
         <dev:remarks>
-          <maml:para>Remove the node `newnode.anovelidea.org` from the zone `anovelidea.org`. The example illustrates that the `-Force` switch must be used if the node contains any records or child nodes.</maml:para>
+          <maml:para>Remove the node newnode.anovelidea.org from the zone anovelidea.org. The example illustrates that the -Force switch must be used if the node contains any records or child nodes.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3879,11 +3879,11 @@ Performing the operation "Delete node, child nodes, and all records" on target "
       <command:verb>Remove</command:verb>
       <command:noun>DynDnsRecord</command:noun>
       <maml:description>
-        <maml:para>The command `Remove-DynDnsRecord` deletes one or all records of the specified type from a specified zone/node.</maml:para>
+        <maml:para>The command Remove-DynDnsRecord deletes one or all records of the specified type from a specified zone/node.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The command `Remove-DynDnsRecord` deletes one or all records of the specified type from a specified zone/node.</maml:para>
+      <maml:para>The command Remove-DynDnsRecord deletes one or all records of the specified type from a specified zone/node.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -3891,7 +3891,7 @@ Performing the operation "Delete node, child nodes, and all records" on target "
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
           <maml:name>DynDnsRecord</maml:name>
           <maml:Description>
-            <maml:para>One or more DNS records retrieved by the command `Get-DynDnsRecord`.</maml:para>
+            <maml:para>One or more DNS records retrieved by the command Get-DynDnsRecord.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">DynDnsRecord[]</command:parameterValue>
           <dev:type>
@@ -3940,7 +3940,7 @@ Performing the operation "Delete node, child nodes, and all records" on target "
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
         <maml:name>DynDnsRecord</maml:name>
         <maml:Description>
-          <maml:para>One or more DNS records retrieved by the command `Get-DynDnsRecord`.</maml:para>
+          <maml:para>One or more DNS records retrieved by the command Get-DynDnsRecord.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">DynDnsRecord[]</command:parameterValue>
         <dev:type>
@@ -4016,7 +4016,7 @@ Are you sure you want to perform this action?
 Performing the operation "Delete DNS A record" on target "newtest.anovelidea.org".
 [Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "Y"): n</dev:code>
         <dev:remarks>
-          <maml:para>Retrieve all A records for the node `newtest.anovelidea.org` and delete the first record.</maml:para>
+          <maml:para>Retrieve all A records for the node newtest.anovelidea.org and delete the first record.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -4069,11 +4069,11 @@ Performing the operation "Delete DNS A record" on target "newtest.anovelidea.org
       <command:verb>Remove</command:verb>
       <command:noun>DynDnsZone</command:noun>
       <maml:description>
-        <maml:para>The `Remove-DynDnsZone` command immediately deletes the primary DNS zone from the customer's Dyn DNS Managed account.</maml:para>
+        <maml:para>The Remove-DynDnsZone command immediately deletes the primary DNS zone from the customer's Dyn DNS Managed account.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Remove-DynDnsZone` command immediately deletes the primary DNS zone from the customer's Dyn DNS Managed account.</maml:para>
+      <maml:para>The Remove-DynDnsZone command immediately deletes the primary DNS zone from the customer's Dyn DNS Managed account.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -4216,11 +4216,11 @@ Performing the operation "Delete DNS zone and all its records" on target "anovel
       <command:verb>Send</command:verb>
       <command:noun>DynDnsSession</command:noun>
       <maml:description>
-        <maml:para>The `Send-DynDnsSession` command extends the current session with the Dyn Managed DNS REST API.</maml:para>
+        <maml:para>The Send-DynDnsSession command extends the current session with the Dyn Managed DNS REST API.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Send-DynDnsSession` command extends the current session with the Dyn Managed DNS REST API.</maml:para>
+      <maml:para>The Send-DynDnsSession command extends the current session with the Dyn Managed DNS REST API.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -4295,12 +4295,12 @@ Performing the operation "Delete DNS zone and all its records" on target "anovel
       <command:verb>Test</command:verb>
       <command:noun>DynDnsSession</command:noun>
       <maml:description>
-        <maml:para>The `Test-DynDnsSession` command verifies that a session is still active with the Dyn Managed DNS REST API.</maml:para>
+        <maml:para>The Test-DynDnsSession command verifies that a session is still active with the Dyn Managed DNS REST API.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Test-DynDnsSession` command verifies that a session is still active with the Dyn Managed DNS REST API.</maml:para>
-      <maml:para>If there is no authentication token session variable, this will return `False`.</maml:para>
+      <maml:para>The Test-DynDnsSession command verifies that a session is still active with the Dyn Managed DNS REST API.</maml:para>
+      <maml:para>If there is no authentication token session variable, this will return False.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -4376,11 +4376,11 @@ True</dev:code>
       <command:verb>Undo</command:verb>
       <command:noun>DynDnsZoneChanges</command:noun>
       <maml:description>
-        <maml:para>The `Undo-DynDnsZoneChanges` deletes changes to the specified zone that have been created during the current session, but not yet published to the zone.</maml:para>
+        <maml:para>The Undo-DynDnsZoneChanges deletes changes to the specified zone that have been created during the current session, but not yet published to the zone.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Undo-DynDnsZoneChanges` deletes changes to the specified zone that have been created during the current session, but not yet published to the zone.</maml:para>
+      <maml:para>The Undo-DynDnsZoneChanges deletes changes to the specified zone that have been created during the current session, but not yet published to the zone.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -4564,11 +4564,11 @@ VERBOSE: API-3.7.11 : INFO : BLL : discard: 0 zone changes discarded</dev:code>
       <command:verb>Unlock</command:verb>
       <command:noun>DynDnsZone</command:noun>
       <maml:description>
-        <maml:para>The `Unlock-DynDnsZone` command removes the restriction that prevents other users from making changes to the zone.</maml:para>
+        <maml:para>The Unlock-DynDnsZone command removes the restriction that prevents other users from making changes to the zone.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Unlock-DynDnsZone` command removes the restriction that prevents other users from making changes to the zone.</maml:para>
+      <maml:para>The Unlock-DynDnsZone command removes the restriction that prevents other users from making changes to the zone.</maml:para>
       <maml:para>The Dyn term for unlocking a zone is thaw.</maml:para>
     </maml:description>
     <command:syntax>
@@ -4709,11 +4709,11 @@ VERBOSE: API-3.7.11 : INFO : BLL : thaw: Your zone is now thawed, you may edit n
       <command:verb>Update</command:verb>
       <command:noun>DynDnsRecord</command:noun>
       <maml:description>
-        <maml:para>The `Update-DynDnsRecord` command updates an existing DNS record in the specified zone.</maml:para>
+        <maml:para>The Update-DynDnsRecord command updates an existing DNS record in the specified zone.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The `Update-DynDnsRecord` command updates an existing DNS record in the specified zone.</maml:para>
+      <maml:para>The Update-DynDnsRecord command updates an existing DNS record in the specified zone.</maml:para>
       <maml:para>Currently, the following DNS record types are supported:</maml:para>
       <maml:para>* A</maml:para>
       <maml:para>* TXT</maml:para>
@@ -4730,7 +4730,7 @@ VERBOSE: API-3.7.11 : INFO : BLL : thaw: Your zone is now thawed, you may edit n
           <maml:name>DynDnsRecord</maml:name>
           <maml:Description>
             <maml:para>A DNS record which has prevously been published to the zone of any supported type: A, TXT, CNAME, MX, SRV, PTR, SOA.</maml:para>
-            <maml:para>The value should be created using the `Get-DynDnsRecord` command.</maml:para>
+            <maml:para>The value should be created using the Get-DynDnsRecord command.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">DynDnsRecord</command:parameterValue>
           <dev:type>
@@ -4742,8 +4742,8 @@ VERBOSE: API-3.7.11 : INFO : BLL : thaw: Your zone is now thawed, you may edit n
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>UpdatedDynDnsRecord</maml:name>
           <maml:Description>
-            <maml:para>A valid DNS record of the same type as provided by `-DynDnsRecord`.</maml:para>
-            <maml:para>The value should be created using the `New-DynDnsRecord` command.</maml:para>
+            <maml:para>A valid DNS record of the same type as provided by -DynDnsRecord.</maml:para>
+            <maml:para>The value should be created using the New-DynDnsRecord command.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">DynDnsRecord</command:parameterValue>
           <dev:type>
@@ -4793,7 +4793,7 @@ VERBOSE: API-3.7.11 : INFO : BLL : thaw: Your zone is now thawed, you may edit n
         <maml:name>DynDnsRecord</maml:name>
         <maml:Description>
           <maml:para>A DNS record which has prevously been published to the zone of any supported type: A, TXT, CNAME, MX, SRV, PTR, SOA.</maml:para>
-          <maml:para>The value should be created using the `Get-DynDnsRecord` command.</maml:para>
+          <maml:para>The value should be created using the Get-DynDnsRecord command.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">DynDnsRecord</command:parameterValue>
         <dev:type>
@@ -4805,8 +4805,8 @@ VERBOSE: API-3.7.11 : INFO : BLL : thaw: Your zone is now thawed, you may edit n
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>UpdatedDynDnsRecord</maml:name>
         <maml:Description>
-          <maml:para>A valid DNS record of the same type as provided by `-DynDnsRecord`.</maml:para>
-          <maml:para>The value should be created using the `New-DynDnsRecord` command.</maml:para>
+          <maml:para>A valid DNS record of the same type as provided by -DynDnsRecord.</maml:para>
+          <maml:para>The value should be created using the New-DynDnsRecord command.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">DynDnsRecord</command:parameterValue>
         <dev:type>
@@ -4867,7 +4867,7 @@ Name    : www2.anovelidea.org
 Type    : A
 TTL     : 3600</dev:code>
         <dev:remarks>
-          <maml:para>Update the DNS A record for the hostname `www2.anovelidea.org`.</maml:para>
+          <maml:para>Update the DNS A record for the hostname www2.anovelidea.org.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -4903,7 +4903,7 @@ Name    : www2.anovelidea.org
 Type    : A
 TTL     : 3600</dev:code>
         <dev:remarks>
-          <maml:para>Update the DNS A record for the hostname `www2.anovelidea.org`. Show the original record and the proposed changes.</maml:para>
+          <maml:para>Update the DNS A record for the hostname www2.anovelidea.org. Show the original record and the proposed changes.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
