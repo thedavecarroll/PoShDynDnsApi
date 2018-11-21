@@ -98,7 +98,8 @@ AliasesToExport = @()
 
 # List of all files packaged with this module
 FileList = 'Classes\PoShDynDnsApi.Class.ps1', 
-               'en-US\about_PoShDynDnsApi.help.md', 'en-US\PoShDynDnsApi-help.xml', 
+               'en-US\about_PoShDynDnsApi.help.txt', 
+               'en-US\PoShDynDnsApi-help.xml', 
                'Private\Compare-ObjectProperties.ps1', 
                'Private\Invoke-DynDnsRequest.ps1', 
                'Private\Write-DynDnsOutput.ps1', 
