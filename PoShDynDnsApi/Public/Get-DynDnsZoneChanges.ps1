@@ -1,5 +1,6 @@
 function Get-DynDnsZoneChanges {
     [CmdLetBinding()]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseSingularNouns', Justification='Retrieves all zone changes')]
     param(
         [Parameter(Mandatory=$true)]
         [string]$Zone

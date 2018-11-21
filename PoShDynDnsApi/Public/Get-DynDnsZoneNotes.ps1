@@ -1,5 +1,6 @@
 function Get-DynDnsZoneNotes {
     [CmdLetBinding()]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseSingularNouns', Justification='Retrieves zone notes')]
     param(
         [Parameter(Mandatory=$true)]
         [string]$Zone,

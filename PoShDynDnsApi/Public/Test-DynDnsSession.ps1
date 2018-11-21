@@ -1,5 +1,6 @@
 function Test-DynDnsSession {
     [CmdLetBinding()]
+    [OutputType([boolean])]
     param()
 
     $Session = Invoke-DynDnsRequest -SessionAction 'Test' -WarningAction SilentlyContinue

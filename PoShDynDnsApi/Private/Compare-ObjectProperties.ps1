@@ -1,6 +1,7 @@
 # https://blogs.technet.microsoft.com/janesays/2017/04/25/compare-all-properties-of-two-objects-in-windows-powershell/
 function Compare-ObjectProperties {
     [CmdLetBinding()]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseSingularNouns', Justification='Compares all properties')]
     Param(
         [PSObject]$ReferenceObject,
         [PSObject]$DifferenceObject

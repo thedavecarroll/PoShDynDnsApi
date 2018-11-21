@@ -1,5 +1,6 @@
 function New-DynDnsRecord {
     [CmdLetBinding()]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseShouldProcessForStateChangingFunctions', Justification='Creates instance of DynDns record; does not make changes')]
     param(
 
         [Parameter(Mandatory=$true,ParameterSetName='ARecord')]

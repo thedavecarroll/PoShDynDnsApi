@@ -3,6 +3,7 @@ function Undo-DynDnsZoneChanges {
         SupportsShouldProcess=$true,
         ConfirmImpact='High'
     )]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseSingularNouns', Justification='Discards all pending zone changes')]
     param(
         [Parameter(Mandatory=$true)]
         [string]$Zone,
