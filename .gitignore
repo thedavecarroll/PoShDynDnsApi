@@ -1,3 +1,5 @@
-# Don't checkin the Release output dir.
-Release/
+# BuildOutput folder
+BuildOutput/
+
+# git data
 .git

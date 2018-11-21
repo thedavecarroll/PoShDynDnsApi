@@ -1,11 +1,21 @@
+#region info
+<#
+The following members are exported via the module's data file (.psd1)
+    Functions
+    TypeData
+    FormatData
+#>
+#endregion info
+
 #region discover module name
 $ScriptPath = Split-Path $MyInvocation.MyCommand.Path
 $ModuleName = $ExecutionContext.SessionState.Module
-Write-Verbose $ModuleName
+Write-Verbose -Message "Loading module $ModuleName"
 #endregion discover module name
 
 #region load module variables
-Write-Verbose "Creating modules variables"
+Write-Verbose -Message "Creating modules variables"
+[System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
 $DynDnsSession = [ordered]@{
     ClientUrl           = 'https://api.dynect.net'
     User                = $null
@@ -17,60 +27,20 @@ $DynDnsSession = [ordered]@{
     RefreshTime         = $null
 }
 
+[System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
 $DynDnsHistory = New-Object System.Collections.ArrayList
-#New-Variable -Name DynDnsSession -Value $DynDnsSession -Scope Script -Force
 #endregion load module variables
 
 #region Handle Module Removal
-#$OnRemoveScript = {
+$OnRemoveScript = {
 #    Remove-Variable -Name DynDnsSession -Scope Script -Force
-#}
-#$ExecutionContext.SessionState.Module.OnRemove += $OnRemoveScript
-#Register-EngineEvent -SourceIdentifier ([System.Management.Automation.PsEngineEvent]::Exiting) -Action $OnRemoveScript
+}
+$ExecutionContext.SessionState.Module.OnRemove += $OnRemoveScript
+Register-EngineEvent -SourceIdentifier ([System.Management.Automation.PsEngineEvent]::Exiting) -Action $OnRemoveScript
 #endregion Handle Module Removal
 
-#region load functions
-Try {
-    foreach ($Scope in 'Public','Private') {
-        Get-ChildItem "$ScriptPath\$Scope" -Filter *.ps1 | ForEach-Object {
-            $Function = $_.FullName.BaseName
-            . $_.FullName
-        }
-    }
-} Catch {
-    Write-Warning ("{0}: {1}" -f $Function,$_.Exception.Message)
-    Continue
-}
-#endregion load functions
-
-#region Format and Type Data
-#try {
-#    Update-FormatData "$ScriptPath\TypeData\$ModuleName.Format.ps1xml" -ErrorAction Stop
-#}
-#catch {}
-#try {
-#    Update-TypeData "$ScriptPath\TypeData\$ModuleName.Types.ps1xml" -ErrorAction Stop
-#}
-#catch {}
-#endregion Format and Type Data
-
 #region load classes
-#if (Test-Path -Path "$ScriptPath\Classes\$ModuleName.Class.ps1") {
+if (Test-Path -Path "$ScriptPath\Classes\$ModuleName.Class.ps1") {
     . "$ScriptPath\Classes\$ModuleName.Class.ps1"
-#}
+}
 #endregion
-
-#region Aliases
-#New-Alias -Name short -Value Get-LongCommand -Force
-#endregion Aliases
-
-
-
-#region export module members
-#$ExportModule = @{
-#    #Alias = @()
-#    #Function = @()
-#    #Variable = @()
-#}
-#Export-ModuleMember @ExportModule
-#endregion export module members
