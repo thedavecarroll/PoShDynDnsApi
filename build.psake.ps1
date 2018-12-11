@@ -27,6 +27,12 @@ Properties {
     $Tests = Join-Path -Path $ProjectRoot -ChildPath 'Tests'
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
+    $PrivateFunctionsPath = Join-Path -Path $ModulePath -ChildPath 'Private'
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
+    $PublicFunctionsPath = Join-Path -Path $ModulePath -ChildPath 'Public'
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
     $ClassPath = Join-Path -Path $ModulePath -ChildPath 'Classes'
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
@@ -85,16 +91,28 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
     $psm1 = Copy-Item -Path (Join-Path -Path $ModulePath -ChildPath "$env:BHProjectName.psm1") -Destination (Join-Path -Path $VersionFolder -ChildPath "$($ENV:BHProjectName).psm1") -PassThru
 
     # append psm1
-    'Classes','Private','Public' | Foreach-Object {
+    'Classes'| Foreach-Object {
         Write-Verbose -Message "Appending folder $_ to psm1..."
         Get-ChildItem -Path (Join-Path -Path $ModulePath -ChildPath $_) -Recurse -File |
             Get-Content -Raw | Add-Content -Path $psm1 -Encoding UTF8
     }
 
+    # copy classes, private functions, and public functions to build output version folder
+    'Classes','Private','Public' | ForEach-Object {
+        Write-Verbose -Message "Copying folder $_ to BuildOutput..."
+        $BuildFolderPath = Join-Path -Path $VersionFolder -ChildPath $_
+        $FolderPath = Join-Path -Path $ModulePath -ChildPath $_
+        $HasFiles = Get-ChildItem -Path $FolderPath -File
+        if ($HasFiles) {
+            $null = New-Item -Path $BuildFolderPath -ItemType Directory
+            $HasFiles | ForEach-Object { Copy-Item -Path $_.FullName -Destination $BuildFolderPath }
+        }
+    }
+
     # copy psd1 to build version output folder
     Copy-Item -Path $psd1 -Destination $VersionFolder
 
-    # copy classes to build version output folder
+    <# copy classes to build version output folder
     if (Test-Path -Path $ClassPath) {
         $BuildClassPath = Join-Path -Path $VersionFolder -ChildPath 'Classes'
         $HasClasses = Get-ChildItem -Path $ClassPath -File
@@ -103,6 +121,7 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
             $HasClasses | ForEach-Object { Copy-Item -Path $_.FullName -Destination $BuildClassPath }
         }
     }
+    #>
 
     # copy external help to build version output folder
     if (Test-Path -Path $ExternalHelpPath) {
