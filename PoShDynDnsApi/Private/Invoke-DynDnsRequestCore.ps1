@@ -4,17 +4,21 @@ function Invoke-DynDnsRequestCore {
         [Parameter(ParameterSetName='Default')]
         [ValidateSet('Get','Post','Put','Delete')]
         [System.Net.Http.HttpMethod]$Method='Get',
+
         [Parameter(ParameterSetName='Default')]
         [ValidateScript({$_ -match '^/REST/'})]
         [String]$UriPath,
+
         [Parameter(ParameterSetName='Default')]
         [Parameter(ParameterSetName='Session')]
         [Alias('JsonBody','Json')]
         [ValidateScript({$_ | ConvertFrom-Json})]
         [AllowNull()]
         $Body,
+
         [Parameter(ParameterSetName='Default')]
         [Switch]$SkipSessionCheck,
+
         [Parameter(ParameterSetName='Session')]
         [ValidateSet('Connect','Disconnect','Test','Send')]
         [string]$SessionAction
@@ -97,8 +101,12 @@ function Invoke-DynDnsRequestCore {
 
     $HttpResponseMessage = $HttpClient.SendAsync($HttpRequest)
     $Result = $HttpResponseMessage.Result
-    $Content = $Result.Content.ReadAsStringAsync().Result | ConvertFrom-Json
-
+    try {
+        $Content = $Result.Content.ReadAsStringAsync().Result | ConvertFrom-Json
+    }
+    catch {
+        $Content = $null
+    }
     $ElapsedTime = $StopWatch.Elapsed.TotalSeconds
     $StopWatch.Stop()
 
