@@ -26,13 +26,13 @@ function Write-DynDnsOutput {
     }
 
     $MyFunction = Get-PSCallStack | Where-Object {$_.Command -notmatch 'DynDnsRequest|DynDnsOutput|ScriptBlock'}
-    if ($Uri -match 'Session') {
+    if ($DynDnsResponse.Response.Uri -match 'Session') {
         $Command = $MyFunction.Command | Where-Object {$_ -match 'DynDnsSession'}
     } else {
         $MyFunction = $MyFunction | Select-Object -First 1
         $Command = $MyFunction.Command
         if ($MyFunction.Arguments) {
-            $Arguments = $MyFunction.Arguments.Split(',') | ForEach-Object {
+            $Arguments = $MyFunction.Arguments -Split ',' | ForEach-Object {
                 if ($_ -match '\w+=\S+\w+') { $matches[0] } } | Where-Object {
                     $_ -notmatch 'Debug|Verbose|InformationAction|WarningAction|ErrorAction|Variable'
                 }
