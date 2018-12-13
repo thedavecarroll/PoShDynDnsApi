@@ -4,6 +4,10 @@ function Get-DynDnsTask {
         [int]$TaskId
     )
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     if ($TaskId) {
         $UriPath = "/REST/Task/$($TaskId.ToString())"
     } else {

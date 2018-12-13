@@ -17,6 +17,10 @@ function Get-DynDnsHttpRedirect {
         $Uri = "/REST/HTTPRedirect/$Zone"
     }
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     $HttpRedirects = Invoke-DynDnsRequest -UriPath $Uri
     Write-DynDnsOutput -DynDnsResponse $HttpRedirects -SkipSuccess
     if ($HttpRedirects.Data.status -eq 'failure') {

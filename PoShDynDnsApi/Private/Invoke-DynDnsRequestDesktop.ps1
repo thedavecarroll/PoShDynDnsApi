@@ -78,11 +78,6 @@ function Invoke-DynDnsRequestDesktop {
             Write-Warning -Message 'No authentication token found. Please use Connect-DynDnsSession to obtain a new token.'
             return
         }
-        if (-Not $SkipSessionCheck) {
-            if (-Not (Test-DynDnsSession -Verbose:$false)) {
-                return
-            }
-        }
         $RestParams.Add('Uri',"$($DynDnsSession.ClientUrl)$UriPath")
         $RestParams.Add('Method',$Method)
         if ($Body -and $Method -match 'Post|Put') {
@@ -116,7 +111,7 @@ function Invoke-DynDnsRequestDesktop {
     }
 
     $Response = [PSCustomObject]@{
-        Method            = $RestParams.Method.ToUpper()
+        Method            = $RestParams.Method.ToString().ToUpper()
         Uri               = $RestParams.Uri
         StatusCode        = $DynDnsResponse.StatusCode
         StatusDescription = $DynDnsResponse.StatusDescription

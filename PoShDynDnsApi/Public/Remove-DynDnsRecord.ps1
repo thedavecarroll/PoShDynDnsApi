@@ -10,6 +10,10 @@ function Remove-DynDnsRecord {
 
     begin {
 
+        if (-Not (Test-DynDnsSession)) {
+            return
+        }
+
     }
 
     process {

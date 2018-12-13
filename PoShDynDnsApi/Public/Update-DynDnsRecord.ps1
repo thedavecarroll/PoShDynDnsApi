@@ -10,6 +10,10 @@ function Update-DynDnsRecord {
         [DynDnsRecord]$UpdatedDynDnsRecord
     )
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     if ($DynDnsRecord.GetType() -ne $UpdatedDynDnsRecord.GetType()) {
         Write-Warning -Message "The original record type does not match the updated record type."
         return

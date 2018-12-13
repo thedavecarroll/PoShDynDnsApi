@@ -10,6 +10,10 @@ function Publish-DynDnsZoneChanges {
         [switch]$Force
     )
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     $PendingZoneChanges = Get-DynDnsZoneChanges -Zone $Zone
     if ($PendingZoneChanges) {
         Write-Verbose -Message ($PendingZoneChanges | Out-String).Trim()

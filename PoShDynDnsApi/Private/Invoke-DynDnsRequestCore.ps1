@@ -56,22 +56,21 @@ function Invoke-DynDnsRequestCore {
             }
             'Send'          {
                 if ($DynDnsSession.AuthToken) {
+                    $HttpClient.DefaultRequestHeaders.Add('Auth-Token',$DynDnsSession.AuthToken)
                     $HttpRequest = [System.Net.Http.HttpRequestMessage]::new([System.Net.Http.HttpMethod]::Put,$UriPath)
                     $HttpRequest.Content = [System.Net.Http.StringContent]::new($EmptyBody, [System.Text.Encoding]::UTF8, 'application/json')
-                    $HttpClient.DefaultRequestHeaders.Add('Auth-Token',$DynDnsSession.AuthToken)
                 } else {
                     Write-Warning -Message 'No authentication token found. Please use Connect-DynDnsSession to obtain a new token.'
                     return
                 }
             }
             'Test'          {
+                $HttpRequest = [System.Net.Http.HttpRequestMessage]::new([System.Net.Http.HttpMethod]::Get,$UriPath)
+                $HttpRequest.Content = [System.Net.Http.StringContent]::new($EmptyBody, [System.Text.Encoding]::UTF8, 'application/json')
                 if ($DynDnsSession.AuthToken) {
                     $HttpClient.DefaultRequestHeaders.Add('Auth-Token',$DynDnsSession.AuthToken)
-                    $HttpRequest = [System.Net.Http.HttpRequestMessage]::new([System.Net.Http.HttpMethod]::Get,$UriPath)
-                    $HttpRequest.Content = [System.Net.Http.StringContent]::new($EmptyBody, [System.Text.Encoding]::UTF8, 'application/json')
                 } else {
                     Write-Verbose -Message 'No authentication token found.'
-                    return
                 }
             }
         }
@@ -81,11 +80,6 @@ function Invoke-DynDnsRequestCore {
         } else {
             Write-Warning -Message 'No authentication token found. Please use Connect-DynDnsSession to obtain a new token.'
             return
-        }
-        if (-Not $SkipSessionCheck) {
-            if (-Not (Test-DynDnsSession -Verbose:$false)) {
-                return
-            }
         }
 
         $HttpRequest = [System.Net.Http.HttpRequestMessage]::new($Method,$UriPath)

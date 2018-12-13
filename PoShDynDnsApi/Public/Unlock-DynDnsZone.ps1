@@ -8,6 +8,10 @@ function Unlock-DynDnsZone {
         [string]$Zone
     )
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     $JsonBody = @{
         thaw = $true
     } | ConvertTo-Json

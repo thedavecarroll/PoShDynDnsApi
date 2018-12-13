@@ -12,6 +12,10 @@ function Remove-DynDnsNode {
         [switch]$Force
     )
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     if ($Node) {
         if ($Node -match $Zone ) {
             $Fqdn = $Node

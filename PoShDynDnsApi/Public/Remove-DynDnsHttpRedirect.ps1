@@ -12,6 +12,10 @@ function Remove-DynDnsHttpRedirect {
 
     begin {
 
+        if (-Not (Test-DynDnsSession)) {
+            return
+        }
+
         $RemoveRedirectParams = @{}
 
         if ($PublishWait) {

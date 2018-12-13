@@ -23,6 +23,10 @@ function Add-DynDnsZone {
         [string]$ZoneFile
     )
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     $EmailRegex = '^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$'
 
     switch ($PsCmdlet.ParameterSetName) {

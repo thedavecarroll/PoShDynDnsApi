@@ -9,6 +9,10 @@ function Remove-DynDnsZone {
         [string]$Zone
     )
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     Write-Warning -Message 'Continuing will immediately delete the zone.'
 
     if ($PSCmdlet.ShouldProcess("$Zone",'Delete DNS zone and all its records')) {

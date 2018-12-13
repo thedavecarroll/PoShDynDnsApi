@@ -18,6 +18,10 @@ function Add-DynDnsHttpRedirect {
         [switch]$IncludeUri
     )
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     if ($Url -notmatch '^http://|^https://') {
         Write-Warning -Message "The URL provided does not begin with 'http://' or 'https://'."
         return

@@ -8,6 +8,10 @@ function Lock-DynDnsZone {
         [string]$Zone
     )
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     $JsonBody = @{
         freeze = $true
     } | ConvertTo-Json

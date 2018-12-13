@@ -6,6 +6,10 @@ function Get-DynDnsNodeList {
         [string]$Node
     )
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     if ($Node) {
         if ($Node -match $Zone ) {
             $Fqdn = $Node
