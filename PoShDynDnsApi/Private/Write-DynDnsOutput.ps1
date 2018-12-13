@@ -35,7 +35,7 @@ function Write-DynDnsOutput {
         $Arguments = $Arguments | ForEach-Object { $_.Replace('\','\\') | ConvertFrom-StringData }
     }
     $FilteredArguments = @{}
-    foreach ($Key in $Arguments.Keys) {
+    foreach ($Key in ($Arguments.Keys | Sort-Object -Unique)) {
         $FilteredArguments.Add($Key,$Arguments.$Key)
     }
 
