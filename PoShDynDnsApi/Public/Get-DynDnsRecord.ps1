@@ -8,6 +8,10 @@ function Get-DynDnsRecord {
         [string]$Node
     )
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     if ($Node) {
         if ($Node -match $Zone ) {
             $Fqdn = $Node
@@ -25,7 +29,7 @@ function Get-DynDnsRecord {
     }
 
     foreach ($UriPath in $Records.Data.data) {
-        $RecordData = Invoke-DynDnsRequest -UriPath $UriPath -SkipSessionCheck
+        $RecordData = Invoke-DynDnsRequest -UriPath $UriPath
         Write-DynDnsOutput -DynDnsResponse $RecordData
     }
 }

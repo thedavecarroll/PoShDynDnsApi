@@ -31,7 +31,7 @@ function Get-DynDnsHttpRedirect {
         Write-DynDnsOutput -DynDnsResponse $HttpRedirects
     } else {
         foreach ($UriPath in $HttpRedirects.Data.data) {
-            $RedirectData = Invoke-DynDnsRequest -UriPath $UriPath -SkipSessionCheck
+            $RedirectData = Invoke-DynDnsRequest -UriPath $UriPath
             Write-DynDnsOutput -DynDnsResponse $RedirectData
         }
     }

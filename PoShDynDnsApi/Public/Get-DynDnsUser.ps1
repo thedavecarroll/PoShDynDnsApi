@@ -11,6 +11,10 @@ function Get-DynDnsUser {
         $UriPath = "/REST/User/"
     }
 
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
+
     $Users = Invoke-DynDnsRequest -UriPath $UriPath
     Write-DynDnsOutput -DynDnsResponse $Users -SkipSuccess
     if ($Users.Data.status -eq 'failure') {
@@ -21,7 +25,7 @@ function Get-DynDnsUser {
         Write-DynDnsOutput -DynDnsResponse $Users
     } else {
         foreach ($UriPath in $Users.Data.data) {
-            $UserData = Invoke-DynDnsRequest -UriPath $UriPath -SkipSessionCheck
+            $UserData = Invoke-DynDnsRequest -UriPath $UriPath
             Write-DynDnsOutput -DynDnsResponse $UserData
         }
     }
