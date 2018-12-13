@@ -12,39 +12,31 @@ function Write-DynDnsOutput {
     }
 
     $Status = $JobId = $null
-    if ($DynDnsResponse | Get-Member -Name 'Data' -ErrorAction SilentlyContinue) {
-        if ($DynDnsResponse.Data | Get-Member -Name status) {
-            if ($null -ne $DynDnsResponse.Data.status) {
-                $Status = $DynDnsResponse.Data.status
-            }
-        }
-        if ($DynDnsResponse.Data | Get-Member -Name job_id) {
-            if ($null -ne $DynDnsResponse.Data.job_id) {
-                $JobId = $DynDnsResponse.Data.job_id
-            }
-        }
+    if ($null -ne $DynDnsResponse.Data.status) {
+        $Status = $DynDnsResponse.Data.status
+    }
+    if ($null -ne $DynDnsResponse.Data.job_id) {
+        $JobId = $DynDnsResponse.Data.job_id
     }
 
     $MyFunction = Get-PSCallStack | Where-Object {$_.Command -notmatch 'DynDnsRequest|DynDnsOutput|ScriptBlock'}
     if ($DynDnsResponse.Response.Uri -match 'Session') {
-        $Command = $MyFunction.Command | Where-Object {$_ -match 'DynDnsSession'}
+        $Command = $MyFunction.Command | Where-Object {$_ -match 'DynDnsSession'} | Select-Object -First 1
     } else {
         $MyFunction = $MyFunction | Select-Object -First 1
         $Command = $MyFunction.Command
-        if ($MyFunction.Arguments) {
-            $Arguments = $MyFunction.Arguments -Split ',' | ForEach-Object {
-                if ($_ -match '\w+=\S+\w+') { $matches[0] } } | Where-Object {
-                    $_ -notmatch 'Debug|Verbose|InformationAction|WarningAction|ErrorAction|Variable'
-                }
-            $Arguments = $Arguments | ForEach-Object { $_.Replace('\','\\') | ConvertFrom-StringData }
-        }
     }
 
+    if ($MyFunction.Arguments) {
+        $Arguments = $MyFunction.Arguments -Split ',' | Sort-Object -Unique | ForEach-Object {
+            if ($_ -match '\w+=\S+\w+') { $matches[0] } } | Where-Object {
+                $_ -notmatch 'User|Customer|Password|Debug|Verbose|InformationAction|WarningAction|ErrorAction|Variable|null'
+            }
+        $Arguments = $Arguments | ForEach-Object { $_.Replace('\','\\') | ConvertFrom-StringData }
+    }
     $FilteredArguments = @{}
     foreach ($Key in $Arguments.Keys) {
-        if ($Key -notmatch 'User|Customer|Password') {
-            $FilteredArguments.Add($Key,$Arguments.$Key)
-        }
+        $FilteredArguments.Add($Key,$Arguments.$Key)
     }
 
     $InformationOutput = [DynDnsHistory]::New(@{
