@@ -3,12 +3,16 @@ function Undo-DynDnsZoneChanges {
         SupportsShouldProcess=$true,
         ConfirmImpact='High'
     )]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseSingularNouns', Justification='Discards all pending zone changes')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseSingularNouns','Discards all pending zone changes')]
     param(
         [Parameter(Mandatory=$true)]
         [string]$Zone,
         [switch]$Force
     )
+
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
 
     $PendingZoneChanges = Get-DynDnsZoneChanges -Zone $Zone
     if ($PendingZoneChanges) {

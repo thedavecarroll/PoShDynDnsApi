@@ -1,6 +1,6 @@
 function Get-DynDnsZoneNotes {
     [CmdLetBinding()]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseSingularNouns', Justification='Retrieves zone notes')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseSingularNouns','Retrieves zone notes')]
     param(
         [Parameter(Mandatory=$true)]
         [string]$Zone,
@@ -9,6 +9,10 @@ function Get-DynDnsZoneNotes {
         [ValidateRange(0,1000)]
         [int]$Offset = 0
     )
+
+    if (-Not (Test-DynDnsSession)) {
+        return
+    }
 
     $JsonBody = @{
         zone = $Zone
