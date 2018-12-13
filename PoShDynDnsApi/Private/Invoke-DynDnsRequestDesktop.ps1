@@ -3,7 +3,7 @@ function Invoke-DynDnsRequestDesktop {
     param(
         [Parameter(ParameterSetName='Default')]
         [ValidateSet('Get','Post','Put','Delete')]
-        [System.Net.Http.HttpMethod]$Method='Get',
+        [Microsoft.PowerShell.Commands.WebRequestMethod]$Method='Get',
 
         [Parameter(ParameterSetName='Default')]
         [ValidateScript({$_ -match '^/REST/'})]
