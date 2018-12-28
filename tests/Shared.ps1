@@ -1,7 +1,7 @@
 # Dot source this script in any Pester test script that requires the module to be imported.
 
 $ModuleManifestName = 'PoShDynDnsApi.psd1'
-$ModuleManifestPath = "$PSScriptRoot\..\src\$ModuleManifestName"
+$ModuleManifestPath = "$VersionFolder\$ModuleManifestName"
 
 if (!$SuppressImportModule) {
     # -Scope Global is needed when running tests from inside of psake, otherwise
