@@ -1,3 +1,5 @@
+using module .\Classes\PoShDynDnsApi.Class.psm1
+
 #Requires -Version 5.1
 
 #region info
@@ -44,10 +46,10 @@ $ExecutionContext.SessionState.Module.OnRemove += $OnRemoveScript
 Register-EngineEvent -SourceIdentifier ([System.Management.Automation.PsEngineEvent]::Exiting) -Action $OnRemoveScript
 #endregion Handle Module Removal
 
-# dot source public and private function definition files, export publich functions
+#region dot source public and private function definition files, export publich functions
 try {
     foreach ($Scope in 'Public','Private') {
-        Get-ChildItem "$ScriptPath\$Scope" -Filter *.ps1 | ForEach-Object {
+        Get-ChildItem (Join-Path -Path $ScriptPath -ChildPath $Scope) -Filter *.ps1 | ForEach-Object {
             . $_.FullName
             if ($Scope -eq 'Public') {
                 Export-ModuleMember -Function $_.BaseName -ErrorAction Stop
@@ -59,6 +61,7 @@ catch {
     Write-Error ("{0}: {1}" -f $_.BaseName,$_.Exception.Message)
     exit 1
 }
+#endregion dot source public and private function definition files, export publich functions
 
 #region PSEdition detection
 if ($PSEdition -eq 'Core') {
@@ -66,10 +69,21 @@ if ($PSEdition -eq 'Core') {
 } else {
     Set-Alias -Name 'Invoke-DynDnsRequest' -Value 'Invoke-DynDnsRequestDesktop'
 }
-#endregion
+#endregion PSEdition detection
 
 #region load classes
-if (Test-Path -Path "$ScriptPath\Classes\$ModuleName.Class.ps1") {
-    . "$ScriptPath\Classes\$ModuleName.Class.ps1"
+
+<#
+$ClassPath = $ScriptPath + '\Classes\' + $ModuleName + '.Class.psm1'
+$scriptBody = "using module '$ClassPath'"
+$script = [ScriptBlock]::Create($scriptBody)
+. $script
+
+if (Test-Path -Path $ClassPath) {
+    . $ClassPath
 }
+
+#>
+
 #endregion
+
