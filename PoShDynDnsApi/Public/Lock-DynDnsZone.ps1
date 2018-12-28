@@ -16,7 +16,7 @@ function Lock-DynDnsZone {
         freeze = $true
     } | ConvertTo-Json
 
-    if ($PSCmdlet.ShouldProcess($Zone,"freeze zone")) {
+    if ($PSCmdlet.ShouldProcess($Zone,"Freeze zone")) {
         $LockZone = Invoke-DynDnsRequest -UriPath "/REST/Zone/$Zone" -Method Put -Body $JsonBody
         Write-DynDnsOutput -DynDnsResponse $LockZone
     } else {

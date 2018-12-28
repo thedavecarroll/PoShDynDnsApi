@@ -26,7 +26,7 @@ function Undo-DynDnsZoneChanges {
         }
     }
 
-    if ($PSCmdlet.ShouldProcess($Zone,"discard zone changes")) {
+    if ($PSCmdlet.ShouldProcess($Zone,"Discard zone changes")) {
         $UndoZoneChanges = Invoke-DynDnsRequest -UriPath "/REST/ZoneChanges/$Zone" -Method Delete
         Write-DynDnsOutput -DynDnsResponse $UndoZoneChanges
     } else {

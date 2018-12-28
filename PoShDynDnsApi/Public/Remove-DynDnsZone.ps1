@@ -19,6 +19,6 @@ function Remove-DynDnsZone {
         $DeleteZone = Invoke-DynDnsRequest -UriPath "/REST/Zone/$Zone" -Method Delete
         Write-DynDnsOutput -DynDnsResponse $DeleteZone
     } else {
-        Write-Verbose 'Whatif : Deleted DNZ zone and all its records'
+        Write-Verbose 'Whatif : Deleted DNS zone and all its records'
     }
 }

@@ -37,7 +37,7 @@ function Publish-DynDnsZoneChanges {
         notes = $BodyNotes
     } | ConvertTo-Json
 
-    if ($PSCmdlet.ShouldProcess($Zone,"publish zone changes")) {
+    if ($PSCmdlet.ShouldProcess($Zone,"Publish zone changes")) {
         $PublishZoneChanges = Invoke-DynDnsRequest -UriPath "/REST/Zone/$Zone" -Method Put -Body $JsonBody
         Write-Output ''
         Write-DynDnsOutput -DynDnsResponse $PublishZoneChanges
