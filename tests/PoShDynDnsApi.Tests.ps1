@@ -1,6 +1,6 @@
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '', Scope='*', Target='SuppressImportModule')]
 $SuppressImportModule = $true
-. $PSScriptRoot\Shared.ps1
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Shared.ps1')
 
 ''
 "    module manifest path: $ModuleManifestPath"
