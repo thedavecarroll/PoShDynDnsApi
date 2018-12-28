@@ -20,23 +20,34 @@ function Write-DynDnsOutput {
     }
 
     $MyFunction = Get-PSCallStack | Where-Object {$_.Command -notmatch 'DynDnsRequest|DynDnsOutput|ScriptBlock'}
-    if ($DynDnsResponse.Response.Uri -match 'Session') {
-        $Command = $MyFunction.Command | Where-Object {$_ -match 'DynDnsSession'} | Select-Object -First 1
-    } else {
-        $MyFunction = $MyFunction | Select-Object -First 1
-        $Command = $MyFunction.Command
-    }
 
     if ($MyFunction.Arguments) {
         $Arguments = $MyFunction.Arguments -Split ',' | Sort-Object -Unique | ForEach-Object {
             if ($_ -match '\w+=\S+\w+') { $matches[0] } } | Where-Object {
-                $_ -notmatch 'User|Customer|Password|Debug|Verbose|InformationAction|WarningAction|ErrorAction|Variable|null'
+                $_ -notmatch 'Debug|Verbose|InformationAction|WarningAction|ErrorAction|Variable|null'
             }
         $Arguments = $Arguments | ForEach-Object { $_.Replace('\','\\') | ConvertFrom-StringData }
     }
-    $FilteredArguments = @{}
-    foreach ($Key in ($Arguments.Keys | Sort-Object -Unique)) {
-        $FilteredArguments.Add($Key,$Arguments.$Key)
+
+    if ($DynDnsResponse.Response.Uri -match 'Session') {
+        $Command = $MyFunction.Command | Where-Object { $_ -match 'DynDnsSession' } | Select-Object -First 1
+        $FilteredArguments = @{}
+    } else {
+        $MyFunction = $MyFunction | Select-Object -First 1
+        $Command = $MyFunction.Command
+
+        if ($MyFunction.Arguments) {
+            $Arguments = $MyFunction.Arguments -Split ',' | Sort-Object -Unique | ForEach-Object {
+                if ($_ -match '\w+=\S+\w+') { $matches[0] } } | Where-Object {
+                    $_ -notmatch 'Debug|Verbose|InformationAction|WarningAction|ErrorAction|Variable'
+                }
+            $Arguments = $Arguments | ForEach-Object { $_.Replace('\','\\') | ConvertFrom-StringData }
+
+            $FilteredArguments = @{}
+            foreach ($Key in ($Arguments.Keys | Sort-Object -Unique)) {
+                $FilteredArguments.Add($Key,$Arguments.$Key.Replace('$null',''))
+            }
+        }
     }
 
     $InformationOutput = [DynDnsHistory]::New(@{
@@ -51,8 +62,12 @@ function Write-DynDnsOutput {
         Arguments = $FilteredArguments
     })
 
-    [void]$DynDnsHistory.Add($InformationOutput)
-    Write-Information -MessageData $InformationOutput
+    if ($InformationOutput.StatusCode) {
+        [void]$DynDnsHistory.Add($InformationOutput)
+        Write-Information -MessageData $InformationOutput
+    } else {
+        Write-Warning -Message 'No StatusCode returned.'
+    }
 
     switch ($Command) {
         'Add-DynDnsZone' {
