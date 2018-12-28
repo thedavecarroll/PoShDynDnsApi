@@ -23,7 +23,7 @@ if ($Bootstrap.IsPresent) {
         Install-Module -Name PSDepend -Repository PSGallery -Scope CurrentUser
     }
     Import-Module -Name PSDepend -Verbose:$false
-    Invoke-PSDepend -Path './requirements.psd1' -Install -Import -Force -WarningAction SilentlyContinue
+    Invoke-PSDepend -Path './Requirements.psd1' -Install -Import -Force -WarningAction SilentlyContinue
 }
 
 "`n" + ('-' * 70)
