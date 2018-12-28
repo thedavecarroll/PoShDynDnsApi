@@ -1,6 +1,6 @@
 function Get-DynDnsHistory {
     [CmdLetBinding(DefaultParameterSetName='Default')]
-    [OutputType([DynDnsHistory])]
+    [OutputType('DynDnsHistory')]
     param(
         [Parameter(ParameterSetName='Default')]
         [Parameter(ParameterSetName='Skip')]
