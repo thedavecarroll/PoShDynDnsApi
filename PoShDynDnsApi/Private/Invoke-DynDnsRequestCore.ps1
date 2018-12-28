@@ -71,6 +71,7 @@ function Invoke-DynDnsRequestCore {
                     $HttpClient.DefaultRequestHeaders.Add('Auth-Token',$DynDnsSession.AuthToken)
                 } else {
                     Write-Verbose -Message 'No authentication token found.'
+                    return
                 }
             }
         }
@@ -94,6 +95,10 @@ function Invoke-DynDnsRequestCore {
     $StopWatch = [System.Diagnostics.Stopwatch]::StartNew()
 
     $HttpResponseMessage = $HttpClient.SendAsync($HttpRequest)
+    if ($HttpResponseMessage.IsFaulted) {
+        $PsCmdlet.ThrowTerminatingError($HttpResponseMessage.Exception)
+    }
+
     $Result = $HttpResponseMessage.Result
     try {
         $Content = $Result.Content.ReadAsStringAsync().Result | ConvertFrom-Json
@@ -101,12 +106,13 @@ function Invoke-DynDnsRequestCore {
     catch {
         $Content = $null
     }
+
     $ElapsedTime = $StopWatch.Elapsed.TotalSeconds
     $StopWatch.Stop()
 
     $Response = [PSCustomObject]@{
-        Method            = $Method.ToString().ToUpper()
-        Uri               = $Result.RequestMessage.RequestUri.ToString()
+        Method            = $HttpRequest.Method.ToString()
+        Uri               = $HttpRequest.RequestUri.ToString()
         StatusCode        = $Result.StatusCode
         StatusDescription = $Result.ReasonPhrase
     }
