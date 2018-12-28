@@ -8,7 +8,7 @@ Properties {
     $PSVersion = $PSVersionTable.PSVersion.Major
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-    $TestResults = "TestResults_PS$PSVersion`_$TimeStamp.xml"
+    $TestResultsName = "TestResults_PS$PSVersion`_$TimeStamp.xml"
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
     $Line = "`n" + ('-' * 70)
@@ -140,18 +140,18 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
     }
 
     $Files = Get-ChildItem -Path $ModulePath -Recurse -Exclude '.gitignore' -File
-    $FileList = $Files.FullName | ForEach-Object { $_.Replace("$ModulePath\",'')}
+    $FileList = $Files.FullName | ForEach-Object { $_.Replace("$ModulePath$PathSeparator",'')}
 
-    $FunctionsToExport =  (Get-ChildItem -Path "$ModulePath\Public" -Recurse -File | ForEach-Object { $_.BaseName })
+    $FunctionsToExport =  (Get-ChildItem -Path (Join-Path -Path $ModulePath -ChildPath 'Public') -Recurse -File | ForEach-Object { $_.BaseName })
 
-    $Formats = "$ModulePath\TypeData\$ModuleName.Format.ps1xml"
+    $Formats = Join-Path -Path $ModulePath -ChildPath 'TypeData' | Join-Path -ChildPath "$ModuleName.Format.ps1xml"
     if (Test-Path -Path $Formats) {
-        $FormatsToProcess = $Formats.Replace("$ModulePath\",'')
+        $FormatsToProcess = $Formats.Replace("$ModulePath$PathSeparator",'')
     }
 
-    $TypeData = "$ModulePath\TypeData\$ModuleName.Types.ps1xml"
+    $TypeData = Join-Path -Path $ModulePath -ChildPath 'TypeData' | Join-Path -ChildPath "$ModuleName.Types.ps1xml"
     if (Test-Path -Path $TypeData) {
-        $TypesToProcess = $TypeData.Replace("$ModulePath\",'')
+        $TypesToProcess = $TypeData.Replace("$ModulePath$PathSeparator",'')
     }
 
     $UpdateManifestParams = @{}
@@ -212,8 +212,8 @@ Task Pester -Description 'Run Pester tests' -Depends Analyze {
 
     Remove-Module $env:BHProjectName -ErrorAction SilentlyContinue -Verbose:$false
     Import-Module (Join-Path -Path $VersionFolder -ChildPath "${env:BHProjectName}.psd1") -Force -Verbose:$false
-    $testResultsXml = Join-Path -Path $BuildOutput -ChildPath 'testResults.xml'
-    $testResults = Invoke-Pester -Path $Tests -PassThru -OutputFile $testResultsXml -OutputFormat NUnitXml
+    $TestResultsXml = Join-Path -Path $BuildOutput -ChildPath $TestResultsName
+    $TestResults = Invoke-Pester -Path $Tests -PassThru -OutputFile $TestResultsXml -OutputFormat NUnitXml
 
     <#
     # Upload test artifacts to AppVeyor
@@ -223,8 +223,8 @@ Task Pester -Description 'Run Pester tests' -Depends Analyze {
     }
     #>
 
-    if ($testResults.FailedCount -gt 0) {
-        $testResults | Format-List
+    if ($TestResults.FailedCount -gt 0) {
+        $TestResults | Format-List
         Write-Error -Message 'One or more Pester tests failed. Build cannot continue!'
     }
     Pop-Location
