@@ -58,7 +58,7 @@ Task Init -Description 'Initialize build environment' {
     "Version Folder:".PadRight(20) + $VersionFolder
     ''
     "Loading modules:"
-    'Configuration', 'Pester', 'platyPS', 'PSScriptAnalyzer' | Foreach-Object {
+    'Pester', 'platyPS', 'PSScriptAnalyzer' | Foreach-Object {
         "    $_"
         if (-not (Get-Module -Name $_ -ListAvailable -Verbose:$false -ErrorAction SilentlyContinue)) {
             Install-Module -Name $_ -Repository PSGallery -Scope CurrentUser -AllowClobber -Confirm:$false -ErrorAction Stop
@@ -91,14 +91,16 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
     $psm1 = Copy-Item -Path (Join-Path -Path $ModulePath -ChildPath "$env:BHProjectName.psm1") -Destination (Join-Path -Path $VersionFolder -ChildPath "$($ENV:BHProjectName).psm1") -PassThru
 
     # append psm1
+    '#region classes' | Add-Content -Path $psm1 -Encoding UTF8
     'Classes'| Foreach-Object {
         Write-Verbose -Message "Appending folder $_ to psm1..."
         Get-ChildItem -Path (Join-Path -Path $ModulePath -ChildPath $_) -Recurse -File |
             Get-Content -Raw | Add-Content -Path $psm1 -Encoding UTF8
     }
+    '#endregion classes' | Add-Content -Path $psm1 -Encoding UTF8
 
-    # copy classes, private functions, and public functions to build output version folder
-    'Classes','Private','Public' | ForEach-Object {
+    # copy private and public functions to build output version folder
+    'Private','Public' | ForEach-Object {
         Write-Verbose -Message "Copying folder $_ to BuildOutput..."
         $BuildFolderPath = Join-Path -Path $VersionFolder -ChildPath $_
         $FolderPath = Join-Path -Path $ModulePath -ChildPath $_
@@ -112,16 +114,20 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
     # copy psd1 to build version output folder
     Copy-Item -Path $psd1 -Destination $VersionFolder
 
-    <# copy classes to build version output folder
+    # copy classes to build version output folder
+    $NestedModules = @()
     if (Test-Path -Path $ClassPath) {
         $BuildClassPath = Join-Path -Path $VersionFolder -ChildPath 'Classes'
         $HasClasses = Get-ChildItem -Path $ClassPath -File
         if ($HasClasses) {
             $null = New-Item -Path $BuildClassPath -ItemType Directory
-            $HasClasses | ForEach-Object { Copy-Item -Path $_.FullName -Destination $BuildClassPath }
+            $HasClasses | ForEach-Object {
+                Copy-Item -Path $_.FullName -Destination $BuildClassPath
+                $BuildRelativePath = Join-Path -Path '.' -ChildPath 'Classes'
+                $NestedModules += Join-Path -Path $BuildRelativePath -ChildPath $_.Name.ToString()
+            }
         }
     }
-    #>
 
     # copy external help to build version output folder
     if (Test-Path -Path $ExternalHelpPath) {
@@ -153,9 +159,14 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
     if ($FunctionsToExport) { $UpdateManifestParams['FunctionsToExport'] = $FunctionsToExport }
     if ($FormatsToProcess)  { $UpdateManifestParams['FormatsToProcess'] = $FormatsToProcess }
     if ($TypesToProcess)    { $UpdateManifestParams['TypesToProcess'] = $TypesToProcess }
+    if ($NestedModules)     { $UpdateManifestParams['NestedModules'] = $NestedModules }
 
+    ''
+    '    Adding the following to module manifest:'
+    $UpdateManifestParams.Keys | ForEach-Object { "        $_"}
     Update-ModuleManifest -Path $psd1 @UpdateManifestParams
 
+    ''
     "    Created compiled module at [$VersionFolder]"
     $Line
 }
@@ -184,13 +195,14 @@ Task Analyze -Description 'Run PSScriptAnalyzer' -Depends Compile {
         Write-Warning -Message 'One or more Script Analyzer warnings were found. These should be corrected.'
         $AnalyzeWarnings | Format-Table
     }
+    $Line
 }
 
-Task Pester -Depends Analyze {
+Task Pester -Description 'Run Pester tests' -Depends Analyze {
     Push-Location
-    Set-Location -Path $VersionFolder -PassThru
+    Set-Location -Path $VersionFolder
     if(-not $ENV:BHProjectPath) {
-        Set-BuildEnvironment -Path $PSScriptRoot\..
+        Set-BuildEnvironment -Path (Join-Path -Path $PSScriptRoot -ChildPath '..') -Passthru
     }
 
     $origModulePath = $env:PSModulePath
@@ -198,16 +210,18 @@ Task Pester -Depends Analyze {
         $env:PSModulePath = ($BuildOutput + $pathSeperator + $origModulePath)
     }
 
-    Remove-Module $ENV:BHProjectName -ErrorAction SilentlyContinue -Verbose:$false
-    Import-Module -Name $VersionFolder -Force -Verbose:$false
+    Remove-Module $env:BHProjectName -ErrorAction SilentlyContinue -Verbose:$false
+    Import-Module (Join-Path -Path $VersionFolder -ChildPath "${env:BHProjectName}.psd1") -Force -Verbose:$false
     $testResultsXml = Join-Path -Path $BuildOutput -ChildPath 'testResults.xml'
-    $testResults = Invoke-Pester -Path $tests -PassThru -OutputFile $testResultsXml -OutputFormat NUnitXml
+    $testResults = Invoke-Pester -Path $Tests -PassThru -OutputFile $testResultsXml -OutputFormat NUnitXml
 
+    <#
     # Upload test artifacts to AppVeyor
     if ($env:APPVEYOR_JOB_ID) {
         $wc = New-Object 'System.Net.WebClient'
         $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $testResultsXml)
     }
+    #>
 
     if ($testResults.FailedCount -gt 0) {
         $testResults | Format-List
@@ -215,10 +229,13 @@ Task Pester -Depends Analyze {
     }
     Pop-Location
     $env:PSModulePath = $origModulePath
-} -Description 'Run Pester tests'
+
+    ''
+    $Line
+}
 
 
-Task Build -depends Compile, CreateMarkdownHelp, CreateExternalHelp {
+Task Build -Depends Compile, CreateMarkdownHelp, CreateExternalHelp {
     # External help
     $helpXml = New-ExternalHelp "$projectRoot\docs\reference\functions" -OutputPath (Join-Path -Path $VersionFolder -ChildPath 'en-US') -Force
     "    Module XML help created at [$helpXml]"
