@@ -1,5 +1,5 @@
 Properties {
-    $ProjectRoot = $ENV:BHProjectPath
+    $ProjectRoot = $env:BHProjectPath
     if(-not $ProjectRoot) {
         $ProjectRoot = $PSScriptRoot
     }
@@ -39,7 +39,7 @@ Properties {
     $ExternalHelpPath = Join-Path -Path $ModulePath -ChildPath 'en-US'
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-    $PathSeparator = [IO.Path]::PathSeparator
+    $PathSeparator = [IO.Path]::DirectorySeparatorChar
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
     $DotNetFramework = 'netstandard2.0'
