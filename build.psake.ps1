@@ -113,6 +113,7 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
 
     # copy psd1 to build version output folder
     Copy-Item -Path $psd1 -Destination $VersionFolder
+    $BuildManifest = Get-ChildItem -Path $VersionFolder -Include *.psd1 -Recurse | Select-Object -First 1 -ExpandProperty FullName
 
     # copy classes to build version output folder
     $NestedModules = @()
@@ -164,7 +165,7 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
     ''
     '    Adding the following to module manifest:'
     $UpdateManifestParams.Keys | ForEach-Object { "        $_"}
-    Update-ModuleManifest -Path $psd1 @UpdateManifestParams
+    Update-ModuleManifest -Path $BuildManifest @UpdateManifestParams
 
     ''
     "    Created compiled module at [$VersionFolder]"
