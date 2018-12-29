@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Initial CHANGELOG.
 - Provides several functions to interact with the Dyn Managed DNS REST API.
-- See [Release Notes](https://github.com/thedavecarroll/PoShDynDnsApi/blob/master/README.md) for full details.
+- See [README](https://github.com/thedavecarroll/PoShDynDnsApi/blob/master/README.md) for full details.
 
 [0.1.0]: https://github.com/thedavecarroll/PoShDynDnsApi
 
