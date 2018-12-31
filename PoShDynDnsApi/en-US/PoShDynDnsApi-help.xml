@@ -1697,10 +1697,6 @@ www3.anovelidea.org</dev:code>
         <maml:uri>https://powershell.anovelidea.org/modulehelp/PoShDynDnsApi/Get-DynDnsNodeList.html</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Add-DynDnsNode</maml:linkText>
-        <maml:uri>https://powershell.anovelidea.org/modulehelp/PoShDynDnsApi/Add-DynDnsNode.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
         <maml:linkText>Remove-DynDnsNode</maml:linkText>
         <maml:uri>https://powershell.anovelidea.org/modulehelp/PoShDynDnsApi/Remove-DynDnsNode.html</maml:uri>
       </maml:navigationLink>
@@ -3864,8 +3860,8 @@ Performing the operation "Delete node, child nodes, and all records" on target "
         <maml:uri>https://powershell.anovelidea.org/modulehelp/PoShDynDnsApi/Remove-DynDnsNode.html</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Get-DynDnsZoneList.</maml:linkText>
-        <maml:uri>https://powershell.anovelidea.org/modulehelp/PoShDynDnsApi/Get-DynDnsZoneList.html</maml:uri>
+        <maml:linkText>Get-DynDnsNodeList</maml:linkText>
+        <maml:uri>https://powershell.anovelidea.org/modulehelp/PoShDynDnsApi/Get-DynDnsNodeList.html</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Delete Zone Node (API)</maml:linkText>
