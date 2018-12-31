@@ -110,12 +110,12 @@ function Invoke-DynDnsRequestCore {
     $ElapsedTime = $StopWatch.Elapsed.TotalSeconds
     $StopWatch.Stop()
 
-    $Response = [PSCustomObject]@{
+    $Response = [DynDnsHttpResponse]::New([PSCustomObject]@{
         Method            = $HttpRequest.Method.ToString()
         Uri               = $HttpRequest.RequestUri.ToString()
         StatusCode        = $Result.StatusCode
         StatusDescription = $Result.ReasonPhrase
-    }
+    })
 
     [DynDnsRestResponse]::New(
         [PsCustomObject]@{

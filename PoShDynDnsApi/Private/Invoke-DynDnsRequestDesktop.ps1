@@ -110,12 +110,12 @@ function Invoke-DynDnsRequestDesktop {
         $Data = $null
     }
 
-    $Response = [PSCustomObject]@{
-        Method            = $RestParams.Method.ToString().ToUpper()
-        Uri               = $RestParams.Uri
-        StatusCode        = $DynDnsResponse.StatusCode
-        StatusDescription = $DynDnsResponse.StatusDescription
-    }
+    $Response = [DynDnsHttpResponse]::New([PSCustomObject]@{
+        Method            = $HttpRequest.Method.ToString()
+        Uri               = $HttpRequest.RequestUri.ToString()
+        StatusCode        = $Result.StatusCode
+        StatusDescription = $Result.ReasonPhrase
+    })
 
     [DynDnsRestResponse]::New(
         [PsCustomObject]@{

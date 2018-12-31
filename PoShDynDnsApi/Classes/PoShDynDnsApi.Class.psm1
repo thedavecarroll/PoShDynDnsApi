@@ -333,6 +333,21 @@ class DynDnsUser : DynDnsRawData {
     }
 }
 
+class DynDnsHttpResponse {
+    [string]$Method
+    [string]$Uri
+    [string]$StatusCode
+    [string]$StatusDescription
+
+    DynDnsHttpResponse () {}
+    DynDnsHttpResponse ([PsCustomObject]$DynDnsHttpResponse) {
+        $this.Method = $DynDnsHttpResponse.Method
+        $this.Uri = $DynDnsHttpResponse.Uri
+        $this.StatusCode = $DynDnsHttpResponse.StatusCode
+        $this.StatusDescription = $DynDnsHttpResponse.StatusDescription
+    }
+}
+
 class DynDnsRestResponse {
     [PSCustomObject]$Response
     [PSCustomObject]$Data
