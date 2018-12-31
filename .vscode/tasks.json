@@ -9,9 +9,9 @@
 {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
-	"version": "0.1.0",
+    "version": "0.1.0",
 
-	// Start PowerShell
+    // Start PowerShell
     "windows": {
         "command": "${env:windir}/System32/WindowsPowerShell/v1.0/powershell.exe",
         "args": [ "-NoProfile", "-ExecutionPolicy", "Bypass" ]
@@ -25,11 +25,11 @@
         "args": [ "-NoProfile" ]
     },
 
-	// The command is a shell script
-	"isShellCommand": true,
+    // The command is a shell script
+    "isShellCommand": true,
 
-	// Show the output window always
-	"showOutput": "always",
+    // Show the output window always
+    "showOutput": "always",
 
     // Associate with test task runner
     "tasks": [
@@ -116,5 +116,5 @@
                 }
             ]
         }
-	]
+    ]
 }
