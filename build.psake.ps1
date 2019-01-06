@@ -18,13 +18,14 @@ Properties {
     $BuildOutput = $env:BHBuildOutput
 
     $Manifest = Import-PowerShellDataFile -Path $env:BHPSModuleManifest
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
     $psd1 = $env:BHPSModuleManifest
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
     $VersionFolder = Join-Path -Path $BuildOutput -ChildPath $Manifest.ModuleVersion
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-    $Tests = Join-Path -Path $ProjectRoot -ChildPath 'Tests'
+    $TestsPath = Join-Path -Path $ProjectRoot -ChildPath 'Tests'
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
     $PrivateFunctionsPath = Join-Path -Path $ModulePath -ChildPath 'Private'
@@ -214,13 +215,13 @@ Task Pester -Description 'Run Pester tests' -Depends Analyze {
     Remove-Module $env:BHProjectName -ErrorAction SilentlyContinue -Verbose:$false
     Import-Module (Join-Path -Path $VersionFolder -ChildPath "${env:BHProjectName}.psd1") -Force -Verbose:$false
     $TestResultsXml = Join-Path -Path $BuildOutput -ChildPath $TestResultsName
-    $TestResults = Invoke-Pester -Path $Tests -PassThru -OutputFile $TestResultsXml -OutputFormat NUnitXml
+    $TestResults = Invoke-Pester -Path $TestsPath -PassThru -OutputFile $TestResultsXml -OutputFormat NUnitXml -Show Describe,Context,Failed,Summary
 
     <#
     # Upload test artifacts to AppVeyor
     if ($env:APPVEYOR_JOB_ID) {
         $wc = New-Object 'System.Net.WebClient'
-        $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $testResultsXml)
+        $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $TestResultsXml)
     }
     #>
 
