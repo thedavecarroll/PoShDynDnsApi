@@ -1,5 +1,3 @@
-using module .\Classes\PoShDynDnsApi.Class.psm1
-
 #Requires -Version 5.1
 
 #region info
@@ -70,20 +68,4 @@ if ($PSEdition -eq 'Core') {
     Set-Alias -Name 'Invoke-DynDnsRequest' -Value 'Invoke-DynDnsRequestDesktop'
 }
 #endregion PSEdition detection
-
-#region load classes
-
-<#
-$ClassPath = $ScriptPath + '\Classes\' + $ModuleName + '.Class.psm1'
-$scriptBody = "using module '$ClassPath'"
-$script = [ScriptBlock]::Create($scriptBody)
-. $script
-
-if (Test-Path -Path $ClassPath) {
-    . $ClassPath
-}
-
-#>
-
-#endregion
 
