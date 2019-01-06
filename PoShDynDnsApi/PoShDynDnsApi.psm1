@@ -16,7 +16,12 @@ Write-Verbose -Message "Loading module $ModuleName"
 #endregion discover module name
 
 #Set-StrictMode -Version Latest
-Add-Type -AssemblyName System.Net.Http
+try {
+    Add-Type -AssemblyName System.Net.Http -ErrorAction Stop
+}
+catch {
+    $PSCmdlet.ThrowTerminatingError($_)
+}
 
 #region load module variables
 Write-Verbose -Message "Creating modules variables"
