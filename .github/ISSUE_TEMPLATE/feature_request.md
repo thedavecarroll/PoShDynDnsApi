@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: Suggest an idea or new feature for this module
 title: "[New Feature]"
 labels: enhancement
 assignees: thedavecarroll
