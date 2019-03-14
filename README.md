@@ -27,11 +27,11 @@ The `Disconnect-DynDnsSession` command terminates an existing, valid session.
 
 ### Get-DynDnsSession
 
-The command `Get-DynDnsSession` retrieves information about the current session.
+The `Get-DynDnsSession` command retrieves information about the current session.
 
 ### Get-DynDnsHistory
 
-The command `Get-DynDnsHistory` shows the history of commands that have been sent in the current session.
+The `Get-DynDnsHistory` command shows the history of commands that have been sent in the current session.
 
 ## Zone Commands
 
@@ -45,7 +45,7 @@ The `Add-DynDnsZone` command creates a primary DNS zone in the customer's Dyn DN
 
 ### Get-DynDnsZone
 
-The command `Get-DynDnsZone` will return all zones associated with the customer, or the specified zone.
+The `Get-DynDnsZone` command will return all zones associated with the customer, or the specified zone.
 
 ### Get-DynDnsZoneNotes
 
@@ -57,7 +57,7 @@ The `Remove-DynDnsZone` command immediately deletes the primary DNS zone from th
 
 ### Get-DynDnsZoneChanges
 
-The command `Get-DynDnsZoneChanges` will retrieve all unpublished changes for the current session for the specified
+The `Get-DynDnsZoneChanges` command will retrieve all unpublished changes for the current session for the specified
 zone.
 
 ### Publish-DynDnsZoneChanges
@@ -84,15 +84,15 @@ or PTR. There is a command to create a new record object that can be used to add
 
 ### Get-DynDnsRecord
 
-The command `Get-DynDnsRecord` retrieves one or all records of the specified type from a specified zone/node.
+The `Get-DynDnsRecord` command retrieves one or all records of the specified type from a specified zone/node.
 
 ### New-DynDnsRecord
 
-The `New-DynDnsRecord` creates DNS record object of the specified type.
+The `New-DynDnsRecord` command creates DNS record object of the specified type.
 
 ### Add-DynDnsRecord
 
-Creates a new DNS record of the specified type at the indicated zone/node level.
+The `Add-DynDnsRecord` command creates a new DNS record of the specified type at the indicated zone/node level.
 
 ### Update-DynDnsRecord
 
@@ -100,7 +100,7 @@ The `Update-DynDnsRecord` command updates an existing DNS record in the specifie
 
 ### Remove-DynDnsRecord
 
-The command `Remove-DynDnsRecord` deletes one or all records of the specified type from a specified zone/node.
+The `Remove-DynDnsRecord` command deletes one or all records of the specified type from a specified zone/node.
 
 ## HttpRedirect Commands
 
@@ -108,15 +108,15 @@ Use the following commands to view, create, or delete an HTTP redirect service.
 
 ### Get-DynDnsHttpRedirect
 
-Retrieves one or all HTTP Redirect services on the zone/node indicated.
+The `Get-DynDnsHttpRedirect` command retrieves one or all HTTP Redirect services on the zone/node indicated.
 
 ### Add-DynDnsHttpRedirect
 
-The command `Add-DynDnsHttpRedirect` creates a new HTTP Redirect service on the zone/node indicated.
+The `Add-DynDnsHttpRedirect` command creates a new HTTP Redirect service on the zone/node indicated.
 
 ### Remove-DynDnsHttpRedirect
 
-The command `Remove-DynDnsHttpRedirect` deletes one or more existing HTTP Redirect services from the zone/node
+The `Remove-DynDnsHttpRedirect` command deletes one or more existing HTTP Redirect services from the zone/node
 indicated.
 
 ## Node Commands
@@ -129,7 +129,7 @@ The `Get-DynDnsNodeList` command retrieves a list of all node names at or below 
 
 ### Remove-DynDnsNode
 
-The command `Remove-DynDnsNode` removes the indicated node, any records within the node, and any nodes underneath
+The `Remove-DynDnsNode` command removes the indicated node, any records within the node, and any nodes underneath
 the node.
 
 ## Miscellaneous Commands
@@ -138,20 +138,22 @@ These commands will allow you to view users, jobs, or tasks.
 
 ### Get-DynDnsUser
 
-The command `Get-DynDnsUser` retrieves information on a specified user or for all users.
+The `Get-DynDnsUser` command retrieves information on a specified user or for all users.
 
 ### Get-DynDnsTask
 
-The command `Get-DynDnsTask` retrieves a list of all current DNS API tasks or a single pending API task based on the task ID.
+The `Get-DynDnsTask` command retrieves a list of all current DNS API tasks or a single pending API task based on the task ID.
 
 ### Get-DynDnsJob
 
-The command `Get-DynDnsJob` retrieves the result from a previous job.
+The `Get-DynDnsJob` command retrieves the result from a previous job.
 
 ## More Information
 
 Please check out the following links for more information on the Dyn Managed DNS REST API.
 
+* [Managed DNS Master Topics List](https://help.dyn.com/managed-dns-master-topics-list/)
+* [Dyn Community Traffic Management Forum](https://www.dyncommunity.com/spaces/41/traffic-management.html)
 * [DNS API Quick-Start Guide](https://help.dyn.com/dns-api-guide/)
 * [Understanding How The API Works](https://help.dyn.com/understanding-works-api/)
 * [REST Resources](https://help.dyn.com/rest-resources/)
