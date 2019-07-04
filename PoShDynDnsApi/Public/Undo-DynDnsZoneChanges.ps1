@@ -16,7 +16,7 @@ function Undo-DynDnsZoneChanges {
 
     $PendingZoneChanges = Get-DynDnsZoneChanges -Zone $Zone
     if ($PendingZoneChanges) {
-        Write-Output $PendingZoneChanges
+        $PendingZoneChanges
     } else {
         Write-Warning -Message 'There are no pending zone changes.'
         if (-Not $Force) {

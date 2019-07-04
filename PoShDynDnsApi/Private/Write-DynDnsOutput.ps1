@@ -72,12 +72,12 @@ function Write-DynDnsOutput {
     switch ($Command) {
         'Add-DynDnsZone' {
             foreach ($Info in $Message.INFO) {
-                Write-Output ($Info -Split (':',2))[1].Trim()
+                ($Info -Split (':',2))[1].Trim()
             }
         }
         'Publish-DynDnsZoneChanges' {
             if ($DynDnsResponse.Data.msgs.INFO -match 'Missing SOA record' ) {
-                Write-Output "The attempt to import $($DynDnsResponse.Response.Uri.Split('/')[-1]) has failed. Please delete the zone and reattempt the import after fixing errors."
+                'The attempt to import {0} has failed. Please delete the zone and reattempt the import after fixing errors.' -f $DynDnsResponse.Response.Uri.Split('/')[-1]
             }
         }
     }

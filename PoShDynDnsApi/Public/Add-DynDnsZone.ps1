@@ -52,10 +52,10 @@ function Add-DynDnsZone {
 
     if ($PSCmdlet.ShouldProcess("$Zone","Create DNS zone by $($PsCmdlet.ParameterSetName) method")) {
         $NewZone = Invoke-DynDnsRequest -UriPath $UriPath -Method Post -Body $JsonBody
-        Write-Output ''
+        ''
         Write-DynDnsOutput -DynDnsResponse $NewZone
         if ($NewZone.Data.Status -eq 'success') {
-            Write-Output 'Note: Be sure to use the function Publish-DynDnsZoneChanges with the -Force switch in order publish the domain.'
+            'Note: Be sure to use the function Publish-DynDnsZoneChanges with the -Force switch in order publish the domain.'
         }
     } else {
         Write-Verbose 'Whatif : Created new zone'

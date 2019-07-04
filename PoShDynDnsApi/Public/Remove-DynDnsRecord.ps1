@@ -25,7 +25,7 @@ function Remove-DynDnsRecord {
             $RecordType = $Record.RawData.record_type
             $RecordId = $Record.RecordId
 
-            Write-Output $Record
+            $Record
 
             if ($PSCmdlet.ShouldProcess("$Fqdn","Delete DNS $RecordType record")) {
                 $RemoveRedirect = Invoke-DynDnsRequest -UriPath "/REST/$($RecordType)Record/$Zone/$Fqdn/$RecordId" -Method Delete

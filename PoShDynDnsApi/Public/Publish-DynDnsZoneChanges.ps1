@@ -39,7 +39,7 @@ function Publish-DynDnsZoneChanges {
 
     if ($PSCmdlet.ShouldProcess($Zone,"Publish zone changes")) {
         $PublishZoneChanges = Invoke-DynDnsRequest -UriPath "/REST/Zone/$Zone" -Method Put -Body $JsonBody
-        Write-Output ''
+        ''
         Write-DynDnsOutput -DynDnsResponse $PublishZoneChanges
     } else {
         Write-Verbose 'Whatif : Published zone changes'

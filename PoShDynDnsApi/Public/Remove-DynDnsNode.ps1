@@ -63,7 +63,7 @@ function Remove-DynDnsNode {
             }
             $Message += "`n" + ('-' * 80) + "`n"
             $Message += "`n"
-            Write-Output $Message
+            $Message
         }
     }
 
