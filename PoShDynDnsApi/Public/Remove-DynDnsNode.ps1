@@ -31,6 +31,10 @@ function Remove-DynDnsNode {
         return
     }
 
+    if ($null -eq (Get-DynDnsZone -Zone $Zone)) {
+        return
+    }
+
     $ZoneRecords = Get-DynDnsRecord -Zone $Zone -Node $Node -RecordType All
     $HttpRedirects = Get-DynDnsHttpRedirect -Zone $Zone -Node $Node
 
