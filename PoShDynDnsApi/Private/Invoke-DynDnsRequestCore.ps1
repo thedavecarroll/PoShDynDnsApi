@@ -109,6 +109,7 @@ function Invoke-DynDnsRequestCore {
 
     $Response = [DynDnsHttpResponse]::New([PSCustomObject]@{
         Method            = $HttpRequest.Method.ToString()
+        Body              = $Body
         Uri               = $HttpRequest.RequestUri.ToString()
         StatusCode        = $Result.StatusCode
         StatusDescription = $Result.ReasonPhrase

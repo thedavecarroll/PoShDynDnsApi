@@ -167,6 +167,7 @@ class DynDnsHistory {
     [string]$Status
     [string]$JobId
     [string]$Method
+    [string]$Body
     [string]$Uri
     [string]$StatusCode
     [string]$StatusDescription
@@ -180,6 +181,7 @@ class DynDnsHistory {
         $this.Status = $DynDnsHistory.Status
         $this.JobId = $DynDnsHistory.JobId
         $this.Method = $DynDnsHistory.Method
+        $this.Body = $DynDnsHistory.Body
         $this.Uri = $DynDnsHistory.Uri
         $this.StatusCode = $DynDnsHistory.StatusCode
         $this.StatusDescription = $DynDnsHistory.StatusDescription
@@ -335,6 +337,7 @@ class DynDnsUser : DynDnsRawData {
 
 class DynDnsHttpResponse {
     [string]$Method
+    [string]$Body
     [string]$Uri
     [string]$StatusCode
     [string]$StatusDescription
@@ -342,6 +345,7 @@ class DynDnsHttpResponse {
     DynDnsHttpResponse () {}
     DynDnsHttpResponse ([PsCustomObject]$DynDnsHttpResponse) {
         $this.Method = $DynDnsHttpResponse.Method
+        $this.Body = $DynDnsHttpResponse.Body
         $this.Uri = $DynDnsHttpResponse.Uri
         $this.StatusCode = $DynDnsHttpResponse.StatusCode
         $this.StatusDescription = $DynDnsHttpResponse.StatusDescription

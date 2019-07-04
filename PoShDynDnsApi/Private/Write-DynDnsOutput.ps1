@@ -56,6 +56,7 @@ function Write-DynDnsOutput {
         JobId = $JobId
         Method = $DynDnsResponse.Response.Method
         Uri = $DynDnsResponse.Response.Uri
+        Body = $DynDnsResponse.Response.Body
         StatusCode = $DynDnsResponse.Response.StatusCode
         StatusDescription = $DynDnsResponse.Response.StatusDescription
         ElapsedTime = "{0:N3}" -f $DynDnsResponse.ElapsedTime

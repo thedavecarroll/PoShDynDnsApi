@@ -112,6 +112,7 @@ function Invoke-DynDnsRequestDesktop {
 
     $Response = [DynDnsHttpResponse]::New([PSCustomObject]@{
         Method            = $RestParams.Method.ToString()
+        Body              = $Body
         Uri               = $RestParams.Uri.ToString()
         StatusCode        = $DynDnsResponse.StatusCode
         StatusDescription = $DynDnsResponse.ReasonPhrase
