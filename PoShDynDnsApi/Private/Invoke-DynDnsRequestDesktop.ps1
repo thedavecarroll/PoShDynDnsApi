@@ -117,6 +117,10 @@ function Invoke-DynDnsRequestDesktop {
         StatusDescription = $DynDnsResponse.ReasonPhrase
     })
 
+    if ($Data.status -eq 'success') {
+        $DynDnsSession.RefreshTime = [System.DateTime]::Now
+    }
+
     [DynDnsRestResponse]::New(
         [PsCustomObject]@{
             Response    = $Response

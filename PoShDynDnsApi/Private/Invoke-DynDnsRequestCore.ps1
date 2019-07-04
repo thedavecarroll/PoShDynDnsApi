@@ -93,12 +93,10 @@ function Invoke-DynDnsRequestCore {
     }
 
     $StopWatch = [System.Diagnostics.Stopwatch]::StartNew()
-
     $HttpResponseMessage = $HttpClient.SendAsync($HttpRequest)
     if ($HttpResponseMessage.IsFaulted) {
         $PsCmdlet.ThrowTerminatingError($HttpResponseMessage.Exception)
     }
-
     $Result = $HttpResponseMessage.Result
     try {
         $Content = $Result.Content.ReadAsStringAsync().Result | ConvertFrom-Json
@@ -106,7 +104,6 @@ function Invoke-DynDnsRequestCore {
     catch {
         $Content = $null
     }
-
     $ElapsedTime = $StopWatch.Elapsed.TotalSeconds
     $StopWatch.Stop()
 
@@ -116,6 +113,10 @@ function Invoke-DynDnsRequestCore {
         StatusCode        = $Result.StatusCode
         StatusDescription = $Result.ReasonPhrase
     })
+
+    if ($Content.status -eq 'success') {
+        $DynDnsSession.RefreshTime = [System.DateTime]::Now
+    }
 
     [DynDnsRestResponse]::New(
         [PsCustomObject]@{
