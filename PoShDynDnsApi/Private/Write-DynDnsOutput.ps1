@@ -63,7 +63,7 @@ function Write-DynDnsOutput {
     })
 
     if ($InformationOutput.StatusCode) {
-        [void]$DynDnsHistory.Add($InformationOutput)
+        $DynDnsHistoryList.Add($InformationOutput)
         Write-Information -MessageData $InformationOutput
     } else {
         Write-Warning -Message 'No StatusCode returned.'

@@ -38,7 +38,7 @@ $DynDnsSession = [ordered]@{
 }
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-$DynDnsHistory = New-Object System.Collections.ArrayList
+$DynDnsHistoryList = [System.Collections.Generic.List[object]]::new()
 #endregion load module variables
 
 #region Handle Module Removal

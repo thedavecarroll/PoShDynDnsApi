@@ -30,5 +30,5 @@ function Get-DynDnsHistory {
         $DynDnsHistoryParms.Add('SkipLast',$SkipLast)
     }
 
-    $DynDnsHistory | Select-Object @DynDnsHistoryParms
+    $DynDnsHistoryList | Select-Object @DynDnsHistoryParms
 }
