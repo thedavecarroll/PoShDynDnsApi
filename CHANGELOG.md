@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [8] Remove Write-Output
 - [7] RefreshTime not updated by standard calls
 - [6] Remove-DynDnsNode continues even if zone does not exist
+- [3] Remove-DynDnsHttpRedirect Does Not Honor Publishwait
 - [2] Rewrite Invoke-DynDnsRequest for Cross-Platform/Edition Capability
   - Note: This functionality was actually in release 0.1.0.
 
@@ -33,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [8]: https://github.com/thedavecarroll/PoShDynDnsApi/issues/8
 [7]: https://github.com/thedavecarroll/PoShDynDnsApi/issues/7
 [6]: https://github.com/thedavecarroll/PoShDynDnsApi/issues/6
+[3]: https://github.com/thedavecarroll/PoShDynDnsApi/issues/3
 [2]: https://github.com/thedavecarroll/PoShDynDnsApi/issues/2
 [0.1.0]: https://github.com/thedavecarroll/PoShDynDnsApi/tree/589ca85b4db038c6ef167660365dbfeca0215f5e
 

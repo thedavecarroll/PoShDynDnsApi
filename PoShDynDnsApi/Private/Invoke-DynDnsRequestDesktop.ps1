@@ -80,7 +80,7 @@ function Invoke-DynDnsRequestDesktop {
         }
         $RestParams.Add('Uri',"$($DynDnsSession.ClientUrl)$UriPath")
         $RestParams.Add('Method',$Method)
-        if ($Body -and $Method -match 'Post|Put') {
+        if ($Body -and $Method -match 'Post|Put|Delete') {
             $RestParams.Add('Body',$Body)
         }
     }

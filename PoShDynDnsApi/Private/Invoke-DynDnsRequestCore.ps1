@@ -84,7 +84,7 @@ function Invoke-DynDnsRequestCore {
         }
 
         $HttpRequest = [System.Net.Http.HttpRequestMessage]::new($Method,$UriPath)
-        if ($Body -and $Method -match 'Post|Put') {
+        if ($Body -and $Method -match 'Post|Put|Delete') {
             $HttpRequest.Content = [System.Net.Http.StringContent]::new($Body, [System.Text.Encoding]::UTF8, 'application/json')
         } else {
             $HttpRequest.Content = [System.Net.Http.StringContent]::new($EmptyBody, [System.Text.Encoding]::UTF8, 'application/json')
