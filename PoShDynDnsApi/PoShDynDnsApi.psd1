@@ -12,7 +12,7 @@
 RootModule = 'PoShDynDnsApi.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.1.0'
+ModuleVersion = '0.1.1'
 
 # Supported PSEditions
 CompatiblePSEditions = 'Desktop', 'Core'
@@ -27,7 +27,7 @@ Author = 'Dave Carroll'
 CompanyName = 'NA'
 
 # Copyright statement for this module
-Copyright = '(c) 2018 Dave Carroll. All rights reserved.'
+Copyright = '(c) 2018-2019 Dave Carroll. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'PowerShell module used to interact with Dyn Managed DNS REST API'
@@ -97,8 +97,7 @@ FunctionsToExport = 'Add-DynDnsHttpRedirect', 'Add-DynDnsRecord', 'Add-DynDnsZon
 # ModuleList = @()
 
 # List of all files packaged with this module
-FileList = 'Classes\PoShDynDnsApi.Class.psm1',
-               'en-US\about_PoShDynDnsApi.help.txt',
+FileList = 'en-US\about_PoShDynDnsApi.help.txt',
                'en-US\PoShDynDnsApi-help.xml',
                'Private\Compare-ObjectProperties.ps1',
                'Private\Invoke-DynDnsRequestCore.ps1',

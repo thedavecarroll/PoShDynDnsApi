@@ -39,26 +39,25 @@ Use the following commands to create a zone by providing required parameters or 
 view the zone record. You can also remove a zone. You can view pending changes and publish them or discard them. And
 you can view the publish notes. Additionally, you can freeze or thaw the zone.
 
-### Add-DynDnsZone
-
-The `Add-DynDnsZone` command creates a primary DNS zone in the customer's Dyn DNS Managed account.
-
 ### Get-DynDnsZone
 
 The `Get-DynDnsZone` command will return all zones associated with the customer, or the specified zone.
 
-### Get-DynDnsZoneNotes
+### Add-DynDnsZone
 
-The `Get-DynDnsZoneNotes` command generates a report containing the Zone Notes for the specified zone.
+The `Add-DynDnsZone` command creates a primary DNS zone in the customer's Dyn DNS Managed account.
 
 ### Remove-DynDnsZone
 
 The `Remove-DynDnsZone` command immediately deletes the primary DNS zone from the customer's Dyn DNS Managed account.
 
+### Get-DynDnsZoneNotes
+
+The `Get-DynDnsZoneNotes` command generates a report containing the Zone Notes for the specified zone.
+
 ### Get-DynDnsZoneChanges
 
-The `Get-DynDnsZoneChanges` command will retrieve all unpublished changes for the current session for the specified
-zone.
+The `Get-DynDnsZoneChanges` command will retrieve all unpublished changes for the current session for the specified zone.
 
 ### Publish-DynDnsZoneChanges
 
@@ -116,8 +115,7 @@ The `Add-DynDnsHttpRedirect` command creates a new HTTP Redirect service on the 
 
 ### Remove-DynDnsHttpRedirect
 
-The `Remove-DynDnsHttpRedirect` command deletes one or more existing HTTP Redirect services from the zone/node
-indicated.
+The `Remove-DynDnsHttpRedirect` command deletes one or more existing HTTP Redirect services from the zone/node indicated.
 
 ## Node Commands
 
@@ -129,8 +127,7 @@ The `Get-DynDnsNodeList` command retrieves a list of all node names at or below 
 
 ### Remove-DynDnsNode
 
-The `Remove-DynDnsNode` command removes the indicated node, any records within the node, and any nodes underneath
-the node.
+The `Remove-DynDnsNode` command removes the indicated node, any records within the node, and any nodes underneath the node.
 
 ## Miscellaneous Commands
 

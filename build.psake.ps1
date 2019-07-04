@@ -15,7 +15,7 @@ Properties {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
     $ModulePath = $env:BHModulePath
-    $BuildOutput = $env:BHBuildOutput
+    $BuildOutput = Join-Path -Path $env:BHBuildOutput -ChildPath $env:BHProjectName
 
     $Manifest = Import-PowerShellDataFile -Path $env:BHPSModuleManifest
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
@@ -93,12 +93,13 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
 
     # append psm1
     '#region classes' | Add-Content -Path $psm1 -Encoding UTF8
-    'Classes'| Foreach-Object {
-        Write-Verbose -Message "Appending folder $_ to psm1..."
-        Get-ChildItem -Path (Join-Path -Path $ModulePath -ChildPath $_) -Recurse -File |
-            Get-Content -Raw | Add-Content -Path $psm1 -Encoding UTF8
-    }
+    Write-Verbose -Message "Appending folder $_ to psm1..."
+    Get-ChildItem -Path (Join-Path -Path $ModulePath -ChildPath 'Classes') -Recurse -File |
+        Get-Content -Raw | Add-Content -Path $psm1 -Encoding UTF8
     '#endregion classes' | Add-Content -Path $psm1 -Encoding UTF8
+
+    # copy LICENSE, README.md, and CHANGELOG.md file
+
 
     # copy private and public functions to build output version folder
     'Private','Public' | ForEach-Object {
@@ -116,21 +117,6 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
     Copy-Item -Path $psd1 -Destination $VersionFolder
     $BuildManifest = Get-ChildItem -Path $VersionFolder -Include *.psd1 -Recurse | Select-Object -First 1 -ExpandProperty FullName
 
-    # copy classes to build version output folder
-    $NestedModules = @()
-    if (Test-Path -Path $ClassPath) {
-        $BuildClassPath = Join-Path -Path $VersionFolder -ChildPath 'Classes'
-        $HasClasses = Get-ChildItem -Path $ClassPath -File
-        if ($HasClasses) {
-            $null = New-Item -Path $BuildClassPath -ItemType Directory
-            $HasClasses | ForEach-Object {
-                Copy-Item -Path $_.FullName -Destination $BuildClassPath
-                $BuildRelativePath = Join-Path -Path '.' -ChildPath 'Classes'
-                $NestedModules += Join-Path -Path $BuildRelativePath -ChildPath $_.Name.ToString()
-            }
-        }
-    }
-
     # copy external help to build version output folder
     if (Test-Path -Path $ExternalHelpPath) {
         $BuildExternalHelpPath = Join-Path -Path $VersionFolder -ChildPath 'en-US'
@@ -141,7 +127,7 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
         }
     }
 
-    $Files = Get-ChildItem -Path $ModulePath -Recurse -Exclude '.gitignore' -File
+    $Files = Get-ChildItem -Path $ModulePath -Recurse -Exclude '.gitignore','*.Class.ps1' -File
     $FileList = $Files.FullName | ForEach-Object { $_.Replace("$ModulePath$PathSeparator",'')}
 
     $FunctionsToExport =  (Get-ChildItem -Path (Join-Path -Path $ModulePath -ChildPath 'Public') -Recurse -File | ForEach-Object { $_.BaseName })
@@ -161,7 +147,6 @@ Task Compile -Depends Clean -Description 'Compiles module from source' {
     if ($FunctionsToExport) { $UpdateManifestParams['FunctionsToExport'] = $FunctionsToExport }
     if ($FormatsToProcess)  { $UpdateManifestParams['FormatsToProcess'] = $FormatsToProcess }
     if ($TypesToProcess)    { $UpdateManifestParams['TypesToProcess'] = $TypesToProcess }
-    if ($NestedModules)     { $UpdateManifestParams['NestedModules'] = $NestedModules }
 
     ''
     '    Adding the following to module manifest:'
