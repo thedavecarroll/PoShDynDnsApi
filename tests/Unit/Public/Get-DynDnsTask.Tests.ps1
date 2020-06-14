@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Public' -Name 'Get-DynDnsTask' {
+Describe -Name 'Get-DynDnsTask' -Tag 'Unit','Public' {
 
     InModuleScope 'PoShDynDnsApi' {
 

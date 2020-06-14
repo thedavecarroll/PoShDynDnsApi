@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Public' -Name 'Add-DynDnsRecord' {
+Describe -Name 'Add-DynDnsRecord' -Tag 'Unit','Public' {
 
     InModuleScope 'PoShDynDnsApi' {
 

@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Private' -Name 'Invoke-DynDnsRequestCore' {
+Describe -Name 'Invoke-DynDnsRequestCore' -Tag 'Unit','Private' {
 
     InModuleScope 'PoShDynDnsApi' {
 

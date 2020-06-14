@@ -15,7 +15,7 @@ Describe 'Text files formatting' {
     Context 'Files encoding' {
         It "Doesn't use Unicode encoding" {
             $unicodeFilesCount = 0
-            $allTextFiles | %{
+            $allTextFiles | ForEach-Object {
                 if (Test-FileUnicode $_) {
                     $unicodeFilesCount += 1
                     Write-Warning "File $($_.FullName) contains 0x00 bytes. It's probably uses Unicode and need to be converted to UTF-8. Use Fixer 'Get-UnicodeFilesList `$pwd | ConvertTo-UTF8'."
@@ -28,7 +28,7 @@ Describe 'Text files formatting' {
     Context 'Indentations' {
         It 'Uses spaces for indentation, not tabs' {
             $totalTabsCount = 0
-            $allTextFiles | %{
+            $allTextFiles | ForEach-Object {
                 $fileName = $_.FullName
                 (Get-Content $_.FullName -Raw) | Select-String "`t" | % {
                     Write-Warning "There are tab in $fileName. Use Fixer 'Get-TextFilesList `$pwd | ConvertTo-SpaceIndentation'."

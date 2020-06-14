@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Public' -Name 'Undo-DynDnsZoneChanges' {
+Describe -Name 'Undo-DynDnsZoneChanges' -Tag 'Unit','Public' {
 
     InModuleScope 'PoShDynDnsApi' {
 

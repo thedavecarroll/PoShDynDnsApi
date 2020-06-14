@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Public' -Name 'Remove-DynDnsNode' {
+Describe -Name 'Remove-DynDnsNode' -Tag 'Unit','Public' {
 
     InModuleScope 'PoShDynDnsApi' {
 

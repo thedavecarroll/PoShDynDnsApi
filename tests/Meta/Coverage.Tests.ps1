@@ -4,7 +4,8 @@
 $PublicFunctions = Get-ChildItem -Path $sut\Public -File -Exclude '*.tests.ps1' -Recurse
 $PrivateFunctions = Get-ChildItem -Path $sut\Private -File -Exclude '*.tests.ps1' -Recurse
 
-Describe 'Function Unit Test Coverage' {
+Describe -Name 'Function Unit Test Coverage' -Tag 'Coverage' {
+
     Context 'Public' {
         foreach ($Function in $PublicFunctions) {
             $BaseName = $Function.BaseName

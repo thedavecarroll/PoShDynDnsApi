@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Private' -Name 'Compare-ObjectProperties' {
+Describe -Name 'Compare-ObjectProperties' -Tag 'Unit','Private' {
 
     InModuleScope 'PoShDynDnsApi' {
 

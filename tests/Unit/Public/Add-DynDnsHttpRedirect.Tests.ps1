@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Public' -Name 'Add-DynDnsHttpRedirect' {
+Describe -Name 'Add-DynDnsHttpRedirect' -Tag 'Unit','Public' {
 
     InModuleScope 'PoShDynDnsApi' {
 

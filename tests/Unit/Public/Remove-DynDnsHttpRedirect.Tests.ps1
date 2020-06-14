@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Public' -Name 'Remove-DynDnsHttpRedirect' {
+Describe -Name 'Remove-DynDnsHttpRedirect' -Tag 'Unit','Public' {
 
     InModuleScope 'PoShDynDnsApi' {
 

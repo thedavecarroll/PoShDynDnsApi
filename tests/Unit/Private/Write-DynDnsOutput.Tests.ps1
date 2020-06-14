@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Private' -Name 'Write-DynDnsOutput' {
+Describe -Name 'Write-DynDnsOutput' -Tag 'Unit','Private' {
 
     InModuleScope 'PoShDynDnsApi' {
 

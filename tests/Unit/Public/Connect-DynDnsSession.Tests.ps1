@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Public' -Name 'Connect-DynDnsSession' {
+Describe -Name 'Connect-DynDnsSession' -Tag 'Unit','Public' {
 
     InModuleScope 'PoShDynDnsApi' {
 

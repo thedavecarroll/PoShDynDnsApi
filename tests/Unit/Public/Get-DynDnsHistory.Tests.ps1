@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Public' -Name 'Get-DynDnsHistory' {
+Describe -Name 'Get-DynDnsHistory' -Tag 'Unit','Public' {
 
     InModuleScope 'PoShDynDnsApi' {
 

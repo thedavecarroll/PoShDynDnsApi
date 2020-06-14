@@ -1,5 +1,5 @@
 ﻿
-Describe -Tag 'Unit','Public' -Name 'Disconnect-DynDnsSession' {
+Describe -Name 'Disconnect-DynDnsSession' -Tag 'Unit','Public' {
 
     InModuleScope 'PoShDynDnsApi' {
 

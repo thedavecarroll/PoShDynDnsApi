@@ -18,7 +18,7 @@ foreach ($command in $commands) {
     # The module-qualified command fails on Microsoft.PowerShell.Archive cmdlets
     $help = Get-Help $commandName -ErrorAction SilentlyContinue
 
-    Describe "Test help for $commandName" {
+    Describe -Name "Test help for $commandName" -Tag 'Help' {
 
         # If help is not found, synopsis in auto-generated help is the syntax diagram
         It "should not be auto-generated" {
@@ -109,7 +109,7 @@ foreach ($command in $commands) {
             foreach ($link in $links) {
                 if ($link) {
                     # Should have a valid uri if one is provided.
-                    it "[$link] should have 200 Status Code for $commandName" {
+                    It "[$link] should have 200 Status Code for $commandName" {
                         $Results = Invoke-WebRequest -Uri $link -UseBasicParsing
                         $Results.StatusCode | Should Be '200'
                     }
