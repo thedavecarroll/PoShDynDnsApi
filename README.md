@@ -4,6 +4,12 @@
 
 For online help, please visit the [module help site](https://powershell.anovelidea.org/modulehelp/PoShDynDnsApi/).
 
+## Special Notice
+
+Due to the [announcement by Oracle](https://www.oracle.com/corporate/acquisitions/dyn/technologies/enterprise-customer-faq.html) for the sunset of Dyn Managed DNS on May 31, 2022, no new features will be added to this module.
+
+Please feel free to [submit issues](https://github.com/thedavecarroll/PoShDynDnsApi/issues/new/choose) for the current capabilities.
+
 ## Session Commands
 
 Use the following commands to create, extend, test, or remove a session. Additionally, you can view the current session
