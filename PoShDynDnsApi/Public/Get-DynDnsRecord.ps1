@@ -14,9 +14,9 @@ function Get-DynDnsRecord {
 
     if ($Node) {
         if ($Node -match $Zone ) {
-            $UriPath = '/REST/{0}/{1}/{1}' -f $RecordType,$Zone
+            $UriPath = '/REST/{0}Record/{1}/{1}' -f $RecordType,$Zone
         } else {
-            $UriPath = '/REST/{0}/{1}/{2}.{1}' -f $RecordType,$Zone,$Node
+            $UriPath = '/REST/{0}Record/{1}/{2}.{1}' -f $RecordType,$Zone,$Node
         }
     } else {
         'No node provided. {0} record types for zone tree will be returned.' -f $RecordType | Write-Verbose
