@@ -12,7 +12,7 @@
 RootModule = 'PoShDynDnsApi.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.1.1'
+ModuleVersion = '0.1.2'
 
 # Supported PSEditions
 CompatiblePSEditions = 'Desktop', 'Core'
@@ -128,11 +128,8 @@ PrivateData = @{
     #Category of this module
     Category = 'DNS Server'
 
-    #RequireLicenseAcceptance of this module
-    RequireLicenseAcceptance = 'False'
-
     #IsPrerelease of this module
-    IsPrerelease = 'True'
+    IsPrerelease = $true
 
     PSData = @{
 
@@ -153,6 +150,9 @@ PrivateData = @{
 
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
+
+        #RequireLicenseAcceptance of this module
+        RequireLicenseAcceptance = $false
 
     } # End of PSData hashtable
 
