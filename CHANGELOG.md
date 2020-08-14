@@ -23,6 +23,7 @@ Bugfix and Maintenance; Update Strongly Recommended
 
 ### Maintenance
 
+- [Issue #13](https://github.com/thedavecarroll/PoShDynDnsApi/issues/13) - Update LicenceUri in module manifest
 - [Issue #12](https://github.com/thedavecarroll/PoShDynDnsApi/issues/12) - Update Module Copyright
 
 ## [0.1.0] - 2019-01-06
