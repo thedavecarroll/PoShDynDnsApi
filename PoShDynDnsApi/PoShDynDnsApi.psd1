@@ -27,7 +27,7 @@ Author = 'Dave Carroll'
 CompanyName = 'NA'
 
 # Copyright statement for this module
-Copyright = '(c) 2018-2019 Dave Carroll. All rights reserved.'
+Copyright = '(c) 2018-2020 Dave Carroll. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'PowerShell module used to interact with Dyn Managed DNS REST API'
