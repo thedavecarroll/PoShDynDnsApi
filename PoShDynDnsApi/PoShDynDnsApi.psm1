@@ -72,5 +72,7 @@ if ($PSEdition -eq 'Core') {
 } else {
     Set-Alias -Name 'Invoke-DynDnsRequest' -Value 'Invoke-DynDnsRequestDesktop'
 }
+
+Export-ModuleMember -Alias 'Invoke-DynDnsRequest'
 #endregion PSEdition detection
 
