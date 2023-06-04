@@ -4,11 +4,11 @@
 
 For online help, please visit the [module help site](https://powershell.anovelidea.org/modulehelp/PoShDynDnsApi/).
 
-## Special Notice
+## ARCHIVAL NOTICE
 
-Due to the [announcement by Oracle](https://www.oracle.com/corporate/acquisitions/dyn/technologies/enterprise-customer-faq.html) for the sunset of Dyn Managed DNS on May 31, 2023, no new features will be added to this module.
+Due to the [announcement by Oracle](https://www.oracle.com/corporate/acquisitions/dyn/technologies/enterprise-customer-faq.html) for the sunset of Dyn Managed DNS on May 31, 2023, this module is no longer useful and has been archived.
 
-Please feel free to [submit issues](https://github.com/thedavecarroll/PoShDynDnsApi/issues/new/choose) for the current capabilities.
+Feel free to review and use the code as examples PowerShell custom classes with inheritence as well as providing one way to support Windows PowerShell 5.1 and PowerShell 7.
 
 ## Session Commands
 
